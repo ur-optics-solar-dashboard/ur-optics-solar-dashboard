@@ -1,3 +1,7 @@
+# UROpticsSolarDashboard
+
+Flask/React Dashboard for researchers to access data from U of R's new RaZON+ hardware
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
