@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
