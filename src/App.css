@@ -1,10 +1,16 @@
 :root {
   --main-margin-left: 10vh;
+  background-color: #F8F9FA;
+  /* width: 100%; */
 }
 
 #header-text{
   margin-left: var(--main-margin-left);
   font-size: 2.5rem;
+}
+
+.App {
+  background-color: #F8F9FA;
 }
 
 .App-header {
@@ -18,7 +24,6 @@
 }
 
 .App-main {
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   margin-left: var(--main-margin-left);
@@ -29,19 +34,35 @@
   color: black;
 }
 
-.App-main-live-cards {
+/* .card {
+  width: '18rem'
+} */
+
+/* .container {
+  min-width: 100px;
+} */
+/* .App-main-live-cards {
   display: flex;
   flex-direction: row;
-}
 
-Card{
+} */
+
+/* .card-columns {
+  -webkit-column-count: auto !important;
+  -moz-column-count: auto !important;
+  column-count: auto !important;
+  -webkit-column-gap: 1.25rem;
+  -moz-column-gap: 1.25rem;
+  column-gap: 1.25rem
+} */
+
+/* Card{
   width: 18rem;
   display: flex;
   flex-direction: row;
   margin-left: 16px;
-}
+} */
 
 .App-link {
   color: #61dafb;
 }
-
