@@ -34,6 +34,10 @@
   color: black;
 }
 
+.App-main-section {
+  margin-top: 24px;
+}
+
 /* .card {
   width: '18rem'
 } */
