@@ -1,5 +1,13 @@
 import React from 'react'
 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+  } from "react-router-dom";
 
 //todo change to only import individual components
 import { Button, Row, Col, Container, Form, FormGroup } from 'react-bootstrap';
@@ -9,10 +17,12 @@ import { Button, Row, Col, Container, Form, FormGroup } from 'react-bootstrap';
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import 'bootstrap-daterangepicker/daterangepicker.css'
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 
-const DataSelection = ({ start, end, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleSubmit }) => {
+const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleSubmit, handleReset }) => {
+    let match = useRouteMatch();
+
     return (
         <div>
             <h2>Data</h2>
@@ -20,30 +30,10 @@ const DataSelection = ({ start, end, handleDateCallback, label, dataForm, setDat
                 // todo better predefined ranges that make sense for this product
                 initialSettings={{
                     startDate: start.toDate(), endDate: end.toDate(), showDropdowns: true,
-                    ranges: {
-                        Today: [moment().toDate(), moment().toDate()],
-                        Yesterday: [
-                            moment().subtract(1, 'days').toDate(),
-                            moment().subtract(1, 'days').toDate(),
-                        ],
-                        'Last 7 Days': [
-                            moment().subtract(6, 'days').toDate(),
-                            moment().toDate(),
-                        ],
-                        'Last 30 Days': [
-                            moment().subtract(29, 'days').toDate(),
-                            moment().toDate(),
-                        ],
-                        'This Month': [
-                            moment().startOf('month').toDate(),
-                            moment().endOf('month').toDate(),
-                        ],
-                        'Last Month': [
-                            moment().subtract(1, 'month').startOf('month').toDate(),
-                            moment().subtract(1, 'month').endOf('month').toDate(),
-                        ],
-                    },
-                }} onCallback={handleDateCallback}>
+                    ranges: ranges,
+                }} 
+                onCallback={handleDateCallback}
+                >
                 <div
                     id="reportrange"
                     className="col-4"
@@ -52,7 +42,7 @@ const DataSelection = ({ start, end, handleDateCallback, label, dataForm, setDat
                         cursor: 'pointer',
                         padding: '5px 10px',
                         border: '1px solid #ccc',
-                        width: '50%',
+                        // width: '50%',
                     }}
                 >
                     <i className="fa fa-calendar"></i>&nbsp;
@@ -173,7 +163,7 @@ const DataSelection = ({ start, end, handleDateCallback, label, dataForm, setDat
 
 
                             <Col style={{ width: '18rem' }}>
-                                
+
                                 {/* Interval Group */}
 
                                 <div key={'radio-interval'} className="mb-3">
@@ -256,8 +246,9 @@ const DataSelection = ({ start, end, handleDateCallback, label, dataForm, setDat
                 <Row>
                     <Col className="mb-4" style={{ padding: "0 45px" }} xs={4}>
                         <div className="mb-4">
-                            <Button variant="primary" onClick={handleSubmit}>Submit</Button>{' '}
-                            <Button variant="outline-primary">Reset</Button>{' '}
+
+                            <Button variant="primary" to="/graph" renderAs={Link} onClick={handleSubmit}>Submit</Button>{' '}
+                            <Button variant="outline-primary" onClick={handleReset}>Reset</Button>{' '}
                         </div>
                     </Col>
                     <Col className="mb-4" xs={3}>
