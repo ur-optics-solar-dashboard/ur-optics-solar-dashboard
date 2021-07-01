@@ -20,7 +20,7 @@ import 'bootstrap-daterangepicker/daterangepicker.css'
 import moment from 'moment-timezone';
 
 
-const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleSubmit, handleReset }) => {
+const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset }) => {
     let match = useRouteMatch();
 
     return (
@@ -66,6 +66,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'irradiance-global-horizontal'}
                                         name={'irradiance-global-horizontal'}
                                         checked={dataForm["irradiance-global-horizontal"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Global Horizontal'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -73,6 +74,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'irradiance-direct-normal'}
                                         name={'irradiance-direct-normal'}
                                         checked={dataForm["irradiance-direct-normal"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Direct Normal'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -80,6 +82,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'irradiance-diffuse-horizontal'}
                                         name={'irradiance-diffuse-horizontal'}
                                         checked={dataForm["irradiance-diffuse-horizontal"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Diffuse Horizontal'}
                                         onChange={handleCheckFormChange} />
                                 </div>
@@ -97,6 +100,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-pr1-temperature'}
                                         name={'meteorological-pr1-temperature'}
                                         checked={dataForm["meteorological-pr1-temperature"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'PR1 Temperature'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -104,6 +108,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-ph1-temperature'}
                                         name={'meteorological-ph1-temperature'}
                                         checked={dataForm["meteorological-ph1-temperature"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'PH1 Temperature'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -111,6 +116,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-pressure'}
                                         name={'meteorological-pressure'}
                                         checked={dataForm["meteorological-pressure"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Pressure'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -118,6 +124,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-zenith-angle'}
                                         name={'meteorological-zenith-angle'}
                                         checked={dataForm["meteorological-zenith-angle"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Zenith Angle'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -125,6 +132,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-azimuth-angle'}
                                         name={'meteorological-azimuth-angle'}
                                         checked={dataForm["meteorological-azimuth-angle"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Azimuth Angle'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -133,6 +141,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-razon-status'}
                                         name={'meteorological-razon-status'}
                                         checked={dataForm["meteorological-razon-status"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Razon Status'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -140,6 +149,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-razon-time'}
                                         name={'meteorological-razon-time'}
                                         checked={dataForm["meteorological-razon-time"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Razon Time'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -147,6 +157,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-logger-battery'}
                                         name={'meteorological-logger-battery'}
                                         checked={dataForm["meteorological-logger-battery"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Logger Battery'}
                                         onChange={handleCheckFormChange} />
                                     <Form.Check
@@ -154,6 +165,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         id={'meteorological-logger-temp'}
                                         name={'meteorological-logger-temp'}
                                         checked={dataForm["meteorological-logger-temp"]}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Logger Temp'}
                                         onChange={handleCheckFormChange} />
                                 </div>
@@ -205,6 +217,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         name={"output-group"}
                                         value={'1'}
                                         checked={(dataForm["output-group"] === "1") ? true : false}
+                                        disabled={dataForm["output-raw"]}
                                         label={'Graph'}
                                         onChange={handleRadioFormChange} />
 
@@ -215,7 +228,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                             id={'output-ascii'}
                                             name={"output-group"}
                                             value={'2'}
-                                            checked={(dataForm["output-group"] === "2") ? true : false}
+                                            checked={(dataForm["output-group"] === "2" || (dataForm["output-group"] === "1" && dataForm["output-raw"])) ? true : false}
                                             label={'Ascii Text'}
                                             onChange={handleRadioFormChange} />
                                         <Form.Check
@@ -234,7 +247,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         name={"output-raw"}
                                         checked={dataForm["output-raw"]}
                                         label={'Raw Data'}
-                                        onChange={handleCheckFormChange} />
+                                        onChange={handleRawDataCheckChange} />
                                 </div>
 
                             </Col>
@@ -247,7 +260,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                     <Col className="mb-4" style={{ padding: "0 45px" }} xs={4}>
                         <div className="mb-4">
 
-                            <Button variant="primary" to="/graph" renderAs={Link} onClick={handleSubmit}>Submit</Button>{' '}
+                            <Button variant="primary" to="/graph" onClick={handleSubmit}>Submit</Button>{' '}
                             <Button variant="outline-primary" onClick={handleReset}>Reset</Button>{' '}
                         </div>
                     </Col>
@@ -258,6 +271,7 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                 id={'options-black-white'}
                                 name={'options-black-white'}
                                 checked={dataForm["options-black-white"]}
+                                disabled={dataForm["output-raw"]}
                                 label={'Black and White Plot'}
                                 onChange={handleCheckFormChange} />
                             <Form.Check

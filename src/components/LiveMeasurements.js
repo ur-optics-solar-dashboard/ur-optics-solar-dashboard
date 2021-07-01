@@ -3,14 +3,17 @@ import React from 'react'
 //todo change to only import individual components
 import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form } from 'react-bootstrap';
 
-const LiveMeasurements = ({solarData}) => {
+const LiveMeasurements = ({solarData, liveConversion, setsLiveConversion, handleLiveCheckChange}) => {
     return (
         <div>
         <h2>Live Measurements</h2>
         <Form.Check
           type={'checkbox'}
-          id={`options-english-conversion`}
-          label={`English Conversion`} />
+          id={'live-english-conversion'}
+          name={'live-english-conversion'}
+          checked={liveConversion}
+          label={'English Conversion'}
+          onChange={handleLiveCheckChange} />
         {/* <p>The current time is {currentTime}.</p> */}
         <Container style={{ marginTop: "24px" }}>
           <Row>

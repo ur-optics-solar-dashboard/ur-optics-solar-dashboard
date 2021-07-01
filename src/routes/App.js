@@ -92,6 +92,12 @@ function App() {
     }
   });
 
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion") || false)
+  const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
+  useEffect(() => {
+    localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
+    console.log("liveConversion: ", liveConversion);
+  }, [liveConversion]);
 
   /**
    * Obtain data from /data endpoint (similar json as tempData)
@@ -158,7 +164,7 @@ function App() {
 
   const [dateState, setDateState] = useState({
     start: getStartEnd()[0],
-    end: getStartEnd()[1],
+    end: getStartEnd()[1]
   });
 
   const { start, end } = dateState;
@@ -185,12 +191,24 @@ function App() {
 
   const handleCheckFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.checked }); }
   const handleRadioFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.value }); }
+  const handleRawDataCheckChange = (event) => {
+    if(dataForm["output-group"] === "1"){
+      //todo strange bug, for some reason, this line of code does not work if I have the regular setdataformstate. 
+      // Workaround: detect if raw data === true and outputgroup === 1, then we assume outputgroup = 2
+      setDataFormState({ ...dataForm, ["output-group"]: "2"});
+    }
+    setDataFormState({ ...dataForm, [event.target.name]: event.target.checked });
+  }
 
   const handleSubmit = (event) => {
-    // dataForm
-    console.log("Submit dataForm: ", dataForm);
-    switch (dataForm["output-group"]) {
 
+    //handle bug
+    if(dataForm["output-raw"] && dataForm["output-group"]==="1"){
+      console.log("ascii-text raw and output-group");
+      history.push("/ascii-text");
+    }
+
+    switch (dataForm["output-group"]) {
       case "2":
         //todo prob not going to new page... just download the thing
         history.push("/ascii-text");
@@ -199,7 +217,13 @@ function App() {
         history.push("/zip-compressed");
         break;
       default: // case "1"
-        history.push("/graph");
+        //handle bug
+        if(dataForm["output-raw"] && dataForm["output-group"]==="1"){
+          console.log("handle the bug???");
+          history.push("/ascii-text");
+        }else{
+          history.push("/graph");
+        }
     }
     // if (dataForm["output-group"] === "1") {
     //   history.push("/graph")
@@ -209,6 +233,8 @@ function App() {
 
   const handleReset = (event) => {
     setDataFormState(initialDataForm)
+    // setDateState({ start, end });
+    setDateState({start: moment().subtract(29, 'days'), end: moment()});
     localStorage.removeItem("dataForm")
     localStorage.removeItem("dateRangeLabel")
     localStorage.removeItem("dateStart")
@@ -254,12 +280,14 @@ function App() {
       <main className="App-main">
 
         <section className="App-main-section" id="App-main-live">
-          <LiveMeasurements solarData={solarData} />
+          <LiveMeasurements solarData={solarData}
+          liveConversion={liveConversion} setLiveConversion={setLiveConversion} handleLiveCheckChange={handleLiveCheckChange} />
         </section>
 
         <section className="App-main-section" id="App-main-data">
           <DataSelection start={start} end={end} ranges={ranges} handleDateCallback={handleDateCallback} label={label}
-            dataForm={dataForm} setDataFormState={setDataFormState} handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange}
+            dataForm={dataForm} setDataFormState={setDataFormState} 
+            handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
             handleSubmit={handleSubmit} handleReset={handleReset} />
         </section>
 
