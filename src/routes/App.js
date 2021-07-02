@@ -14,6 +14,10 @@ import Header from '../components/Header';
 import LiveMeasurements from '../components/LiveMeasurements';
 import DataSelection from '../components/DataSelection';
 
+//hooks
+import useDateRangeSelection from '../Hooks/useDateRangeSelection';
+import { useSelectionForm } from '../Hooks/useSelectionForm';
+
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -32,31 +36,10 @@ import { Button, Card, ListGroup, ListGroupItem, Row, Col, Container, Form, Form
 // import 'bootstrap-daterangepicker/daterangepicker.css'
 
 import moment from 'moment';
+
 moment.tz.setDefault("America/New_York");
 
 function App() {
-  let match = useRouteMatch();
-  let history = useHistory();
-  const initialDataForm = {
-    "irradiance-global-horizontal": false,
-    "irradiance-direct-normal": false,
-    "irradiance-diffuse-horizontal": false,
-    "meteorological-pr1-temperature": false,
-    "meteorological-ph1-temperature": false,
-    "meteorological-pressure": false,
-    "meteorological-zenith-angle": false,
-    "meteorological-azimuth-angle": false,
-    "meteorological-razon-status": false,
-    "meteorological-razon-time": false,
-    "meteorological-logger-battery": false,
-    "meteorological-logger-temp": false,
-    "interval-group": "1",
-    "output-group": "1",
-    "output-raw": false,
-    "options-black-white": false,
-    "options-english-conversion": false,
-  }
-
   //todo define the structure before... maybe I should use middleware instead?
   const [solarData, setSoloarData] = useState({
     'time': "",
@@ -110,10 +93,7 @@ function App() {
       })
       .then(function (myJson) {
         console.log("response json: ", myJson);
-        // console.log(myJson.type);
         setSoloarData(myJson)
-        // console.log(solarData.type);
-        // console.log(solarData.type);
       });
   }
 
@@ -122,125 +102,56 @@ function App() {
   const ranges = {
     Today: [moment().toDate(), moment().toDate()],
     Yesterday: [
-      moment().subtract(1, 'days').toDate(),
-      moment().subtract(1, 'days').toDate(),
+        moment().subtract(1, 'days').toDate(),
+        moment().subtract(1, 'days').toDate(),
     ],
     'Last 7 Days': [
-      moment().subtract(6, 'days').toDate(),
-      moment().toDate(),
+        moment().subtract(6, 'days').toDate(),
+        moment().toDate(),
     ],
     'Last 30 Days': [
-      moment().subtract(29, 'days').toDate(),
-      moment().toDate(),
+        moment().subtract(29, 'days').toDate(),
+        moment().toDate(),
     ],
     'This Month': [
-      moment().startOf('month').toDate(),
-      moment().endOf('month').toDate(),
+        moment().startOf('month').toDate(),
+        moment().endOf('month').toDate(),
     ],
     'Last Month': [
-      moment().subtract(1, 'month').startOf('month').toDate(),
-      moment().subtract(1, 'month').endOf('month').toDate(),
+        moment().subtract(1, 'month').startOf('month').toDate(),
+        moment().subtract(1, 'month').endOf('month').toDate(),
     ],
+}
+  const [dateState, setDateState, handleDateCallback, label] = useDateRangeSelection({ranges:ranges})
+
+  const defaultDatForm = {
+    "irradiance-global-horizontal": false,
+    "irradiance-direct-normal": false,
+    "irradiance-diffuse-horizontal": false,
+    "meteorological-pr1-temperature": false,
+    "meteorological-ph1-temperature": false,
+    "meteorological-pressure": false,
+    "meteorological-zenith-angle": false,
+    "meteorological-azimuth-angle": false,
+    "meteorological-razon-status": false,
+    "meteorological-razon-time": false,
+    "meteorological-logger-battery": false,
+    "meteorological-logger-temp": false,
+    "interval-group": "1",
+    "output-group": "1",
+    "output-raw": false,
+    "options-black-white": false,
+    "options-english-conversion": false,
   }
 
-  const getStartEnd = () => {
-    let dateLabel = localStorage.getItem("dateRangeLabel")
-    console.log(localStorage.getItem("dateRangeLabel"))
-    if (dateLabel === "Custom Range") {
-      // localStorage.setItem('dateStart', start);
-      // localStorage.setItem('dateEnd', end);
-      return [moment(localStorage.getItem('dateStart')), moment(localStorage.getItem('dateEnd'))]
-    }
-    else if (dateLabel !== null && dateLabel !== "Custom Range") {
-      // console.log(moment(ranges[localStorage.getItem("dateRangeLabel")][0]));
-      // console.log(moment(ranges[localStorage.getItem("dateRangeLabel")][1]));
-      return [moment(ranges[localStorage.getItem("dateRangeLabel")][0]), moment(ranges[localStorage.getItem("dateRangeLabel")][1])];
+  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset] = useSelectionForm(
+      {
+        initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDatForm, 
+        defaultDatForm: defaultDatForm,
+        setDateState:setDateState
+    })
 
-    } else {
-      return [moment().subtract(29, 'days'), moment()];
-    }
-    // if()
-  }
-
-  const [dateState, setDateState] = useState({
-    start: getStartEnd()[0],
-    end: getStartEnd()[1]
-  });
-
-  const { start, end } = dateState;
-  //todo handle, store somewhere? and then pass start, end to the submit call, which... opens a new page?
-  const handleDateCallback = (start, end, label) => {
-    setDateState({ start, end });
-    localStorage.setItem('dateStart', start);
-    localStorage.setItem('dateEnd', end);
-    localStorage.setItem('dateRangeLabel', label);
-
-    // console.log(st,"type: ", typeof st)
-  };
-  const label = start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
-
-  //
-  //Data Form stuff
-  //
-  const [dataForm, setDataFormState] = useState(JSON.parse(localStorage.getItem("dataForm")) || initialDataForm)
-
-  useEffect(() => {
-    localStorage.setItem('dataForm', JSON.stringify(dataForm)); //set in Storage each update
-    console.log("dataForm: ", dataForm);
-  }, [dataForm]);
-
-  const handleCheckFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.checked }); }
-  const handleRadioFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.value }); }
-  const handleRawDataCheckChange = (event) => {
-    if(dataForm["output-group"] === "1"){
-      //todo strange bug, for some reason, this line of code does not work if I have the regular setdataformstate. 
-      // Workaround: detect if raw data === true and outputgroup === 1, then we assume outputgroup = 2
-      setDataFormState({ ...dataForm, ["output-group"]: "2"});
-    }
-    setDataFormState({ ...dataForm, [event.target.name]: event.target.checked });
-  }
-
-  const handleSubmit = (event) => {
-
-    //handle bug
-    if(dataForm["output-raw"] && dataForm["output-group"]==="1"){
-      console.log("ascii-text raw and output-group");
-      history.push("/ascii-text");
-    }
-
-    switch (dataForm["output-group"]) {
-      case "2":
-        //todo prob not going to new page... just download the thing
-        history.push("/ascii-text");
-        break;
-      case "3":
-        history.push("/zip-compressed");
-        break;
-      default: // case "1"
-        //handle bug
-        if(dataForm["output-raw"] && dataForm["output-group"]==="1"){
-          console.log("handle the bug???");
-          history.push("/ascii-text");
-        }else{
-          history.push("/graph");
-        }
-    }
-    // if (dataForm["output-group"] === "1") {
-    //   history.push("/graph")
-    // }
-    // setCheckedItems({...checkedItems, [event.target.name] : event.target.checked });
-  }
-
-  const handleReset = (event) => {
-    setDataFormState(initialDataForm)
-    // setDateState({ start, end });
-    setDateState({start: moment().subtract(29, 'days'), end: moment()});
-    localStorage.removeItem("dataForm")
-    localStorage.removeItem("dateRangeLabel")
-    localStorage.removeItem("dateStart")
-    localStorage.removeItem("dateEnd")
-    history.push("/");
-  }
+    const initialShowSelection = { showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true }
 
   //
   //initialize stuff
@@ -285,10 +196,13 @@ function App() {
         </section>
 
         <section className="App-main-section" id="App-main-data">
-          <DataSelection start={start} end={end} ranges={ranges} handleDateCallback={handleDateCallback} label={label}
+          <DataSelection 
+            //todo useContext to pass these props stuff down?
+            start={dateState.start} end={dateState.end} ranges={ranges} handleDateCallback={handleDateCallback} label={label}
             dataForm={dataForm} setDataFormState={setDataFormState} 
             handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
-            handleSubmit={handleSubmit} handleReset={handleReset} />
+            handleSubmit={handleSubmit} handleReset={handleReset}
+            initialShowSelection={initialShowSelection} />
         </section>
 
       </main>
@@ -303,4 +217,3 @@ function App() {
 }
 
 export default App;
-
