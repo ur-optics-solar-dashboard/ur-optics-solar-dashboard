@@ -8,7 +8,9 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
 // now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })
+import moment from 'moment';
 
+moment.tz.setDefault("America/New_York");
 
 ReactDOM.render(
   <Router>

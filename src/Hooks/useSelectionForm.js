@@ -39,14 +39,14 @@ export const useSelectionForm = ({initialDataForm, defaultDatForm, setDateState}
 
         //handle bug
         if (dataForm["output-raw"] && dataForm["output-group"] === "1") {
-            console.log("ascii-text raw and output-group");
-            history.push("/ascii-text");
+            console.log("csv raw and output-group");
+            history.push("/csv");
         }
 
         switch (dataForm["output-group"]) {
             case "2":
                 //todo prob not going to new page... just download the thing
-                history.push("/ascii-text");
+                history.push("/csv");
                 break;
             case "3":
                 history.push("/zip-compressed");
@@ -55,7 +55,7 @@ export const useSelectionForm = ({initialDataForm, defaultDatForm, setDateState}
                 //handle bug
                 if (dataForm["output-raw"] && dataForm["output-group"] === "1") {
                     console.log("handle the bug???");
-                    history.push("/ascii-text");
+                    history.push("/csv");
                 } else {
                     history.push("/graph");
                 }

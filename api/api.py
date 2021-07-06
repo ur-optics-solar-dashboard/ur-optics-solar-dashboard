@@ -2,6 +2,7 @@ import time
 from flask import Flask
 import datetime
 import pytz
+import csv
 # my_date = datetime.datetime.now(pytz.timezone('US/New_York'))
 
 global counter
@@ -50,3 +51,15 @@ def get_sample_data():
             'logger_temp' : "u",
         }
     }
+
+@app.route('/graph')
+def get_sample_graph_data():
+    the_csv = []
+    # print('hello')
+    with open('20210629.csv', newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        # print(spamreader)
+        for row in spamreader:
+            # print(','.join(row))
+            the_csv.append(','.join(row))
+    return {"return":the_csv}

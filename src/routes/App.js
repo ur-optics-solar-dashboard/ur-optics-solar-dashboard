@@ -10,9 +10,9 @@ import {
   useParams
 } from "react-router-dom";
 
-import Header from '../components/Header';
-import LiveMeasurements from '../components/LiveMeasurements';
-import DataSelection from '../components/DataSelection';
+import Header from '../Components/Header';
+import LiveMeasurements from '../Components/LiveMeasurements';
+import DataSelection from '../Components/DataSelection';
 
 //hooks
 import useDateRangeSelection from '../Hooks/useDateRangeSelection';
@@ -26,7 +26,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
  */
 
 //  import { Link } from “react-router-dom”;
-
 //todo change to only import individual components
 import { Button, Card, ListGroup, ListGroupItem, Row, Col, Container, Form, FormGroup } from 'react-bootstrap';
 
@@ -37,7 +36,7 @@ import { Button, Card, ListGroup, ListGroupItem, Row, Col, Container, Form, Form
 
 import moment from 'moment';
 
-moment.tz.setDefault("America/New_York");
+// todo https://stackoverflow.com/questions/45086005/recharts-component-to-png
 
 function App() {
   //todo define the structure before... maybe I should use middleware instead?

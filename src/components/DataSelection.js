@@ -19,6 +19,8 @@ import 'bootstrap-daterangepicker/daterangepicker.css'
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
+import arrowdown from '../images/drop-down-arrow.svg';
+import arrowup from '../images/up-arrow.svg';
 
 
 const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, initialShowSelection}) => {
@@ -35,7 +37,10 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
             <h2
                 style={{ cursor: "pointer" }}
                 onClick={handleDataShowSelection}>
-                Data <i className={show.showDataSelection ? "arrow down": "arrow up"}></i></h2>
+                Data 
+                {/* <i className={show.showDataSelection ? "arrow down": "arrow up"}></i> */}
+                <img src={show.showDataSelection ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                </h2>
 
             <Collapse in={show.showDataSelection}>
                 <div>
@@ -73,7 +78,9 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showIrradiance: !show.showIrradiance })}>
                                                 Irradiance 
-                                                <i className={show.showIrradiance ? "arrow down": "arrow up"}></i></h3>
+                                                {/* <i className={show.showIrradiance ? "arrow down": "arrow up"}/> */}
+                                                <img src={show.showIrradiance ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                                                </h3>
                                             <Collapse in={show.showIrradiance}>
                                                 <div>
                                                     <Form.Check
@@ -111,7 +118,9 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showMeteorological: !show.showMeteorological })}>
                                                 Meteorological
-                                                <i className={show.showMeteorological ? "arrow down": "arrow up"}></i></h3>
+                                                {/* <i className={show.showMeteorological ? "arrow down": "arrow up"}></i> */}
+                                                <img src={show.showMeteorological ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                                                </h3>
                                             <Collapse in={show.showMeteorological}>
                                                 <div>
                                                     <Form.Check
@@ -198,7 +207,9 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                             <h3
                                             style={{ cursor: "pointer" }}
                                             onClick={() => setShow({ ...show, showInterval: !show.showInterval })}>Interval 
-                                            <i className={show.showInterval ? "arrow down": "arrow up"}></i></h3>
+                                            {/* <i className={show.showInterval ? "arrow down": "arrow up"}></i> */}
+                                            <img src={show.showInterval ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                                            </h3>
                                             <Collapse in={show.showInterval}>
                                             <div>
                                                 <Form.Check
@@ -233,7 +244,9 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                             <h3
                                             style={{ cursor: "pointer" }}
                                             onClick={() => setShow({ ...show, showOutputType: !show.showOutputType })}>Output Type 
-                                            <i className={show.showOutputType ? "arrow down": "arrow up"}></i></h3>
+                                            {/* <i className={show.showOutputType ? "arrow down": "arrow up"}></i> */}
+                                            <img src={show.showOutputType ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                                            </h3>
                                             <Collapse in={show.showOutputType}>
                                                 <div>
                                                     <Form.Check
@@ -249,11 +262,11 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                                         <h4 style={{ fontWeight: "normal", opacity: "0.75", marginTop: "12px" }}>Download</h4>
                                                         <Form.Check
                                                             type={'radio'}
-                                                            id={'output-ascii'}
+                                                            id={'output-csv'}
                                                             name={"output-group"}
                                                             value={'2'}
                                                             checked={(dataForm["output-group"] === "2" || (dataForm["output-group"] === "1" && dataForm["output-raw"])) ? true : false}
-                                                            label={'Ascii Text'}
+                                                            label={'csv'}
                                                             onChange={handleRadioFormChange} />
                                                         <Form.Check
                                                             type={'radio'}
