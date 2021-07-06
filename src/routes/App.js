@@ -189,11 +189,6 @@ function App() {
 
       <main className="App-main">
 
-        <section className="App-main-section" id="App-main-live">
-          <LiveMeasurements solarData={solarData}
-          liveConversion={liveConversion} setLiveConversion={setLiveConversion} handleLiveCheckChange={handleLiveCheckChange} />
-        </section>
-
         <section className="App-main-section" id="App-main-data">
           <DataSelection 
             //todo useContext to pass these props stuff down?
@@ -202,6 +197,11 @@ function App() {
             handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
             handleSubmit={handleSubmit} handleReset={handleReset}
             initialShowSelection={initialShowSelection} />
+        </section>
+
+        <section className="App-main-section" id="App-main-live">
+          <LiveMeasurements solarData={solarData}
+          liveConversion={liveConversion} setLiveConversion={setLiveConversion} handleLiveCheckChange={handleLiveCheckChange} />
         </section>
 
       </main>
