@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import moment from 'moment';
 
-export const useSelectionForm = ({initialDataForm, defaultDatForm, setDateState}) => {
+export const useSelectionForm = ({initialDataForm, defaultDatForm, setDateState, handleDateCallback}) => {
     let history = useHistory();
     //
     //Data Form stuff
@@ -69,7 +69,9 @@ export const useSelectionForm = ({initialDataForm, defaultDatForm, setDateState}
     const handleReset = (event) => {
         setDataFormState(defaultDatForm)
         // setDateState({ start, end });
-        setDateState({ start: moment().subtract(29, 'days'), end: moment() });
+        const start = moment()
+        const end = moment()
+        handleDateCallback(start, end, "Today") //reset back to initial value
         localStorage.removeItem("dataForm")
         localStorage.removeItem("dateRangeLabel")
         localStorage.removeItem("dateStart")

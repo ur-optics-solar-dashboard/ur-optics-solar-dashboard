@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import {
     BrowserRouter as Router,
@@ -15,6 +15,8 @@ import { Button, Row, Col, Container, Form, FormGroup, Collapse } from 'react-bo
 // DateRangePicker: https://github.com/skratchdot/react-bootstrap-daterangepicker
 // react wrapper for https://github.com/dangrossman/daterangepicker
 import DateRangePicker from 'react-bootstrap-daterangepicker';
+import moment from 'moment';
+
 import 'bootstrap-daterangepicker/daterangepicker.css'
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -23,32 +25,62 @@ import arrowdown from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
 
 
-const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, initialShowSelection}) => {
+const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, label, dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, initialShowSelection }) => {
     const [show, setShow] = useState(initialShowSelection)
+
     const handleDataShowSelection = () => {
-        if(!show.showDataSelection){
+        if (!show.showDataSelection) {
             setShow({ showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true })
-        }else{
-            setShow({ ...show, showDataSelection:false })
+        } else {
+            setShow({ ...show, showDataSelection: false })
         }
     }
+
+
+    const previousDay = () => {
+        handleDateCallback(start.subtract(1, 'days'), end.subtract(1, 'days'), "Custom Range");
+    }
+
+    const nextDay = () => {
+        handleDateCallback(start.add(1, 'days'), end.add(1, 'days'), "Custom Range");
+    }
+
+    const previousMonth = () => {
+        handleDateCallback(start.subtract(1, 'month'), end.subtract(1, 'month'), "Custom Range");
+    }
+
+    const nextMonth = () => {
+        handleDateCallback(start.add(1, 'month'), end.add(1, 'month'), "Custom Range");
+    }
+
+    
+    const previousYear = () => {
+        handleDateCallback(start.subtract(1, 'year'), end.subtract(1, 'year'), "Custom Range");
+    }
+
+    const nextYear = () => {
+        handleDateCallback(start.add(1, 'year'), end.add(1, 'year'), "Custom Range");
+    }
+
+
     return (
         <div>
             <h2
                 style={{ cursor: "pointer" }}
                 onClick={handleDataShowSelection}>
-                Data 
+                Data Selection
                 {/* <i className={show.showDataSelection ? "arrow down": "arrow up"}></i> */}
-                <img src={show.showDataSelection ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
-                </h2>
+                <img src={show.showDataSelection ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
+            </h2>
 
             <Collapse in={show.showDataSelection}>
                 <div>
                     <DateRangePicker
                         // todo better predefined ranges that make sense for this product
+                        ref={dateReference}
                         initialSettings={{
                             startDate: start.toDate(), endDate: end.toDate(), showDropdowns: true,
-                            ranges: ranges,
+                            ranges: ranges, maxDate: moment().toDate(), alwaysShowCalendars: true
                         }}
                         onCallback={handleDateCallback}
                     >
@@ -68,6 +100,9 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                             <span>{label}</span> <i className="fa fa-caret-down"></i>
                         </div>
                     </DateRangePicker>
+                    <div>
+                        <Button onClick={previousDay}> 1 Day Prior </Button>
+                    </div>
                     <Form>
                         <FormGroup style={{ marginTop: "24px" }}>
                             <Container>
@@ -78,10 +113,10 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                             <h3
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showIrradiance: !show.showIrradiance })}>
-                                                Irradiance 
+                                                Irradiance
                                                 {/* <i className={show.showIrradiance ? "arrow down": "arrow up"}/> */}
-                                                <img src={show.showIrradiance ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
-                                                </h3>
+                                                <img src={show.showIrradiance ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
+                                            </h3>
                                             <Collapse in={show.showIrradiance}>
                                                 <div>
                                                     <Form.Check
@@ -120,8 +155,8 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                                 onClick={() => setShow({ ...show, showMeteorological: !show.showMeteorological })}>
                                                 Meteorological
                                                 {/* <i className={show.showMeteorological ? "arrow down": "arrow up"}></i> */}
-                                                <img src={show.showMeteorological ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
-                                                </h3>
+                                                <img src={show.showMeteorological ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
+                                            </h3>
                                             <Collapse in={show.showMeteorological}>
                                                 <div>
                                                     <Form.Check
@@ -206,47 +241,47 @@ const DataSelection = ({ start, end, ranges, handleDateCallback, label, dataForm
                                         {/* Interval Group */}
                                         <div key={'radio-interval'} className="mb-3">
                                             <h3
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => setShow({ ...show, showInterval: !show.showInterval })}>Interval 
-                                            {/* <i className={show.showInterval ? "arrow down": "arrow up"}></i> */}
-                                            <img src={show.showInterval ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => setShow({ ...show, showInterval: !show.showInterval })}>Interval
+                                                {/* <i className={show.showInterval ? "arrow down": "arrow up"}></i> */}
+                                                <img src={show.showInterval ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showInterval}>
-                                            <div>
-                                                <Form.Check
-                                                    type={'radio'}
-                                                    id={'interval-minute'}
-                                                    name={"interval-group"}
-                                                    value={'1'}
-                                                    checked={(dataForm["interval-group"] === "1") ? true : false}
-                                                    label={'1-minute'}
-                                                    onChange={handleRadioFormChange} />
-                                                <Form.Check
-                                                    type={'radio'}
-                                                    id={'interval-hourly'}
-                                                    name={"interval-group"}
-                                                    value={'2'}
-                                                    checked={(dataForm["interval-group"] === "2") ? true : false}
-                                                    label={'hourly'}
-                                                    onChange={handleRadioFormChange} />
-                                                <Form.Check
-                                                    type={'radio'}
-                                                    id={'interval-daily'}
-                                                    name={"interval-group"}
-                                                    value={'3'}
-                                                    checked={(dataForm["interval-group"] === "3") ? true : false}
-                                                    label={'daily'}
-                                                    onChange={handleRadioFormChange} />
-                                            </div>
+                                                <div>
+                                                    <Form.Check
+                                                        type={'radio'}
+                                                        id={'interval-minute'}
+                                                        name={"interval-group"}
+                                                        value={'1'}
+                                                        checked={(dataForm["interval-group"] === "1") ? true : false}
+                                                        label={'1-minute'}
+                                                        onChange={handleRadioFormChange} />
+                                                    <Form.Check
+                                                        type={'radio'}
+                                                        id={'interval-hourly'}
+                                                        name={"interval-group"}
+                                                        value={'2'}
+                                                        checked={(dataForm["interval-group"] === "2") ? true : false}
+                                                        label={'hourly'}
+                                                        onChange={handleRadioFormChange} />
+                                                    <Form.Check
+                                                        type={'radio'}
+                                                        id={'interval-daily'}
+                                                        name={"interval-group"}
+                                                        value={'3'}
+                                                        checked={(dataForm["interval-group"] === "3") ? true : false}
+                                                        label={'daily'}
+                                                        onChange={handleRadioFormChange} />
+                                                </div>
                                             </Collapse>
                                         </div>
                                         {/* Output Group */}
                                         <div key={'radio-output'} className="mb-3">
                                             <h3
-                                            style={{ cursor: "pointer" }}
-                                            onClick={() => setShow({ ...show, showOutputType: !show.showOutputType })}>Output Type 
-                                            {/* <i className={show.showOutputType ? "arrow down": "arrow up"}></i> */}
-                                            <img src={show.showOutputType ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => setShow({ ...show, showOutputType: !show.showOutputType })}>Output Type
+                                                {/* <i className={show.showOutputType ? "arrow down": "arrow up"}></i> */}
+                                                <img src={show.showOutputType ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showOutputType}>
                                                 <div>

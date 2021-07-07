@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 
 import Header from '../Components/Header';
 import LiveMeasurements from '../Components/LiveMeasurements';
@@ -15,30 +15,7 @@ import moment from 'moment';
 const Graph = () => {
   // Predefined Date Ranges
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
-  const ranges = {
-    Today: [moment().toDate(), moment().toDate()],
-    Yesterday: [
-      moment().subtract(1, 'days').toDate(),
-      moment().subtract(1, 'days').toDate(),
-    ],
-    'Last 7 Days': [
-      moment().subtract(6, 'days').toDate(),
-      moment().toDate(),
-    ],
-    'Last 30 Days': [
-      moment().subtract(29, 'days').toDate(),
-      moment().toDate(),
-    ],
-    'This Month': [
-      moment().startOf('month').toDate(),
-      moment().endOf('month').toDate(),
-    ],
-    'Last Month': [
-      moment().subtract(1, 'month').startOf('month').toDate(),
-      moment().subtract(1, 'month').endOf('month').toDate(),
-    ],
-  }
-  const [dateState, setDateState, handleDateCallback, label] = useDateRangeSelection({ ranges: ranges })
+  const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
 
   const defaultDatForm = {
     "irradiance-global-horizontal": false,
@@ -64,11 +41,13 @@ const Graph = () => {
     {
       initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDatForm,
       defaultDatForm: defaultDatForm,
-      setDateState: setDateState
+      setDateState: setDateState,
+      handleDateCallback: handleDateCallback
     })
 
   const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
 
+  // todo: use useEffect to parse query parameters before using the dataForm internal storage for sharable links
 
   return (
     <div className="App">
@@ -85,7 +64,7 @@ const Graph = () => {
       <main className="App-main">
         <DataSelection
           //todo useContext to pass these props stuff down?
-          start={dateState.start} end={dateState.end} ranges={ranges} handleDateCallback={handleDateCallback} label={label}
+          start={dateState.start} end={dateState.end} label={dateState.label} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
           dataForm={dataForm} setDataFormState={setDataFormState}
           handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
           handleSubmit={handleSubmit} handleReset={handleReset}
