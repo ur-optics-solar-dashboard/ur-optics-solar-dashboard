@@ -37,7 +37,8 @@ const Graph = () => {
     "options-english-conversion": false,
   }
 
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset] = useSelectionForm(
+  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
+    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
     {
       initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDatForm,
       defaultDatForm: defaultDatForm,
@@ -68,7 +69,8 @@ const Graph = () => {
           dataForm={dataForm} setDataFormState={setDataFormState}
           handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
           handleSubmit={handleSubmit} handleReset={handleReset}
-          initialShowSelection={initialShowSelection} />
+          initialShowSelection={initialShowSelection}
+          showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal}  />
         <div style={{ paddingBottom: "10px" }}></div>
 
         <Chart></Chart>

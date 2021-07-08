@@ -58,7 +58,7 @@ const useDateRangeSelection = () => {
     }
 
     const getDateLabel = (start, end) => {
-        return start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
+        return start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY');
     }
 
     const [dateState, setDateState] = useState({
@@ -89,7 +89,7 @@ const useDateRangeSelection = () => {
         // console.log(st,"type: ", typeof st)
     };
     // const label = label;
-    // const label = start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
+    // const label = start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY');
 
 
 

@@ -1,5 +1,5 @@
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Label, Legend, ResponsiveContainer } from 'recharts';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment';
 
 import arrowdown from '../images/drop-down-arrow.svg';
@@ -47,6 +47,29 @@ const data2 = [
 // ]
 const colors = ["#8884d8", "#1184d8"]
 const Chart = () => {
+
+    const [graphData, setGraphData] = useState(null)
+
+    const getGraph = () => {
+        fetch('/graph')
+            .then(function (response) {
+                console.log("response: ", response)
+                return response.json();
+            })
+            .then(function (myJson) {
+                console.log("response json: ", myJson);
+                setGraphData(myJson["return_data"])
+            });
+    }
+
+    //
+    //initialize stuff
+    //
+    useEffect(() => {
+        // api data
+        getGraph() // initial data
+    }, [])
+
     let history = useHistory();
     const [downloadSelection, setDownloadSelection] = useState(0)
 
@@ -79,13 +102,12 @@ const Chart = () => {
     return (
         <div style={{ width: "1000px" }}>
             <h2>Graph</h2>
-            <hr />
-            <div style={{marginLeft: "24px"}}>
+            <div style={{ marginLeft: "24px" }}>
                 <h3
                     style={{ opacity: "0.75", cursor: "pointer" }}
                     onClick={() => setGraphOptions({ ...graphOptions, 'show-graph-options': !graphOptions['show-graph-options'] })}>
-                    Additional Graph Options 
-                    <img src={graphOptions["show-graph-options"] ? arrowup : arrowdown} style={{marginLeft:"10px"}} width={10} height={10} />
+                    Additional Graph Options
+                    <img src={graphOptions["show-graph-options"] ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
                 </h3>
                 <Collapse in={graphOptions["show-graph-options"]}>
                     <div>
@@ -120,19 +142,21 @@ const Chart = () => {
                     </div>
                 </Collapse>
             </div>
+            <hr />
             {/* <ResponsiveContainer> */}
             <LineChart
-                height={500}
+                height={600}
                 width={1000}
-                margin={{ top: 25, right: 30, left: 20, bottom: 64 }}>
-                <XAxis dataKey="name" />
+                margin={{ top: 64, right: 30, left: 20, bottom: 64 }}>
+                <XAxis dataKey="RaZON Time [hhmm]" />
                 <YAxis yAxisId="left" />
-                <YAxis yAxisId="right" orientation='right' />
+                {/* <YAxis yAxisId="right" orientation='right' /> */}
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip />
                 <Legend />
-                <Line yAxisId="left" data={data} type="linear" dataKey="uv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line yAxisId="right" data={data2} type="linear" dataKey="pv" stroke="#82ca9d" />
+                <Line yAxisId="left" data={graphData} type="linear" dataKey="Direct Normal [W/m^2]" stroke="#8884d8" activeDot={{ r: 8 }} />
+                <Line yAxisId="left" data={graphData} type="linear" dataKey="Global Horizontal [W/m^2]" stroke="#82ca9d" />
+                {/* <Line yAxisId="right" data={graphData} type="linear" dataKey="Global Horizontal [W/m^2]" stroke="#82ca9d" /> */}
             </LineChart>
             {/* </ResponsiveContainer> */}
             <Form>

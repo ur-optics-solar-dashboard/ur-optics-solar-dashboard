@@ -1,6 +1,7 @@
 :root {
   --main-margin-left: 10vh;
   background-color: #F8F9FA;
+  --primary-color:#003B71;
   /* width: 100%; */
 }
 
@@ -14,7 +15,7 @@
 }
 
 .App-header {
-  background-color: #003B71;
+  background-color: var(--primary-color);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -38,6 +39,21 @@
   margin-top: 24px;
 }
 
+
+.calendar-button{
+  background-color: transparent;
+  box-shadow: none;
+  border-color: transparent;
+  color: var(--primary-color);
+}
+
+/* #calendar-button{
+  background-color: transparent;
+  box-shadow: none;
+  border-color: transparent;
+  color: var(--primary-color);
+} */
+
 #arrow-up {
   transform: rotate(180deg);
   -webkit-transform: rotate(180deg);
@@ -48,54 +64,15 @@
   -webkit-transform: rotate(0deg);
 }
 
-
-.arrow {
-  top: 90%;
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
+#arrow-left {
+  transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
 }
 
-.up {
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
+#arrow-right {
+  transform: rotate(270deg);
+  -webkit-transform: rotate(270deg);
 }
-
-.down {
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-}
-
-
-/* .card {
-  width: '18rem'
-} */
-
-/* .container {
-  min-width: 100px;
-} */
-/* .App-main-live-cards {
-  display: flex;
-  flex-direction: row;
-
-} */
-
-/* .card-columns {
-  -webkit-column-count: auto !important;
-  -moz-column-count: auto !important;
-  column-count: auto !important;
-  -webkit-column-gap: 1.25rem;
-  -moz-column-gap: 1.25rem;
-  column-gap: 1.25rem
-} */
-
-/* Card{
-  width: 18rem;
-  display: flex;
-  flex-direction: row;
-  margin-left: 16px;
-} */
 
 .App-link {
   color: #61dafb;

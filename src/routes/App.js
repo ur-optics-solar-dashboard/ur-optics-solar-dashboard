@@ -120,7 +120,8 @@ function App() {
     "options-english-conversion": false,
   }
 
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset] = useSelectionForm(
+  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, 
+    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
     {
       initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDatForm,
       defaultDatForm: defaultDatForm,
@@ -174,7 +175,8 @@ function App() {
             dataForm={dataForm} setDataFormState={setDataFormState}
             handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
             handleSubmit={handleSubmit} handleReset={handleReset}
-            initialShowSelection={initialShowSelection} />
+            initialShowSelection={initialShowSelection}
+            showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />
         </section>
 
         <section className="App-main-section" id="App-main-live">
