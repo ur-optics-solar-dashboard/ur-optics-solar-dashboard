@@ -92,9 +92,11 @@ def get_sample_graph_data():
         "Logger Temp [deg C]",
     ]
 
-    includedData = [1,2,3,4,5,13]
+    includedData = [
+        # 1,2,3,
+        4,5,9,13]
 
-    graph = []
+    graphList = []
 
     # print('hello')
     with open('20210629.csv') as csv_file:
@@ -105,26 +107,30 @@ def get_sample_graph_data():
         #     graph[h] = []
         count = 1
         for lines in csv_reader:
-            point = {}
-            for include in includedData:
-                point[headerDataList[include]] = lines[include]
-            print(point)
-            graph.append(point)
-            # print(lines[4], lines[5], lines[13])
             count+=1
+            # if(count>10):
+            #     break
+        
+            point = {}
 
-            if(count>1000):
-                break
-        # for lines in next(csv_reader):
-        #     print(lines[1])
-        #     count+=1
-        #     if(count>10):
-        #         break
-    
-    # print(graph)
-        # spamreader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        # print(spamreader)
-        # for row in spamreader:
-        #     # print(','.join(row))
-        #     the_csv.append(row)
-    return {"return_data":graph}
+            hour = lines[3][:-2]
+            if(hour==""):
+                hour = "0"
+            dt = datetime.datetime.strptime(f"{lines[1]} {lines[2]} {hour}:{lines[3][-2:]}", '%Y %j %H:%M')
+            dt= dt.replace(tzinfo=pytz.timezone('America/New_York'))
+            # print(f"{odt}   vs   {dt}")
+            # print("Created at {:d}:{:02d}".format(int(hour), int(lines[3][-2:])))
+            # print(dt.time())
+            # dt.strftime("%-I:%M %p")
+
+            point["datetime"] = dt.strftime("%I:%M %p").lstrip("0")
+            # "{:d}:{:02d}".format(int(hour), int(lines[3][-2:]))
+
+            # print(f"year: {lines[1]}\tdoy:{lines[2]}\tmst:{lines[3]}\t{lines[3][:-2]}...{lines[3][-2:]}")
+            for include in includedData:
+                point[headerDataList[include]] = float(lines[include])
+            # print(point)
+            graphList.append(point)
+            # print(lines[4], lines[5], lines[13])
+
+    return {"return_data":graphList}

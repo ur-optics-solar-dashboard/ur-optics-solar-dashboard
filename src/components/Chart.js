@@ -1,6 +1,18 @@
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Label, Legend, ResponsiveContainer } from 'recharts';
-import React, { useState, useEffect } from 'react'
-import moment from 'moment';
+import {
+    LineChart, Line,
+    CartesianGrid, XAxis, YAxis, Tooltip,
+    Label, Legend, ResponsiveContainer, ReferenceArea,
+    AreaChart, Area
+} from 'recharts';
+// https://recharts.org/en-US/examples
+
+// https://github.com/tsayen/dom-to-image
+import domtoimage from 'dom-to-image';
+
+import FileSaver from "file-saver";
+
+import { useCurrentPng } from "recharts-to-png";
+import React, { useState, useEffect, useCallback } from 'react'
 
 import arrowdown from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
@@ -21,48 +33,39 @@ import '../App.css';
 //todo change to only import individual components
 import { Button, Form, Collapse } from 'react-bootstrap';
 
-
-const data = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-    { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-    { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-    { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-    { name: "Page G", uv: 3490, pv: 4300, amt: 2100 }
-];
-const data2 = [
-    { name: 'Page A', uv: 1000, pv: 2400, amt: 2400 },
-    { name: 'Page B', uv: 2000, pv: 1398, amt: 2210 },
-    { name: 'Page C', uv: 3131, pv: 9800, amt: 2290 },
-    { name: 'Page D', uv: 400, pv: 3908, amt: 2000 },
-];
-
-// const data = [
-//     { part: 'foo', axisA: 21211, axisB: 1232 },
-//     { part: 'foo', axisA: 21211, axisB: 1232 },
-//     { part: 'foo', axisA: 21211, axisB: 1232 },
-//     { part: 'foo', axisA: 21211, axisB: 1232 },
-//     { part: 'foo', axisA: 21211, axisB: 1232 }
-// ]
-const colors = ["#8884d8", "#1184d8"]
 const Chart = () => {
 
-    const [graphData, setGraphData] = useState(null)
+    const downloadLineChartPNG = () => {
+        domtoimage.toBlob(document.getElementById('lineChart'))
+    .then(function (blob) {
+        window.saveAs(blob, 'chart.png');
+    });
+    }
+
+    const downloadLineChartJPEG = () => {
+        domtoimage.toJpeg(document.getElementById('lineChart'), { quality: 0.95 })
+    .then(function (dataUrl) {
+        var link = document.createElement('a');
+        link.download = 'chart.jpeg';
+        link.href = dataUrl;
+        link.click();
+    });
+    }
+
+    const [graphData, setGraphData] = useState([{"uv":1,"pv":2}])
 
     const getGraph = () => {
         fetch('/graph')
             .then(function (response) {
-                console.log("response: ", response)
+                // console.log("response: ", response)
                 return response.json();
             })
             .then(function (myJson) {
-                console.log("response json: ", myJson);
+                // console.log("response json: ", myJson);
                 setGraphData(myJson["return_data"])
             });
     }
-
-    //
+        //
     //initialize stuff
     //
     useEffect(() => {
@@ -74,17 +77,20 @@ const Chart = () => {
     const [downloadSelection, setDownloadSelection] = useState(0)
 
     const handleSubmit = (event) => {
-        console.log(graphOptions["show-graph-options"])
-        // switch (downloadSelection) {
-        //     case 1:
-        //         history.push("/graph");
-        //         break;
-        //     case 2:
-        //         history.push("/zip-compressed");
-        //         break;
-        //     default: // case 0
-        //         history.push("/csv");
-        // }
+        // console.log(graphOptions["show-graph-options"])
+        switch (downloadSelection) {
+            case 1:
+                history.push("/zip-compressed");
+                break;
+            case 2: // png
+                downloadLineChartPNG();
+                break;
+            case 3: //jpeg
+                downloadLineChartJPEG();
+                break;
+            default: // case 0
+                history.push("/csv");
+        }
     }
 
     const defaultGraphOptions = {
@@ -143,28 +149,56 @@ const Chart = () => {
                 </Collapse>
             </div>
             <hr />
-            {/* <ResponsiveContainer> */}
-            <LineChart
-                height={600}
-                width={1000}
-                margin={{ top: 64, right: 30, left: 20, bottom: 64 }}>
-                <XAxis dataKey="RaZON Time [hhmm]" />
-                <YAxis yAxisId="left" />
-                {/* <YAxis yAxisId="right" orientation='right' /> */}
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip />
-                <Legend />
-                <Line yAxisId="left" data={graphData} type="linear" dataKey="Direct Normal [W/m^2]" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line yAxisId="left" data={graphData} type="linear" dataKey="Global Horizontal [W/m^2]" stroke="#82ca9d" />
-                {/* <Line yAxisId="right" data={graphData} type="linear" dataKey="Global Horizontal [W/m^2]" stroke="#82ca9d" /> */}
-            </LineChart>
-            {/* </ResponsiveContainer> */}
+
+            <ResponsiveContainer width="100%" height={600} id="lineChart">
+                <LineChart
+                    data={graphData}
+                    margin={{ top: 32, right: 30, left: 0, bottom: 64 }}
+                >
+                    <defs>
+                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                        </linearGradient>
+                        <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                        </linearGradient>
+                    </defs>
+                    <XAxis dataKey="datetime" tickCount={3} interval={359} />
+                    <YAxis yAxisId="left" />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="Global Horizontal [W/m^2]"
+                        stroke="#8884d8"
+                        fillOpacity={1}
+                        fill="url(#colorUv)"
+                        dot={false}
+                    />
+                    <Line
+                        yAxisId="left"
+                        type="monotone"
+                        dataKey="Direct Normal [W/m^2]"
+                        stroke="#82ca9d"
+                        fillOpacity={1}
+                        fill="url(#colorPv)"
+                        dot={false}
+                    />
+                </LineChart>
+            </ResponsiveContainer>
             <Form>
                 <Form.Check>
                     <Form.Check inline label="csv" name="group1" type='radio' id={`inline-radio-0`} checked={downloadSelection === 0} value={0} onClick={() => setDownloadSelection(0)} />
-                    <Form.Check inline label="Zip Compressed" name="group1" type='radio' id={`inline-radio-1`} checked={downloadSelection === 1} value={1} onClick={() => setDownloadSelection(1)} />
-                    <Form.Check inline label="Graph" name="group1" type='radio' id={`inline-radio-2`} checked={downloadSelection === 2} value={2} onClick={() => setDownloadSelection(2)} />
+                    <Form.Check inline label="zip compressed" name="group1" type='radio' id={`inline-radio-1`} checked={downloadSelection === 1} value={1} onClick={() => setDownloadSelection(1)} />
+                    <Form.Check inline label="png" name="group1" type='radio' id={`inline-radio-2`} checked={downloadSelection === 2} value={2} onClick={() => setDownloadSelection(2)} />
+                    <Form.Check inline label="jpeg" name="group1" type='radio' id={`inline-radio-3`} checked={downloadSelection === 3} value={3} onClick={() => setDownloadSelection(3)} />
+
                 </Form.Check>
+
                 {/* top right bottom left */}
                 <Button variant="primary" style={{ margin: "20px 0px 10px 50px" }} onClick={handleSubmit}>
                     Download Data
