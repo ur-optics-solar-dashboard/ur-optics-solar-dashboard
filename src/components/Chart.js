@@ -9,9 +9,7 @@ import {
 // https://github.com/tsayen/dom-to-image
 import domtoimage from 'dom-to-image';
 
-import FileSaver from "file-saver";
 
-import { useCurrentPng } from "recharts-to-png";
 import React, { useState, useEffect, useCallback } from 'react'
 
 import arrowdown from '../images/drop-down-arrow.svg';
@@ -19,40 +17,39 @@ import arrowup from '../images/up-arrow.svg';
 // import arrow from '../logo.svg';
 
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
     useHistory,
-    useParams
 } from "react-router-dom";
 
 import '../App.css';
 
 //todo change to only import individual components
 import { Button, Form, Collapse } from 'react-bootstrap';
+import FileSaver from 'file-saver';
 
 const Chart = () => {
 
     const downloadLineChartPNG = () => {
         domtoimage.toBlob(document.getElementById('lineChart'))
-    .then(function (blob) {
-        window.saveAs(blob, 'chart.png');
-    });
+            .then(function (blob) {
+                FileSaver.saveAs(blob, 'chart.png');
+            });
     }
 
     const downloadLineChartJPEG = () => {
-        domtoimage.toJpeg(document.getElementById('lineChart'), { quality: 0.95 })
-    .then(function (dataUrl) {
-        var link = document.createElement('a');
-        link.download = 'chart.jpeg';
-        link.href = dataUrl;
-        link.click();
-    });
+        domtoimage.toJpeg(document.getElementById('lineChart'), { quality: 0.75, bgcolor: "white" })
+            .then(function (dataUrl) {
+                FileSaver.saveAs(dataUrl, 'chart.jpeg');
+            });
     }
 
-    const [graphData, setGraphData] = useState([{"uv":1,"pv":2}])
+    const downloadLineChartSVG = () => {
+        domtoimage.toSvg(document.getElementById('lineChart'),)
+        .then(function (dataUrl) {
+            FileSaver.saveAs(dataUrl, 'chart.svg');
+        });
+    }
+
+    const [graphData, setGraphData] = useState([{ "uv": 1, "pv": 2 }])
 
     const getGraph = () => {
         fetch('/graph')
@@ -65,10 +62,11 @@ const Chart = () => {
                 setGraphData(myJson["return_data"])
             });
     }
-        //
+    //
     //initialize stuff
     //
     useEffect(() => {
+
         // api data
         getGraph() // initial data
     }, [])
@@ -87,6 +85,9 @@ const Chart = () => {
                 break;
             case 3: //jpeg
                 downloadLineChartJPEG();
+                break;
+            case 4: //svg
+                downloadLineChartSVG();
                 break;
             default: // case 0
                 history.push("/csv");
@@ -113,7 +114,7 @@ const Chart = () => {
                     style={{ opacity: "0.75", cursor: "pointer" }}
                     onClick={() => setGraphOptions({ ...graphOptions, 'show-graph-options': !graphOptions['show-graph-options'] })}>
                     Additional Graph Options
-                    <img src={graphOptions["show-graph-options"] ? arrowup : arrowdown} style={{ marginLeft: "10px" }} width={10} height={10} />
+                    <img src={graphOptions["show-graph-options"] ? arrowup : arrowdown} alt={graphOptions["show-graph-options"] ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                 </h3>
                 <Collapse in={graphOptions["show-graph-options"]}>
                     <div>
@@ -165,7 +166,9 @@ const Chart = () => {
                             <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
                         </linearGradient>
                     </defs>
-                    <XAxis dataKey="datetime" tickCount={3} interval={359} />
+                    {/* TODO: Xaxis formatter, based on day, month, etc */}
+                    <XAxis dataKey="datetime" xAxisId={0} tickCount={3} interval={359} />
+                    <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439} />
                     <YAxis yAxisId="left" />
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
@@ -196,6 +199,7 @@ const Chart = () => {
                     <Form.Check inline label="zip compressed" name="group1" type='radio' id={`inline-radio-1`} checked={downloadSelection === 1} value={1} onClick={() => setDownloadSelection(1)} />
                     <Form.Check inline label="png" name="group1" type='radio' id={`inline-radio-2`} checked={downloadSelection === 2} value={2} onClick={() => setDownloadSelection(2)} />
                     <Form.Check inline label="jpeg" name="group1" type='radio' id={`inline-radio-3`} checked={downloadSelection === 3} value={3} onClick={() => setDownloadSelection(3)} />
+                    <Form.Check inline label="svg" name="group1" type='radio' id={`inline-radio-4`} checked={downloadSelection === 4} value={4} onClick={() => setDownloadSelection(4)} />
 
                 </Form.Check>
 

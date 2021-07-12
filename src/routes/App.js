@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useHistory,
-  useParams
-} from "react-router-dom";
-
 import Header from '../Components/Header';
 import LiveMeasurements from '../Components/LiveMeasurements';
 import DataSelection from '../Components/DataSelection';
@@ -27,14 +17,12 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 //  import { Link } from “react-router-dom”;
 //todo change to only import individual components
-import { Button, Card, ListGroup, ListGroupItem, Row, Col, Container, Form, FormGroup } from 'react-bootstrap';
 
 // DateRangePicker: https://github.com/skratchdot/react-bootstrap-daterangepicker
 // react wrapper for https://github.com/dangrossman/daterangepicker
 // import DateRangePicker from 'react-bootstrap-daterangepicker';
 // import 'bootstrap-daterangepicker/daterangepicker.css'
 
-import moment from 'moment';
 
 // todo https://stackoverflow.com/questions/45086005/recharts-component-to-png
 

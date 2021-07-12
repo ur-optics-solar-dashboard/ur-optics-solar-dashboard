@@ -1,13 +1,4 @@
-import React, { useState, useRef } from 'react'
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
-    useParams
-} from "react-router-dom";
+import React, { useState } from 'react'
 
 //todo change to only import individual components
 import { Button, Row, Col, Container, Form, FormGroup, Collapse, Modal } from 'react-bootstrap';
@@ -18,7 +9,6 @@ import DateRangePicker from 'react-bootstrap-daterangepicker';
 import moment from 'moment';
 
 import 'bootstrap-daterangepicker/daterangepicker.css'
-import styles from '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import arrow from '../images/drop-down-arrow.svg';
@@ -77,7 +67,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                 onClick={handleDataShowSelection}>
                 Data Selection
                 {/* <i className={show.showDataSelection ? "arrow down": "arrow up"}></i> */}
-                <img src={show.showDataSelection ? arrowup : arrow} style={{ marginLeft: "10px" }} width={10} height={10} />
+                <img src={show.showDataSelection ? arrowup : arrow} alt={show.showDataSelection ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
             </h2>
 
             <Collapse in={show.showDataSelection}>
@@ -114,7 +104,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                         </Row>
                         <Row>
                             <Col md={{ span: 3, offset: 0.5 }}>
-                                <img src={arrowright} style={{ transform: "rotate(180deg)" }} width={10} height={10} />
+                                <img src={arrowright} style={{ transform: "rotate(180deg)" }} alt={"arrow left"} width={10} height={10} />
                                 <Button style={button_cal_styles} onClick={previousYear}>Year</Button>
                                 <Button style={button_cal_styles} onClick={previousMonth}>Month</Button>
                                 <Button style={button_cal_styles} onClick={previousDay}>Day</Button>
@@ -123,7 +113,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                 <Button style={button_cal_styles} onClick={nextDay}>Day</Button>
                                 <Button style={button_cal_styles} onClick={nextMonth}>Month</Button>
                                 <Button style={button_cal_styles} onClick={nextYear}>Year</Button>
-                                <img src={arrowright} width={10} height={10} />
+                                <img src={arrowright} alt={"arrow right"} width={10} height={10} />
                             </Col>
                         </Row>
                     </Container>
@@ -139,7 +129,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                 onClick={() => setShow({ ...show, showIrradiance: !show.showIrradiance })}>
                                                 Irradiance
                                                 {/* <i className={show.showIrradiance ? "arrow down": "arrow up"}/> */}
-                                                <img src={show.showIrradiance ? arrowup : arrow} style={{ marginLeft: "10px" }} width={10} height={10} />
+                                                <img src={show.showIrradiance ? arrowup : arrow} alt={show.showIrradiance ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showIrradiance}>
                                                 <div>
@@ -179,7 +169,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                 onClick={() => setShow({ ...show, showMeteorological: !show.showMeteorological })}>
                                                 Meteorological
                                                 {/* <i className={show.showMeteorological ? "arrow down": "arrow up"}></i> */}
-                                                <img src={show.showMeteorological ? arrowup : arrow} style={{ marginLeft: "10px" }} width={10} height={10} />
+                                                <img src={show.showMeteorological ? arrowup : arrow} alt={show.showMeteorological ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showMeteorological}>
                                                 <div>
@@ -268,7 +258,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showInterval: !show.showInterval })}>Interval
                                                 {/* <i className={show.showInterval ? "arrow down": "arrow up"}></i> */}
-                                                <img src={show.showInterval ? arrowup : arrow} style={{ marginLeft: "10px" }} width={10} height={10} />
+                                                <img src={show.showInterval ? arrowup : arrow} alt={show.showInterval ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showInterval}>
                                                 <div>
@@ -305,7 +295,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showOutputType: !show.showOutputType })}>Output Type
                                                 {/* <i className={show.showOutputType ? "arrow down": "arrow up"}></i> */}
-                                                <img src={show.showOutputType ? arrowup : arrow} style={{ marginLeft: "10px" }} width={10} height={10} />
+                                                <img src={show.showOutputType ? arrowup : arrow} alt={show.showOutputType ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showOutputType}>
                                                 <div>
@@ -363,6 +353,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                         <Modal.Header>
                                             <Modal.Title>Error</Modal.Title>
                                             <img src={closebutton} height={20} width={20} 
+                                            alt={"Close Modal"}
                                             onClick={handleCloseModal}
                                             style={{alignSelf:"flex-end", marginBottom:"5px", marginRight:"10px", cursor:"pointer"}}></img>
                                         </Modal.Header>

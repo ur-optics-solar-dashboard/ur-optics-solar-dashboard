@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link,
-    useRouteMatch,
     useHistory,
-    useParams
 } from "react-router-dom";
 import moment from 'moment';
 
@@ -21,7 +15,7 @@ export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState
 
     useEffect(() => {
         localStorage.setItem('dataForm', JSON.stringify(dataForm)); //set in Storage each update
-        console.log("dataForm: ", dataForm);
+        // console.log("dataForm: ", dataForm);
     }, [dataForm]);
 
     const handleCheckFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.checked }); }

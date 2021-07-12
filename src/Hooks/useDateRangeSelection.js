@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import moment from 'moment-timezone';
 
@@ -68,8 +68,6 @@ const useDateRangeSelection = () => {
     });
 
     const dateReference = useRef();
-
-    const { start, end, label } = dateState;
 
     // var outlabel = "Custom Date Range"
     //todo handle, store somewhere? and then pass start, end to the submit call, which... opens a new page?

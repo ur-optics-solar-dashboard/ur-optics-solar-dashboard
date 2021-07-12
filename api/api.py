@@ -118,7 +118,13 @@ def get_sample_graph_data():
                 hour = "0"
             dt = datetime.datetime.strptime(f"{lines[1]} {lines[2]} {hour}:{lines[3][-2:]}", '%Y %j %H:%M')
             dt= dt.replace(tzinfo=pytz.timezone('America/New_York'))
-            # print(f"{odt}   vs   {dt}")
+
+            point["date"] = dt.strftime('%x')
+            # if(hour == "0" and lines[3][-2:]=="0"):
+            #     point["date"] = dt.strftime('%x')
+            
+                # print("000000")
+            # print(f"DT: {dt.strftime('%x')}")
             # print("Created at {:d}:{:02d}".format(int(hour), int(lines[3][-2:])))
             # print(dt.time())
             # dt.strftime("%-I:%M %p")

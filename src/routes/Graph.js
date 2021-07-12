@@ -1,23 +1,28 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 
 import Header from '../Components/Header';
-import LiveMeasurements from '../Components/LiveMeasurements';
 import DataSelection from '../Components/DataSelection';
 import Chart from '../Components/Chart';
 
+import {
+  useLocation
+} from "react-router-dom";
 
 //hooks
 import useDateRangeSelection from '../Hooks/useDateRangeSelection';
 import { useSelectionForm } from '../Hooks/useSelectionForm';
-
 import moment from 'moment';
 
+
 const Graph = () => {
+
+  let query = new URLSearchParams(useLocation().search);
+
   // Predefined Date Ranges
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
   const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
 
-  const defaultDatForm = {
+  const defaultDataForm = {
     "irradiance-global-horizontal": false,
     "irradiance-direct-normal": false,
     "irradiance-diffuse-horizontal": false,
@@ -39,16 +44,47 @@ const Graph = () => {
 
   const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
     showModal, handleShowModal, handleCloseModal] = useSelectionForm(
-    {
-      initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDatForm,
-      defaultDatForm: defaultDatForm,
-      setDateState: setDateState,
-      handleDateCallback: handleDateCallback
-    })
-
+      {
+        initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
+        defaultDatForm: defaultDataForm,
+        setDateState: setDateState,
+        handleDateCallback: handleDateCallback
+      })
+  
+  // console.log("QWEFFFFF", query.get("qef") || JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm)
   const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
 
-  // todo: use useEffect to parse query parameters before using the dataForm internal storage for sharable links
+  // todo: parse query parameters before using the dataForm internal storage for sharable links
+  function parseQuerySetForm(){
+    let change = false
+    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
+
+    for (const field in defaultDataForm) {
+      const field_value = query.get(field);
+      if(field_value !== null){
+        change = true
+        newQueryObj[field] = field_value
+      }
+    }
+
+    if(change){
+      setDataFormState(newQueryObj);
+    }
+
+    const start = moment(query.get("start"), "YYYY-MM-DD");
+    const end = moment(query.get("end"), "YYYY-MM-DD");
+
+    if(start.isValid() && end.isValid()){
+      handleDateCallback(start, end, 'Custom Range');
+    }
+
+    // handleDateCallback()
+    // setDateState({start: , end: , label: ,})
+
+  }
+  useEffect(() => {
+    parseQuerySetForm();
+  }, []);
 
   return (
     <div className="App">
@@ -70,7 +106,7 @@ const Graph = () => {
           handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
           handleSubmit={handleSubmit} handleReset={handleReset}
           initialShowSelection={initialShowSelection}
-          showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal}  />
+          showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />
         <div style={{ paddingBottom: "10px" }}></div>
 
         <Chart></Chart>
