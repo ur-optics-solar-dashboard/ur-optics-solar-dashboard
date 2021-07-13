@@ -30,11 +30,11 @@ const useDateRangeSelection = () => {
         ],
         'This Week': [
             moment().startOf('week').toDate(),
-            moment().toDate(),
+            moment().endOf('week').toDate(),
         ],
         'This Month': [
             moment().startOf('month').toDate(),
-            moment().toDate(),
+            moment().endOf('month').toDate(),
         ],
         'All 5 Years': [
             moment().subtract(5, 'year').startOf('year').toDate(),

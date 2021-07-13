@@ -70,10 +70,10 @@ function App() {
   }, [liveConversion]);
 
   /**
-   * Obtain data from /data endpoint (similar json as tempData)
+   * Obtain data from /livedata endpoint (similar json as tempData)
    */
   const getData = () => {
-    fetch('/data')
+    fetch('/livedata')
       .then(function (response) {
         console.log("response: ", response)
         return response.json();

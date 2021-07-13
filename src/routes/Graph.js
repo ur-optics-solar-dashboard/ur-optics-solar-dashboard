@@ -99,6 +99,7 @@ const Graph = () => {
       <hr />
 
       <main className="App-main">
+      <section className="App-main-section" id="App-main-data">
         <DataSelection
           //todo useContext to pass these props stuff down?
           start={dateState.start} end={dateState.end} label={dateState.label} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
@@ -107,9 +108,11 @@ const Graph = () => {
           handleSubmit={handleSubmit} handleReset={handleReset}
           initialShowSelection={initialShowSelection}
           showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />
+          </section>
         <div style={{ paddingBottom: "10px" }}></div>
-
-        <Chart></Chart>
+        <section id="App-main-graph" style={{width:"100%"}}>
+        <Chart/>
+        </section>
         <div style={{ paddingBottom: "32px" }} ></div>
       </main>
 

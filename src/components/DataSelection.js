@@ -43,20 +43,19 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
     }
 
     const previousMonth = () => {
-        handleDateCallback(start.subtract(1, 'month'), end.subtract(1, 'month'), "Custom Range");
+        handleDateCallback(start.subtract(1, 'month').startOf('month'), end.subtract(1, 'month').endOf('month'), "Custom Range");
     }
 
     const nextMonth = () => {
-        handleDateCallback(start.add(1, 'month'), end.add(1, 'month'), "Custom Range");
+        handleDateCallback(start.add(1, 'month').startOf('month'), end.add(1, 'month').endOf('month'), "Custom Range");
     }
 
-
     const previousYear = () => {
-        handleDateCallback(start.subtract(1, 'year'), end.subtract(1, 'year'), "Custom Range");
+        handleDateCallback(start.subtract(1, 'year').startOf('year'), end.subtract(1, 'year').endOf('year'), "Custom Range");
     }
 
     const nextYear = () => {
-        handleDateCallback(start.add(1, 'year'), end.add(1, 'year'), "Custom Range");
+        handleDateCallback(start.add(1, 'year').startOf('year'), end.add(1, 'year').endOf('year'), "Custom Range");
     }
 
 
@@ -121,6 +120,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                         <FormGroup style={{ marginTop: "24px" }}>
                             <Container>
                                 <Row>
+
                                     {/* Irradiance Column*/}
                                     <Col style={{ width: '18rem' }}>
                                         <div key={'irradiance-checkbox'} className="mb-3">
@@ -161,6 +161,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                 </div></Collapse>
                                         </div>
                                     </Col>
+
                                     {/* Meteorological Column*/}
                                     <Col style={{ width: '18rem' }}>
                                         <div key={'meteorological-checkbox'} className="mb-3">
@@ -168,7 +169,6 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showMeteorological: !show.showMeteorological })}>
                                                 Meteorological
-                                                {/* <i className={show.showMeteorological ? "arrow down": "arrow up"}></i> */}
                                                 <img src={show.showMeteorological ? arrowup : arrow} alt={show.showMeteorological ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showMeteorological}>
@@ -250,51 +250,15 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                             </Collapse>
                                         </div>
                                     </Col>
+
                                     {/* Other Options Column */}
                                     <Col style={{ width: '18rem' }}>
-                                        {/* Interval Group */}
-                                        <div key={'radio-interval'} className="mb-3">
-                                            <h3
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => setShow({ ...show, showInterval: !show.showInterval })}>Interval
-                                                {/* <i className={show.showInterval ? "arrow down": "arrow up"}></i> */}
-                                                <img src={show.showInterval ? arrowup : arrow} alt={show.showInterval ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
-                                            </h3>
-                                            <Collapse in={show.showInterval}>
-                                                <div>
-                                                    <Form.Check
-                                                        type={'radio'}
-                                                        id={'interval-minute'}
-                                                        name={"interval-group"}
-                                                        value={'1'}
-                                                        checked={(dataForm["interval-group"] === "1") ? true : false}
-                                                        label={'1-minute'}
-                                                        onChange={handleRadioFormChange} />
-                                                    <Form.Check
-                                                        type={'radio'}
-                                                        id={'interval-hourly'}
-                                                        name={"interval-group"}
-                                                        value={'2'}
-                                                        checked={(dataForm["interval-group"] === "2") ? true : false}
-                                                        label={'hourly'}
-                                                        onChange={handleRadioFormChange} />
-                                                    <Form.Check
-                                                        type={'radio'}
-                                                        id={'interval-daily'}
-                                                        name={"interval-group"}
-                                                        value={'3'}
-                                                        checked={(dataForm["interval-group"] === "3") ? true : false}
-                                                        label={'daily'}
-                                                        onChange={handleRadioFormChange} />
-                                                </div>
-                                            </Collapse>
-                                        </div>
+
                                         {/* Output Group */}
                                         <div key={'radio-output'} className="mb-3">
                                             <h3
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showOutputType: !show.showOutputType })}>Output Type
-                                                {/* <i className={show.showOutputType ? "arrow down": "arrow up"}></i> */}
                                                 <img src={show.showOutputType ? arrowup : arrow} alt={show.showOutputType ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showOutputType}>
@@ -306,8 +270,10 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                         value={'1'}
                                                         checked={(dataForm["output-group"] === "1") ? true : false}
                                                         disabled={dataForm["output-raw"]}
-                                                        label={'Graph'}
+                                                        label={'graph'}
                                                         onChange={handleRadioFormChange} />
+
+                                                    {/* Download Group */}
                                                     <div key={'radio-download'} className="mb-3" style={{ marginLeft: "24px" }}>
                                                         <h4 style={{ fontWeight: "normal", opacity: "0.75", marginTop: "12px" }}>Download</h4>
                                                         <Form.Check
@@ -324,15 +290,54 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                                             name={"output-group"}
                                                             value={'3'}
                                                             checked={(dataForm["output-group"] === "3") ? true : false}
-                                                            label={'Zip Compressed'}
+                                                            label={'zip compressed'}
                                                             onChange={handleRadioFormChange} />
+
+                                                        {/* Interval Group */}
+                                                        <div key={'radio-interval'} className="mb-3" style={{ marginLeft: "24px" }}>
+                                                            <h4
+                                                                style={{ fontWeight: "normal", opacity: "0.75", marginTop: "12px" }}>Interval
+                                                            </h4>
+                                                            <Collapse in={show.showInterval}>
+                                                                <div>
+                                                                    <Form.Check
+                                                                        type={'radio'}
+                                                                        id={'interval-minute'}
+                                                                        name={"interval-group"}
+                                                                        value={'1'}
+                                                                        checked={(dataForm["interval-group"] === "1") ? true : false}
+                                                                        // TODO FIXME: bug: interval is not enabled if output type is originally graph after checking raw data
+                                                                        disabled={(dataForm["output-group"] !== "1" || (dataForm["output-group"] === "1" && dataForm["output-raw"])) ? false : true}
+                                                                        label={'1-minute'}
+                                                                        onChange={handleRadioFormChange} />
+                                                                    <Form.Check
+                                                                        type={'radio'}
+                                                                        id={'interval-hourly'}
+                                                                        name={"interval-group"}
+                                                                        value={'2'}
+                                                                        checked={(dataForm["interval-group"] === "2") ? true : false}
+                                                                        disabled={(dataForm["output-group"] !== "1" || (dataForm["output-group"] === "1" && dataForm["output-raw"])) ? false : true}
+                                                                        label={'hourly'}
+                                                                        onChange={handleRadioFormChange} />
+                                                                    <Form.Check
+                                                                        type={'radio'}
+                                                                        id={'interval-daily'}
+                                                                        name={"interval-group"}
+                                                                        value={'3'}
+                                                                        checked={(dataForm["interval-group"] === "3") ? true : false}
+                                                                        disabled={(dataForm["output-group"] !== "1" || (dataForm["output-group"] === "1" && dataForm["output-raw"])) ? false : true}
+                                                                        label={'daily'}
+                                                                        onChange={handleRadioFormChange} />
+                                                                </div>
+                                                            </Collapse>
+                                                        </div>
                                                     </div>
                                                     <Form.Check
                                                         type={'checkbox'}
                                                         id={'output-raw'}
                                                         name={"output-raw"}
                                                         checked={dataForm["output-raw"]}
-                                                        label={'Raw Data'}
+                                                        label={'Raw (All) Data'}
                                                         onChange={handleRawDataCheckChange} />
                                                 </div>
                                             </Collapse>
@@ -346,19 +351,19 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                         <Row>
                             <Col className="mb-4" style={{ padding: "0 45px" }} xs={4}>
                                 <div className="mb-4">
-                                    <Button variant="primary" onClick={handleSubmit}>Submit</Button>{' '}
+                                    <Button variant="primary" onClick={handleSubmit} type="submit">Submit</Button>{' '}
                                     <Button variant="outline-primary" onClick={handleReset}>Reset</Button>{' '}
 
                                     <Modal show={showModal} onHide={handleCloseModal}>
                                         <Modal.Header>
                                             <Modal.Title>Error</Modal.Title>
-                                            <img src={closebutton} height={20} width={20} 
-                                            alt={"Close Modal"}
-                                            onClick={handleCloseModal}
-                                            style={{alignSelf:"flex-end", marginBottom:"5px", marginRight:"10px", cursor:"pointer"}}></img>
+                                            <img src={closebutton} height={20} width={20}
+                                                alt={"Close Modal"}
+                                                onClick={handleCloseModal}
+                                                style={{ alignSelf: "flex-end", marginBottom: "5px", marginRight: "10px", cursor: "pointer" }}></img>
                                         </Modal.Header>
                                         <Modal.Body>No selection was made</Modal.Body>
-                                        <div style={{marginBottom:"10px"}}>
+                                        <div style={{ marginBottom: "10px" }}>
                                         </div>
                                     </Modal>
                                 </div>
