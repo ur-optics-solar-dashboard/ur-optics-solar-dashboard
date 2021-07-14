@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 
 import {
     useHistory,
+    useLocation,
 } from "react-router-dom";
 import moment from 'moment';
 
-export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState, handleDateCallback }) => {
+export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState, handleDateCallback, getChartData, executeScroll }) => {
     let history = useHistory();
+    let location = useLocation();
     //
     //Data Form stuff
     //
@@ -34,6 +36,8 @@ export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState
     const handleCloseModal = () => setShowModal(false);
 
     const handleSubmit = (event) => {
+
+        console.log(location.pathname);
 
         let noSelection = true
 
@@ -69,7 +73,12 @@ export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState
                         console.log("handle the bug???");
                         history.push("/csv");
                     } else {
-                        history.push("/graph");
+                        if(location.pathname !== "/graph"){
+                            history.push("/graph");   
+                        }else{
+                            getChartData();
+                            executeScroll();
+                        }
                     }
             }
         }

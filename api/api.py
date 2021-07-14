@@ -1,5 +1,5 @@
 import time
-from flask import Flask
+from flask import Flask, request
 import datetime
 import pytz
 import csv
@@ -147,6 +147,34 @@ def get_sample_graph_year_data():
 
 @app.route('/graph')
 def get_sample_graph_data():
+    # request.args.get('page', 1)
+    arguments = {
+        "irradiance-global-horizontal": 4,
+        "irradiance-direct-normal": 5,
+        "irradiance-diffuse-horizontal": 6,
+        "meteorological-pr1-temperature": 7,
+        "meteorological-ph1-temperature": 8,
+        "meteorological-pressure": 9,
+        "meteorological-zenith-angle": 10,
+        "meteorological-azimuth-angle": 11,
+        "meteorological-razon-status": 12,
+        "meteorological-razon-time": 13,
+        "meteorological-logger-battery": 14,
+        "meteorological-logger-temp": 15    
+    }
+
+    includedData = [
+        # 1,2,3,
+        # 4,5,
+        # 9,13
+        ]
+
+    for key, value in arguments.items():
+        if(request.args.get(key) != None and request.args.get(key).lower()=="true"):
+            includedData.append(value)
+
+    print(includedData)
+
     headerDataDict = {
         "":0,
         "Year":1,
@@ -198,12 +226,6 @@ def get_sample_graph_data():
         "RaZON Time [hhmm]",            # 13
         "Logger Battery [VDC]",
         "Logger Temp [deg C]",]
-
-    includedData = [
-        # 1,2,3,
-        4,5,
-        9,13
-        ]
 
     graphList = []
 

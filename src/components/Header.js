@@ -25,7 +25,7 @@ const Header = (props) => {
           <Nav.Link style={{color:"white", fontSize:32, paddingLeft:0, fontWeight:"bold"}} href="/">Dashboard</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link style={{color:"white", fontSize:32, fontWeight:"normal"}} href="/graph">Graph</Nav.Link>
+          <Nav.Link style={{color:"white", fontSize:32, fontWeight:"bold"}} href="/graph">Graph</Nav.Link>
         </Nav.Item>
       </Nav>
     </header>

@@ -27,109 +27,19 @@ import { Button, Form, Collapse, Row, Col } from 'react-bootstrap';
 import FileSaver from 'file-saver';
 
 
-const Chart = () => {
+const Chart = ({graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines, graphColors,
+    downloadSelection, setDownloadSelection, handleChartSubmit,
+    defaultGraphOptions, graphOptions, setGraphOptions,
+    handleChartCheckFormChange}) => {
 
-    const downloadLineChartPNG = () => {
-        domtoimage.toBlob(document.getElementById('lineChart'))
-            .then(function (blob) {
-                FileSaver.saveAs(blob, 'chart.png');
-            });
-    }
-
-    const downloadLineChartJPEG = () => {
-        domtoimage.toJpeg(document.getElementById('lineChart'), { quality: 0.75, bgcolor: "white" })
-            .then(function (dataUrl) {
-                FileSaver.saveAs(dataUrl, 'chart.jpeg');
-            });
-    }
-
-    const downloadLineChartSVG = () => {
-        domtoimage.toSvg(document.getElementById('lineChart'),)
-            .then(function (dataUrl) {
-                FileSaver.saveAs(dataUrl, 'chart.svg');
-            });
-    }
-
-    const [graphData, setGraphData] = useState([{ "uv": 1, "pv": 2 }])
-
-
-    const downloadJson = () => {
-        var blob = new Blob([JSON.stringify(graphData)], { type: "text/plain;charset=utf-8" });
-        FileSaver.saveAs(blob, "graph_data.json")
-    }
-
-    const [graphLines, setGraphLines] = useState([])
-
-    const [irridianceGraphLines, setIrridianceGraphLines] = useState([])
-    const [meteorologicalGraphLines, setMeteorologicalGraphLines] = useState([])
-
-    const graphColors = ["#003B71", "red", "blue", "green", "purple", "orange", "pink", "black", "brown", "gray"]
-
-    //todo: handle interval ourselves because having them chose is a bit unreliable (can cause too many points to be rendered)
-    const getGraph = () => {
-        console.log("fetching data...")
-        fetch('/graph')
-            .then(function (response) {
-                // console.log("response: ", response)
-                return response.json();
-            })
-            .then(function (myJson) {
-                // console.log("response json: ", myJson);
-                console.log("loading data...")
-                setGraphData(myJson["return_data"])
-
-                setGraphLines(myJson["included_headers"])
-
-                setIrridianceGraphLines(myJson["irridiance_headers"])
-                setMeteorologicalGraphLines(myJson["meteorological_headers"])
-            });
-    }
     //
     //initialize stuff
     //
     useEffect(() => {
 
         // api data
-        getGraph() // initial data
+        // getGraph() // initial data
     }, [])
-
-    let history = useHistory();
-    const [downloadSelection, setDownloadSelection] = useState(0)
-
-    const handleSubmit = (event) => {
-        // console.log(graphOptions["show-graph-options"])
-        switch (downloadSelection) {
-            case 1:
-                history.push("/zip-compressed");
-                break;
-            case 2: // png
-                downloadLineChartPNG();
-                break;
-            case 3: //jpeg
-                downloadLineChartJPEG();
-                break;
-            case 4: //svg
-                downloadLineChartSVG();
-                break;
-            case 5: //json
-                downloadJson();
-                break;
-            default: // case 0
-                history.push("/csv");
-        }
-    }
-
-    const defaultGraphOptions = {
-        "line-thickness": 1,
-        "font-size": 16,
-        "show-graph-options": false,
-        "no-legend": false,
-    }
-
-    const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions)
-
-
-    const handleCheckFormChange = (event) => { setGraphOptions({ ...graphOptions, [event.target.name]: event.target.checked }); }
 
     return (
         <div>
@@ -183,23 +93,22 @@ const Chart = () => {
                             <Form.Check
                                 // todo... I prob can make all of this cleaner with a map or something
                                 type={'checkbox'}
-                                id={'no-legend'}
-                                name={'no-legend'}
-                                checked={graphOptions["no-legend"]}
-                                label={'No Legend'}
-                                onChange={handleCheckFormChange} />
+                                id={'legend'}
+                                name={'legend'}
+                                checked={graphOptions["legend"]}
+                                label={'Legend'}
+                                onChange={handleChartCheckFormChange} />
 
 
                         </Form>
                     </div>
                 </Collapse>
             </div>
-            <hr />
-
-            <ResponsiveContainer width="95%" height={800} id="lineChart">
+            {/* <hr /> */}
+            <ResponsiveContainer width="90%" height={800} id="lineChart">
                 <LineChart
                     data={graphData}
-                    margin={{ top: 32, right: 128, left: 16, bottom: 64 }}
+                    margin={{ top: 64, right: 128, left: 64, bottom: 64 }}
                 >
                     <defs>
                         <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -216,7 +125,7 @@ const Chart = () => {
                         style={{ fontSize: graphOptions["font-size"] }}
                         height={36} />
 
-                    <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439} label="American/New_York"
+                    <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439} label="America/New_York"
                         style={{ fontSize: graphOptions["font-size"] }} />
 
                     {
@@ -242,7 +151,7 @@ const Chart = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
 
-                    {graphOptions["no-legend"] ? null : <Legend />}
+                    {graphOptions["legend"] ?  <Legend />:null}
 
                     {
                         (irridianceGraphLines.length === 0) ? null :
@@ -312,7 +221,7 @@ const Chart = () => {
                 </Form.Check>
 
                 {/* top right bottom left */}
-                <Button variant="primary" style={{ margin: "20px 0px 10px 50px" }} onClick={handleSubmit}>
+                <Button variant="primary" style={{ margin: "20px 0px 10px 50px" }} onClick={handleChartSubmit}>
                     Download Data
                 </Button>
             </Form>
