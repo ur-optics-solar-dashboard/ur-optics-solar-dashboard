@@ -77,10 +77,11 @@ const useChart = () => {
     }
 
     const defaultGraphOptions = {
+        "show-graph-options": false,
         "line-thickness": 1,
         "font-size": 16,
         "legend": true,
-        "show-graph-options": false,
+        "dot": false,
     }
 
     const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions)

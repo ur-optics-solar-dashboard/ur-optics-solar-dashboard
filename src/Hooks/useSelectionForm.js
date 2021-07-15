@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import moment from 'moment';
 
-export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState, handleDateCallback, getChartData, executeScroll }) => {
+export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, setDateState, handleDateCallback, getChartData, scrollRef, setGraphTitle }) => {
     let history = useHistory();
     let location = useLocation();
     //
@@ -76,8 +76,9 @@ export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState
                         if(location.pathname !== "/graph"){
                             history.push("/graph");   
                         }else{
+                            setGraphTitle(dateState.label)
                             getChartData();
-                            executeScroll();
+                            scrollRef.current.scrollIntoView();
                         }
                     }
             }
@@ -91,7 +92,7 @@ export const useSelectionForm = ({ initialDataForm, defaultDatForm, setDateState
     }
 
     const handleReset = (event) => {
-        setDataFormState(defaultDatForm)
+        setDataFormState(defaultDataForm)
         // setDateState({ start, end });
         const start = moment()
         const end = moment()

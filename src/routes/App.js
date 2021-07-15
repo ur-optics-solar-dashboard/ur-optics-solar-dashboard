@@ -88,7 +88,7 @@ function App() {
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
   const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
 
-  const defaultDatForm = {
+  const defaultDataForm = {
     "irradiance-global-horizontal": false,
     "irradiance-direct-normal": false,
     "irradiance-diffuse-horizontal": false,
@@ -111,8 +111,8 @@ function App() {
   const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, 
     showModal, handleShowModal, handleCloseModal] = useSelectionForm(
     {
-      initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDatForm,
-      defaultDatForm: defaultDatForm,
+      initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
+      defaultDataForm: defaultDataForm,
       setDateState: setDateState,
       handleDateCallback: handleDateCallback
     })

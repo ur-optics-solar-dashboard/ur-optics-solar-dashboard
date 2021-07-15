@@ -9,6 +9,7 @@ import {
 // https://github.com/tsayen/dom-to-image
 import domtoimage from 'dom-to-image';
 
+import { Resizable, ResizableBox } from 'react-resizable';
 
 import React, { useState, useEffect, useCallback } from 'react'
 
@@ -21,16 +22,62 @@ import {
 } from "react-router-dom";
 
 import '../App.css';
+import "./react-resizable.css";
 
 //todo change to only import individual components
 import { Button, Form, Collapse, Row, Col } from 'react-bootstrap';
 import FileSaver from 'file-saver';
 
 
-const Chart = ({graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines, graphColors,
+const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines, graphColors,
     downloadSelection, setDownloadSelection, handleChartSubmit,
     defaultGraphOptions, graphOptions, setGraphOptions,
-    handleChartCheckFormChange}) => {
+    handleChartCheckFormChange }) => {
+
+    function grayscale(image, bPlaceImage) {
+        var myCanvas = document.createElement("canvas");
+        var myCanvasContext = myCanvas.getContext("2d");
+
+        var imgWidth = image.width;
+        var imgHeight = image.height;
+        // You'll get some string error if you fail to specify the dimensions
+        myCanvas.width = imgWidth;
+        myCanvas.height = imgHeight;
+        //  alert(imgWidth);
+        myCanvasContext.drawImage(image, 0, 0);
+
+        // This function cannot be called if the image is not rom the same domain.
+        // You'll get security error if you do.
+        var imageData = myCanvasContext.getImageData(0, 0, imgWidth, imgHeight);
+
+        // This loop gets every pixels on the image and
+        for (let j = 0; j < imageData.height; j++) {
+            for (let i = 0; i < imageData.width; i++) {
+                var index = (i * 4) * imageData.width + (j * 4);
+                var red = imageData.data[index];
+                var green = imageData.data[index + 1];
+                var blue = imageData.data[index + 2];
+                var alpha = imageData.data[index + 3];
+                var average = (red + green + blue) / 3;
+                imageData.data[index] = average;
+                imageData.data[index + 1] = average;
+                imageData.data[index + 2] = average;
+                imageData.data[index + 3] = alpha;
+            }
+        }
+
+        if (bPlaceImage) {
+            var myDiv = document.createElement("div");
+            myDiv.appendChild(myCanvas);
+            image.parentNode.appendChild(myCanvas);
+        }
+        return myCanvas.toDataURL();
+    }
+
+    const [size, setSize] = useState({ width: 1000, height: 600 })
+    const onResize = (event, { element, size }) => {
+        setSize({ width: size.width, height: size.height });
+    }
 
     //
     //initialize stuff
@@ -42,15 +89,15 @@ const Chart = ({graphData, graphLines, irridianceGraphLines, meteorologicalGraph
     }, [])
 
     return (
-        <div>
+        <div ref={scrollRef}>
             <h2>Graph</h2>
             <div style={{ marginLeft: "24px" }}>
-                <h3
+                <h4
                     style={{ opacity: "0.75", cursor: "pointer" }}
                     onClick={() => setGraphOptions({ ...graphOptions, 'show-graph-options': !graphOptions['show-graph-options'] })}>
-                    Additional Graph Options
+                    Graph Options
                     <img src={graphOptions["show-graph-options"] ? arrowup : arrowdown} alt={graphOptions["show-graph-options"] ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
-                </h3>
+                </h4>
                 <Collapse in={graphOptions["show-graph-options"]}>
                     <div>
                         <Form>
@@ -91,7 +138,6 @@ const Chart = ({graphData, graphLines, irridianceGraphLines, meteorologicalGraph
                             </Form.Group>
 
                             <Form.Check
-                                // todo... I prob can make all of this cleaner with a map or something
                                 type={'checkbox'}
                                 id={'legend'}
                                 name={'legend'}
@@ -99,92 +145,124 @@ const Chart = ({graphData, graphLines, irridianceGraphLines, meteorologicalGraph
                                 label={'Legend'}
                                 onChange={handleChartCheckFormChange} />
 
+                            {/* <Form.Check
+                                // todo: dots are very slow
+                                type={'checkbox'}
+                                id={'dot'}
+                                name={'dot'}
+                                checked={graphOptions["dot"]}
+                                label={'dot'}
+                                onChange={handleChartCheckFormChange} /> */}
+
 
                         </Form>
                     </div>
                 </Collapse>
             </div>
             {/* <hr /> */}
-            <ResponsiveContainer width="90%" height={800} id="lineChart">
-                <LineChart
-                    data={graphData}
-                    margin={{ top: 64, right: 128, left: 64, bottom: 64 }}
+
+            <div className="layoutRoot">
+                <Resizable
+                    className="box"
+                    minConstraints={[800, 600]}
+                    height={size.height}
+                    width={size.width}
+                    onResize={onResize}
+
                 >
-                    <defs>
-                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                        </linearGradient>
-                        <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                        </linearGradient>
-                    </defs>
-                    {/* TODO: Xaxis formatter, based on day, month, etc */}
-                    <XAxis dataKey="datetime" xAxisId={0} tickCount={3} interval={359}
-                        style={{ fontSize: graphOptions["font-size"] }}
-                        height={36} />
+                    <div
+                        className="box"
+                        style={{
+                            width: size.width + "px",
+                            height: size.height + "px"}}
+                            >
+                                <h3 style={{paddingTop:12}}>{graphTitle}</h3>
+                        <ResponsiveContainer width={size.width} height={size.height} id="lineChart">
+                            <LineChart
+                                data={graphData}
+                                margin={{ top: 24, right: 128, left: 64, bottom: 108 }}
+                            >
+                                <defs>
+                                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                                    </linearGradient>
+                                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                                        <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                                {/* TODO: Xaxis formatter, based on day, month, etc */}
+                                <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={ graphOptions["font-size"] > 24 ? 359: 179}
+                                    // interval={359} 
+                                    style={{ fontSize: graphOptions["font-size"] }}
+                                    height={36} />
 
-                    <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439} label="America/New_York"
-                        style={{ fontSize: graphOptions["font-size"] }} />
+                                <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439}
+                                    // interval={1439} 
+                                    // label="America/New_York"
+                                    // dy={10}
+                                    // height={64}
+                                    style={{ fontSize: graphOptions["font-size"] }} >
+                                    <Label dy={20} value="America/New_York" offset={0} position="insideBottom" style={{ fontSize: graphOptions["font-size"] }} />
+                                </XAxis>
 
-                    {
-                        (irridianceGraphLines.length === 0) ? null :
-                            <YAxis yAxisId="left" label={<Label
-                                value="Irridiance"
-                                position="insideLeft"
-                                angle={-90}
-                                style={{ textAnchor: 'middle' }}
-                            />}
-                                style={{ fontSize: graphOptions["font-size"] }} />}
 
-                    {
-                        (meteorologicalGraphLines.length === 0) ? null :
-                            <YAxis yAxisId="right" orientation="right" label={<Label
-                                value="Meteorological"
-                                position="insideRight"
-                                angle={90}
-                                style={{ textAnchor: 'middle' }}
-                            />}
-                                style={{ fontSize: graphOptions["font-size"] }} />}
+                                {(irridianceGraphLines.length === 0) ? null :
+                                        <YAxis yAxisId="left" label={<Label
+                                            value="Irridiance"
+                                            position="insideLeft"
+                                            angle={-90}
+                                            style={{ textAnchor: 'middle',fontSize: graphOptions["font-size"] }}/>}
+                                        />}
 
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
+                                {(meteorologicalGraphLines.length === 0) ? null :
+                                        <YAxis yAxisId="right" orientation="right" label={<Label
+                                            value="Meteorological"
+                                            position="insideRight"
+                                            angle={90}
+                                            style={{ textAnchor: 'middle',fontSize:graphOptions["font-size"] }}/>}
+                                        />}
 
-                    {graphOptions["legend"] ?  <Legend />:null}
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Tooltip />
 
-                    {
-                        (irridianceGraphLines.length === 0) ? null :
-                            irridianceGraphLines.map((line_name, index) => (
-                                <Line
-                                    yAxisId="left"
-                                    type="monotone"
-                                    dataKey={line_name}
-                                    stroke={graphColors[graphLines[line_name]]}
-                                    strokeWidth={graphOptions["line-thickness"]}
-                                    fillOpacity={1}
-                                    // fill="url(#colorUv)"
-                                    dot={false}
-                                />
-                            ))
-                    }
+                                {graphOptions["legend"] ?
+                                    <Legend dy={10}
+                                        //todo if I want to implement shapes, I have to make custom shapes along with legend
+                                        wrapperStyle={{ position: 'relative', marginTop: '16px' }}
+                                    />
+                                    : null}
 
-                    {
-                        (meteorologicalGraphLines.length === 0) ? null :
-                            meteorologicalGraphLines.map((line_name, index) => (
-                                <Line
-                                    yAxisId="right"
-                                    type="monotone"
-                                    dataKey={line_name}
-                                    stroke={graphColors[graphLines[line_name]]}
-                                    strokeWidth={graphOptions["line-thickness"]}
-                                    fillOpacity={1}
-                                    // fill="url(#colorUv)"
-                                    dot={false}
-                                />
-                            ))}
+                                {(irridianceGraphLines.length === 0) ? null :
+                                    irridianceGraphLines.map((line_name, index) => (
+                                        <Line
+                                            yAxisId="left"
+                                            type="monotone"
+                                            dataKey={line_name}
+                                            stroke={graphColors[graphLines[line_name]]}
+                                            strokeWidth={graphOptions["line-thickness"]}
+                                            fillOpacity={1}
+                                            // fill="url(#colorUv)"
+                                            dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
+                                        />
+                                    ))}
 
-                    {/* <Line
+                                {(meteorologicalGraphLines.length === 0) ? null :
+                                    meteorologicalGraphLines.map((line_name, index) => (
+                                        <Line
+                                            yAxisId="right"
+                                            type="linear"
+                                            dataKey={line_name}
+                                            stroke={graphColors[graphLines[line_name]]}
+                                            strokeWidth={graphOptions["line-thickness"]}
+                                            fillOpacity={1}
+                                            // fill="url(#colorUv)"
+                                            dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
+                                        />
+                                    ))}
+
+                                {/* <Line
                         yAxisId="left"
                         type="monotone"
                         dataKey="Global Horizontal [W/m^2]"
@@ -206,8 +284,12 @@ const Chart = ({graphData, graphLines, irridianceGraphLines, meteorologicalGraph
                         type={"natural"}
                         dot={false}
                     /> */}
-                </LineChart>
-            </ResponsiveContainer>
+                            </LineChart>
+                        </ResponsiveContainer>
+
+                    </div>
+                </Resizable>
+            </div>
 
             <Form>
                 <Form.Check>

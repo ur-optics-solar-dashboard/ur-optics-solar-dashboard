@@ -86,12 +86,12 @@ const useDateRangeSelection = () => {
 
         // console.log(st,"type: ", typeof st)
     };
-    // const label = label;
-    // const label = start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY');
+
+    const [graphTitle, setGraphTitle] = useState(dateState.label)
 
 
 
-    return [dateState, setDateState, ranges, handleDateCallback, dateReference]
+    return [dateState, setDateState, ranges, handleDateCallback, dateReference, graphTitle, setGraphTitle]
 }
 
 export default useDateRangeSelection

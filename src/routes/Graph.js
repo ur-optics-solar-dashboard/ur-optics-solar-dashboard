@@ -16,15 +16,15 @@ import useChart from '../Hooks/useChart';
 
 
 const Graph = () => {
-  const scrollRef = useRef(null)
+  const scrollRef = useRef(null);
 
-  const executeScroll = () => scrollRef.current.scrollIntoView()
+  const executeScroll = () => scrollRef.current.scrollIntoView();
 
   let query = new URLSearchParams(useLocation().search);
 
   // Predefined Date Ranges
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
-  const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
+  const [dateState, setDateState, ranges, handleDateCallback, dateReference, graphTitle, setGraphTitle] = useDateRangeSelection()
 
   const defaultDataForm = {
     "irradiance-global-horizontal": false,
@@ -46,47 +46,7 @@ const Graph = () => {
     "options-english-conversion": false,
   }
 
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
-    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
-      {
-        initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
-        defaultDatForm: defaultDataForm,
-        setDateState: setDateState,
-        handleDateCallback: handleDateCallback,
-        getChartData: getChartData,
-        executeScroll: executeScroll
-      })
-
-
-  // console.log("QWEFFFFF", query.get("qef") || JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm)
-  const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
-
-  // todo: parse query parameters before using the dataForm internal storage for sharable links
-  function parseQuerySetForm() {
-    let change = false
-    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
-
-    for (const field in defaultDataForm) {
-      const field_value = query.get(field);
-      if (field_value !== null) {
-        change = true
-        newQueryObj[field] = field_value
-      }
-    }
-
-    if (change) {
-      setDataFormState(newQueryObj);
-    }
-
-    const start = moment(query.get("start"), "YYYY-MM-DD");
-    const end = moment(query.get("end"), "YYYY-MM-DD");
-
-    if (start.isValid() && end.isValid()) {
-      handleDateCallback(start, end, 'Custom Range');
-    }
-
-  }
-
+  
   const [graphData, setGraphData, graphLines, setGraphLines,
     irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
     graphColors,
@@ -130,9 +90,52 @@ const Graph = () => {
     }
   }
 
+  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
+    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
+      {
+        initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
+        defaultDataForm: defaultDataForm,
+        setDateState: setDateState,
+        handleDateCallback: handleDateCallback,
+        getChartData: getChartData,
+        scrollRef: scrollRef,
+        dateState: dateState,
+        setGraphTitle: setGraphTitle
+      })
+
+
+  // console.log("QWEFFFFF", query.get("qef") || JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm)
+  const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
+
+  // todo: parse query parameters before using the dataForm internal storage for sharable links
+  function parseQuerySetForm() {
+    let change = false
+    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
+
+    for (const field in defaultDataForm) {
+      const field_value = query.get(field);
+      if (field_value !== null) {
+        change = true
+        newQueryObj[field] = field_value
+      }
+    }
+
+    if (change) {
+      setDataFormState(newQueryObj);
+    }
+
+    const start = moment(query.get("start"), "YYYY-MM-DD");
+    const end = moment(query.get("end"), "YYYY-MM-DD");
+
+    if (start.isValid() && end.isValid()) {
+      handleDateCallback(start, end, 'Custom Range');
+    }
+
+  }
+
   useEffect(() => {
     parseQuerySetForm();
-    getChartData()
+    getChartData();
   }, []);
 
   return (
@@ -160,7 +163,7 @@ const Graph = () => {
         </section>
         <div style={{ paddingBottom: "100px" }}></div>
         <section id="App-main-graph" style={{ width: "100%" }} >
-          <Chart ref={scrollRef}
+          <Chart scrollRef={scrollRef} graphTitle={graphTitle}
             graphData={graphData} setGraphData={setGraphData} graphLines={graphLines} setGraphLines={setGraphLines}
             irridianceGraphLines={irridianceGraphLines} setIrridianceGraphLines={setIrridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines} setMeteorologicalGraphLines={setMeteorologicalGraphLines}
             graphColors={graphColors}
