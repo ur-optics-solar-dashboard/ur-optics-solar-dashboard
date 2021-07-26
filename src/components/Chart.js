@@ -179,10 +179,11 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                     >
                         <div id="lineChart">
                         <h3 style={{ paddingTop: 12 }}>{graphTitle}</h3>
-                        <ResponsiveContainer width={size.width} height={size.height}>
+                        <>
                             <LineChart
                                 data={graphData}
                                 margin={{ top: 24, right: 128, left: 64, bottom: 108 }}
+                                width={size.width} height={size.height}
                             >
                                 <defs>
                                     <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -287,7 +288,7 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                         dot={false}
                     /> */}
                             </LineChart>
-                        </ResponsiveContainer>
+                        </>
                         </div>
                     </div>
                 </Resizable>

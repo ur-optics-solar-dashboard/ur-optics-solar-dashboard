@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import Header from '../Components/Header';
 import DataSelection from '../Components/DataSelection';
@@ -109,7 +109,7 @@ const Graph = () => {
   const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
 
   // todo: parse query parameters before using the dataForm internal storage for sharable links
-  function parseQuerySetForm() {
+  async function parseQuerySetForm() {
     let change = false
     const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
 
@@ -117,26 +117,30 @@ const Graph = () => {
       const field_value = query.get(field);
       if (field_value !== null) {
         change = true
-        newQueryObj[field] = field_value
+        newQueryObj[field] = (field_value === "true")
       }
     }
 
     if (change) {
       setDataFormState(newQueryObj);
     }
-
+    setChangeChartData(true);
     const start = moment(query.get("start"), "YYYY-MM-DD");
     const end = moment(query.get("end"), "YYYY-MM-DD");
 
     if (start.isValid() && end.isValid()) {
-      handleDateCallback(start, end, 'Custom Range');
+      await handleDateCallback(start, end, 'Custom Range');
+      setChangeChartData(true);
     }
+
+  }
+// http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
+  function createQuery() {
 
   }
 
   useEffect(() => {
     parseQuerySetForm();
-    getChartData();
   }, []);
 
   return (
