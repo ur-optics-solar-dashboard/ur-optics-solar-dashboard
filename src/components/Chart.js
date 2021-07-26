@@ -99,7 +99,8 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                     <img src={graphOptions["show-graph-options"] ? arrowup : arrowdown} alt={graphOptions["show-graph-options"] ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                 </h4>
                 <Collapse in={graphOptions["show-graph-options"]}>
-                    <div>
+                    <div style={{position: "absolute", backgroundColor:"white", zIndex:1000, padding:20}}>
+                        {/* TODO: style this better */}
                         <Form>
                             <Row>
                                 <Col sm="2">

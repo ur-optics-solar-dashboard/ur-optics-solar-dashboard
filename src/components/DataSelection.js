@@ -70,7 +70,8 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
             </h2>
 
             <Collapse in={show.showDataSelection}>
-                <div>
+                <div style={{position: "absolute", backgroundColor:"white", zIndex:1000}}>
+                    {/* TODO: style this better, i think this dropdown might have to depend on if its in the App route or Graph route */}
                     <Container style={{ marginLeft: "25%", marginTop: "20px" }}>
                         <Row>
                             <Col md={{ span: 10, offset: 1 }}>
