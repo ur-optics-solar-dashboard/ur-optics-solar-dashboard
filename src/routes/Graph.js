@@ -86,7 +86,8 @@ const Graph = () => {
         });
 
     } else {
-      console.log("no selected data")
+      console.log("no data selected")
+      setGraphTitle("No Data Selected")
     }
   }
 

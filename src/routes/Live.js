@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import Header from '../Components/Header';
 import LiveMeasurements from '../Components/LiveMeasurements';
-import DataSelection from '../Components/DataSelection';
 
 //hooks
 import useDateRangeSelection from '../Hooks/useDateRangeSelection';
@@ -26,7 +25,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 // todo https://stackoverflow.com/questions/45086005/recharts-component-to-png
 
-function App() {
+const Live = () => {
   //todo define the structure before... maybe I should use middleware instead?
   const [solarData, setSoloarData] = useState({
     'time': "",
@@ -63,12 +62,11 @@ function App() {
   });
 
   const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion") || "false")
+  const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
   useEffect(() => {
     localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
     // console.log("liveConversion: ", liveConversion);
   }, [liveConversion]);
-
-  const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
 
   /**
    * Obtain data from /livedata endpoint (similar json as tempData)
@@ -84,41 +82,6 @@ function App() {
         setSoloarData(myJson)
       });
   }
-
-  // Predefined Date Ranges
-  // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
-  const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
-
-  const defaultDataForm = {
-    "irradiance-global-horizontal": false,
-    "irradiance-direct-normal": false,
-    "irradiance-diffuse-horizontal": false,
-    "meteorological-pr1-temperature": false,
-    "meteorological-ph1-temperature": false,
-    "meteorological-pressure": false,
-    "meteorological-zenith-angle": false,
-    "meteorological-azimuth-angle": false,
-    "meteorological-razon-status": false,
-    "meteorological-razon-time": false,
-    "meteorological-logger-battery": false,
-    "meteorological-logger-temp": false,
-    "interval-group": "1",
-    "output-group": "1",
-    "output-raw": false,
-    "options-black-white": false,
-    "options-english-conversion": false,
-  }
-
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, 
-    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
-    {
-      initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
-      defaultDataForm: defaultDataForm,
-      setDateState: setDateState,
-      handleDateCallback: handleDateCallback
-    })
-
-  const initialShowSelection = { showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true }
 
   //
   //initialize stuff
@@ -157,17 +120,6 @@ function App() {
 
       <main className="App-main">
 
-        <section className="App-main-section" id="App-main-data">
-          <DataSelection
-            //todo useContext to pass these props stuff down?
-            start={dateState.start} end={dateState.end} label={dateState.label} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
-            dataForm={dataForm} setDataFormState={setDataFormState}
-            handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
-            handleSubmit={handleSubmit} handleReset={handleReset}
-            initialShowSelection={initialShowSelection}
-            showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />
-        </section>
-
         <section className="App-main-section" id="App-main-live">
           <LiveMeasurements solarData={solarData}
             liveConversion={liveConversion} setLiveConversion={setLiveConversion} handleLiveCheckChange={handleLiveCheckChange} />
@@ -184,4 +136,4 @@ function App() {
   );
 }
 
-export default App;
+export default Live;

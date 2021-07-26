@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './routes/App';
 import Graph from './routes/Graph';
+import Live from './routes/Live';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -18,6 +19,9 @@ ReactDOM.render(
     <Switch>
       <Route path="/graph">
         <Graph />
+      </Route>
+      <Route path="/live">
+        <Live />
       </Route>
       <Route path="/">
         <App />

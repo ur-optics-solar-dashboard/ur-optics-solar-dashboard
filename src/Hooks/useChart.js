@@ -14,7 +14,7 @@ import FileSaver from 'file-saver';
 const useChart = () => {
     
     const downloadLineChartPNG = () => {
-        domtoimage.toBlob(document.getElementById('lineChart'))
+        domtoimage.toBlob(document.getElementById('lineChart'),  { bgcolor: "white" })
             .then(function (blob) {
                 FileSaver.saveAs(blob, 'chart.png');
             });
@@ -57,7 +57,7 @@ const useChart = () => {
         // console.log(graphOptions["show-graph-options"])
         switch (downloadSelection) {
             case 1:
-                history.push("/zip-compressed");
+                history.push("/zip-compressed"); //todo
                 break;
             case 2: // png
                 downloadLineChartPNG();
@@ -72,7 +72,7 @@ const useChart = () => {
                 downloadJson();
                 break;
             default: // case 0
-                history.push("/csv");
+                history.push("/csv"); //todo
         }
     }
 

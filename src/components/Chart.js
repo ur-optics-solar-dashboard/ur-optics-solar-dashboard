@@ -174,10 +174,12 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                         className="box"
                         style={{
                             width: size.width + "px",
-                            height: size.height + "px"}}
-                            >
-                                <h3 style={{paddingTop:12}}>{graphTitle}</h3>
-                        <ResponsiveContainer width={size.width} height={size.height} id="lineChart">
+                            height: size.height + "px"
+                        }}
+                    >
+                        <div id="lineChart">
+                        <h3 style={{ paddingTop: 12 }}>{graphTitle}</h3>
+                        <ResponsiveContainer width={size.width} height={size.height}>
                             <LineChart
                                 data={graphData}
                                 margin={{ top: 24, right: 128, left: 64, bottom: 108 }}
@@ -193,7 +195,7 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                                     </linearGradient>
                                 </defs>
                                 {/* TODO: Xaxis formatter, based on day, month, etc */}
-                                <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={ graphOptions["font-size"] > 24 ? 359: 179}
+                                <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={graphOptions["font-size"] > 24 ? 359 : 179}
                                     // interval={359} 
                                     style={{ fontSize: graphOptions["font-size"] }}
                                     height={36} />
@@ -209,20 +211,20 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
 
 
                                 {(irridianceGraphLines.length === 0) ? null :
-                                        <YAxis yAxisId="left" label={<Label
-                                            value="Irridiance"
-                                            position="insideLeft"
-                                            angle={-90}
-                                            style={{ textAnchor: 'middle',fontSize: graphOptions["font-size"] }}/>}
-                                        />}
+                                    <YAxis yAxisId="left" label={<Label
+                                        value="Irridiance"
+                                        position="insideLeft"
+                                        angle={-90}
+                                        style={{ textAnchor: 'middle', fontSize: graphOptions["font-size"] }} />}
+                                    />}
 
                                 {(meteorologicalGraphLines.length === 0) ? null :
-                                        <YAxis yAxisId="right" orientation="right" label={<Label
-                                            value="Meteorological"
-                                            position="insideRight"
-                                            angle={90}
-                                            style={{ textAnchor: 'middle',fontSize:graphOptions["font-size"] }}/>}
-                                        />}
+                                    <YAxis yAxisId="right" orientation="right" label={<Label
+                                        value="Meteorological"
+                                        position="insideRight"
+                                        angle={90}
+                                        style={{ textAnchor: 'middle', fontSize: graphOptions["font-size"] }} />}
+                                    />}
 
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Tooltip />
@@ -286,7 +288,7 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                     /> */}
                             </LineChart>
                         </ResponsiveContainer>
-
+                        </div>
                     </div>
                 </Resizable>
             </div>
