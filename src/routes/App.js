@@ -62,7 +62,7 @@ function App() {
     }
   });
 
-  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion") || "false")
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion")==="true" || false)
   useEffect(() => {
     localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
     // console.log("liveConversion: ", liveConversion);

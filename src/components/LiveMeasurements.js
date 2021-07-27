@@ -11,7 +11,7 @@ const LiveMeasurements = ({solarData, liveConversion, setLiveConversion, handleL
           type={'checkbox'}
           id={'live-english-conversion'}
           name={'live-english-conversion'}
-          checked={liveConversion==="true"}
+          checked={liveConversion}
           label={'English Conversion'}
           onChange={handleLiveCheckChange} />
         {/* <p>The current time is {currentTime}.</p> */}

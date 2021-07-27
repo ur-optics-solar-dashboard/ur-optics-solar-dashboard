@@ -61,7 +61,7 @@ const Live = () => {
     }
   });
 
-  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion") || "false")
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion")==="true" || false)
   const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
   useEffect(() => {
     localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
