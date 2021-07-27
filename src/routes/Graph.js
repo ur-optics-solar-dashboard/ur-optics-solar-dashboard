@@ -122,15 +122,15 @@ const Graph = () => {
     }
 
     if (change) {
+      setQueryData(true);
       setDataFormState(newQueryObj);
     }
-    setChangeChartData(true);
+
     const start = moment(query.get("start"), "YYYY-MM-DD");
     const end = moment(query.get("end"), "YYYY-MM-DD");
 
     if (start.isValid() && end.isValid()) {
       await handleDateCallback(start, end, 'Custom Range');
-      setChangeChartData(true);
     }
 
   }
@@ -138,6 +138,16 @@ const Graph = () => {
   function createQuery() {
 
   }
+
+  const [queryData, setQueryData] = useState(false)
+
+  useEffect(() => {
+    if(queryData){
+      console.log("querying...")
+      getChartData();
+    }
+    setQueryData(false);
+  }, [dataForm]);
 
   useEffect(() => {
     parseQuerySetForm();
