@@ -36,7 +36,6 @@ export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, 
     const handleCloseModal = () => setShowModal(false);
 
     const handleSubmit = (event) => {
-
         console.log(location.pathname);
 
         let noSelection = true
@@ -76,7 +75,6 @@ export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, 
                         if(location.pathname !== "/graph"){
                             history.push("/graph");   
                         }else{
-                            setGraphTitle(dateState.label)
                             getChartData();
                             scrollRef.current.scrollIntoView();
                         }
