@@ -1,0 +1,64 @@
+General
+    Question: If we are already storing everything in Box, then why not directly get the data from Box? Why do we need this api here?
+    https://github.com/box/box-node-sdk
+    https://developer.box.com/
+
+BOX
+    box: move from input to archive after reading into MongoDB
+    https://github.com/box/box-python-sdk
+    https://github.com/box/box-ui-elements
+
+MongoDB Object design
+
+    Perhaps store a days worth of data in document/object
+
+    i.e: each object represents a single day (in EST?)
+
+    We can also add a field for averages for the day when we want to change the interval to a day
+
+        Question: how should we deal with daylight savings? Do we only use EST, and don't care about America/New_York timezone?
+
+    The frontend (recharts) currently inputs data like this, and if we could store it like this as well, then that could save some processing power
+    We could use timestamp instead of "date" and "datetime", or I could combine the two like how the example data does it...
+    If we use the timestamp, we could use the scale="time" feature of recharts to actually use the funcationality of time with recharts
+    https://recharts.org/en-US/api/XAxis#scale
+    https://github.com/recharts/recharts/issues/1137
+
+    ```json
+    [
+        {
+            "Diffuse Horizontal [W/m^2]": 0.0,
+            "Direct Normal [W/m^2]": 0.0,
+            "Global Horizontal [W/m^2]": 0.0,
+            ...
+            "date": "06/29/21",
+            "datetime": "12:00 AM"
+        },
+        {
+            "Diffuse Horizontal [W/m^2]": 0.0,
+            "Direct Normal [W/m^2]": 0.0,
+            "Global Horizontal [W/m^2]": 0.0,
+            ...
+            "date": "06/29/21",
+            "datetime": "12:01 AM"
+        },
+
+        ...
+    ]
+    ```
+
+    Question: how should we send the data? Should we send it as is? Like the entire array of points for each day, and then have the frontend manage which data points to show? This can allow for us to quickly show when the user selects/deselects datapoints (although we might have to send new data points when they change the date, but we could also just restrict the domain and only send the new datapoints needed)
+    Or we could have it like I have it now, where we just send whichever datapoints for the line, and then request new datapoints every time the user switches data (this can also be just requesting new datapoints needed and keeping the old points, although it will probably be much harder)
+
+    Question: PyMongo or MongoEngine?
+        https://stackoverflow.com/questions/5712857/pymongo-vs-mongoengine-for-django
+        I think PyMongo is enough for our use case
+
+    expiring data:
+    https://docs.mongodb.com/manual/tutorial/expire-data/
+
+
+MongoDB timestamp
+
+    Question: should we store the TIMESTAMP as a unix timestamp or like `7/12/2021 21:05` in the document?
+

@@ -1,13 +1,16 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# testing
+/coverage
+testing.py
+
+# secrets
+box_config_1.json
+
 # dependencies
 /node_modules
 /.pnp
 .pnp.js
-
-# testing
-/coverage
-testing.py
 
 # production
 /build
