@@ -1,12 +1,19 @@
-General
-    Question: If we are already storing everything in Box, then why not directly get the data from Box? Why do we need this api here?
-    https://github.com/box/box-node-sdk
-    https://developer.box.com/
+BOX protocol
+    Backend
+    1. The Lab(?) put data into Box folder
+    2. This api reads the data (csv files?) from Box folder, inserts it into MongoDb, and then moves the already read files into an "archive"
+    frontend
+    1. Use Box OAuth 2.0 to authenticate users for access to this data: https://github.com/box/box-python-sdk
 
-BOX
-    box: move from input to archive after reading into MongoDB
+Box resources:
     https://github.com/box/box-python-sdk
     https://github.com/box/box-ui-elements
+
+General
+    Question: If we are already storing everything in Box, then why not directly get the data from Box? Why do we need this api here?
+    Answer: Reduncency
+    https://github.com/box/box-node-sdk
+    https://developer.box.com/
 
 MongoDB Object design
 
@@ -50,12 +57,16 @@ MongoDB Object design
     Question: how should we send the data? Should we send it as is? Like the entire array of points for each day, and then have the frontend manage which data points to show? This can allow for us to quickly show when the user selects/deselects datapoints (although we might have to send new data points when they change the date, but we could also just restrict the domain and only send the new datapoints needed)
     Or we could have it like I have it now, where we just send whichever datapoints for the line, and then request new datapoints every time the user switches data (this can also be just requesting new datapoints needed and keeping the old points, although it will probably be much harder)
 
+    Update: MongoDB recomends using Time Series Collections https://docs.mongodb.com/manual/core/timeseries-collections/
+
     Question: PyMongo or MongoEngine?
         https://stackoverflow.com/questions/5712857/pymongo-vs-mongoengine-for-django
         I think PyMongo is enough for our use case
 
     expiring data:
     https://docs.mongodb.com/manual/tutorial/expire-data/
+
+
 
 
 MongoDB timestamp
