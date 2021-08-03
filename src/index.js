@@ -6,7 +6,7 @@ import Graph from './routes/Graph';
 import Live from './routes/Live';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import { GlobalProvider } from './contexts/GlobalContext';
 
 // now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })
 import moment from 'moment';
@@ -14,23 +14,21 @@ import moment from 'moment';
 moment.tz.setDefault("America/New_York");
 
 ReactDOM.render(
-  <Router>
-
-    <Switch>
-      <Route path="/graph">
-        <Graph />
-      </Route>
-      <Route path="/live">
-        <Live />
-      </Route>
-      <Route path="/">
-        <App />
-      </Route>
-    </Switch>
-  </Router>,
-  // <React.StrictMode>
-  //   <App />
-  // </React.StrictMode>,
+  <GlobalProvider>
+    <Router>
+      <Switch>
+        <Route path="/graph">
+          <Graph />
+        </Route>
+        <Route path="/live">
+          <Live />
+        </Route>
+        <Route path="/">
+          <App />
+        </Route>
+      </Switch>
+    </Router>
+  </GlobalProvider>,
   document.getElementById('root')
 );
 
