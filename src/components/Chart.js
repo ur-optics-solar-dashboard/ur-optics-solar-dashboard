@@ -111,7 +111,7 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                     }}
                 >
                     {/* <Button variant="success">Hover me to see</Button> */}
-                    <img src={copyicon} style={{ marginLeft: "10px", cursor: "pointer" }} width={20} height={20}
+                    <img alt="copy icon" src={copyicon} style={{ marginLeft: "10px", cursor: "pointer" }} width={20} height={20}
                     onClick={() => {
                         navigator.clipboard.writeText(copyLinkText)
                         .then(() => {

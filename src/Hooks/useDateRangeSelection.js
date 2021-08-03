@@ -42,7 +42,12 @@ const useDateRangeSelection = () => {
         ],
     }
 
-
+    /**
+     * Returns an object containing the range of date stored in localstorage
+     * If it was a provided range, then returns that provided range with respect to today's date
+     * 
+     * @returns {{string:moment, string:moment}} {"startDate": moment,"endDate": moment}
+     */
     const getStartEnd = () => {
         let dateLabel = localStorage.getItem("dateRangeLabel")
         // console.log(localStorage.getItem("dateRangeLabel"))
@@ -70,13 +75,10 @@ const useDateRangeSelection = () => {
     const dateReference = useRef();
 
     // var outlabel = "Custom Date Range"
-    //todo handle, store somewhere? and then pass start, end to the submit call, which... opens a new page?
     const handleDateCallback = (start, end, label) => {
 
         dateReference.current.setStartDate(start);
         dateReference.current.setEndDate(end);
-        // dateReference.current.setDateState(label)
-        // console.log(start.toDate());
 
         setDateState({ start: start, end: end, label: getDateLabel(start, end) });
 
