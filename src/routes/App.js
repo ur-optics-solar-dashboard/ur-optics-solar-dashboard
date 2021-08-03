@@ -8,6 +8,10 @@ import DataSelection from '../Components/DataSelection';
 import useDateRangeSelection from '../Hooks/useDateRangeSelection';
 import { useSelectionForm } from '../Hooks/useSelectionForm';
 
+
+//defaults
+import { defaultDataForm } from '../DefaultValues';
+
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -89,32 +93,11 @@ function App() {
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
   const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
 
-  const defaultDataForm = {
-    "irradiance-global-horizontal": false,
-    "irradiance-direct-normal": false,
-    "irradiance-diffuse-horizontal": false,
-    "meteorological-pr1-temperature": false,
-    "meteorological-ph1-temperature": false,
-    "meteorological-pressure": false,
-    "meteorological-zenith-angle": false,
-    "meteorological-azimuth-angle": false,
-    "meteorological-razon-status": false,
-    "meteorological-razon-time": false,
-    "meteorological-logger-battery": false,
-    "meteorological-logger-temp": false,
-    "interval-group": "1",
-    "output-group": "1",
-    "output-raw": false,
-    "options-black-white": false,
-    "options-english-conversion": false,
-  }
-
   const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, 
     showModal, handleShowModal, handleCloseModal] = useSelectionForm(
     {
       initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
       defaultDataForm: defaultDataForm,
-      setDateState: setDateState,
       handleDateCallback: handleDateCallback
     })
 
@@ -160,7 +143,7 @@ function App() {
         <section className="App-main-section" id="App-main-data">
           <DataSelection
             //todo useContext to pass these props stuff down?
-            start={dateState.start} end={dateState.end} label={dateState.label} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
+            dateState={dateState} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
             dataForm={dataForm} setDataFormState={setDataFormState}
             handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
             handleSubmit={handleSubmit} handleReset={handleReset}

@@ -14,6 +14,9 @@ import { useSelectionForm } from '../Hooks/useSelectionForm';
 import moment from 'moment';
 import useChart from '../Hooks/useChart';
 
+// default values
+import { defaultDataForm } from '../DefaultValues';
+
 
 const Graph = () => {
   const scrollRef = useRef(null);
@@ -24,27 +27,6 @@ const Graph = () => {
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
   const [dateState, setDateState, ranges, handleDateCallback, dateReference, graphTitle, setGraphTitle] = useDateRangeSelection()
 
-  const defaultDataForm = {
-    "irradiance-global-horizontal": false,
-    "irradiance-direct-normal": false,
-    "irradiance-diffuse-horizontal": false,
-    "meteorological-pr1-temperature": false,
-    "meteorological-ph1-temperature": false,
-    "meteorological-pressure": false,
-    "meteorological-zenith-angle": false,
-    "meteorological-azimuth-angle": false,
-    "meteorological-razon-status": false,
-    "meteorological-razon-time": false,
-    "meteorological-logger-battery": false,
-    "meteorological-logger-temp": false,
-    "interval-group": "1",
-    "output-group": "1",
-    "output-raw": false,
-    "options-black-white": false,
-    "options-english-conversion": false,
-  }
-
-  
   const [graphData, setGraphData, graphLines, setGraphLines,
     irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
     graphColors,
@@ -100,20 +82,18 @@ const Graph = () => {
     showModal, handleShowModal, handleCloseModal] = useSelectionForm(
       {
         initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
-        defaultDataForm: defaultDataForm,
-        setDateState: setDateState,
         handleDateCallback: handleDateCallback,
         getChartData: getChartData,
-        scrollRef: scrollRef,
-        dateState: dateState,
-        setGraphTitle: setGraphTitle
+        scrollRef: scrollRef
       })
 
 
-  // console.log("QWEFFFFF", query.get("qef") || JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm)
   const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
 
   // todo: parse query parameters before using the dataForm internal storage for sharable links
+  /**
+   * parse query from the URL and replace localstorage values
+   */
   async function parseQuerySetForm() {
     let change = false
     const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
@@ -140,6 +120,10 @@ const Graph = () => {
 
   }
 // http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
+  /**
+   * Create a link from the current graph query
+   * @returns {string} link
+   */
   function createQuery() {
     if(graphTitle!=="No Data Selected"){
       return `http://localhost:3000/graph?${queryFetchString}`
@@ -147,7 +131,13 @@ const Graph = () => {
     return 'http://localhost:3000/graph'
   }
 
-  const [queryData, setQueryData] = useState(false)
+  const [
+    /**
+     * 
+     */
+    queryData, 
+    setQueryData
+  ] = useState(false)
 
   const [copyLinkText, setCopyLinkText] = useState(createQuery());
 
@@ -188,7 +178,7 @@ const Graph = () => {
         <section className="App-main-section" id="App-main-data">
           <DataSelection
             //todo useContext to pass these props stuff down?
-            start={dateState.start} end={dateState.end} label={dateState.label} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
+            dateState={dateState} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
             dataForm={dataForm} setDataFormState={setDataFormState}
             handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
             handleSubmit={handleSubmit} handleReset={handleReset}

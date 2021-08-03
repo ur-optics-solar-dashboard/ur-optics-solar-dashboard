@@ -17,11 +17,16 @@ import arrowright from '../images/keyboard-right-arrow-button.svg';
 import closebutton from '../images/close.svg';
 
 
-const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, label,
+const DataSelection = ({dateState, dateReference, ranges, handleDateCallback,
     dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
     initialShowSelection,
-    showModal, handleShowModal, handleCloseModal }) => {
-    const [show, setShow] = useState(initialShowSelection)
+    showModal, handleShowModal, handleCloseModal}) => {
+    
+    // button styles
+    const button_cal_styles = { backgroundColor: "transparent", boxShadow: "none", borderColor: "transparent", color: "#003B71", padding: "5px" }
+
+
+    const [show, setShow] = useState(initialShowSelection);
 
     const handleDataShowSelection = () => {
         if (!show.showDataSelection) {
@@ -31,31 +36,40 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
         }
     }
 
-    const button_cal_styles = { backgroundColor: "transparent", boxShadow: "none", borderColor: "transparent", color: "#003B71", padding: "5px" }
-
-
+    /**
+     */
     const previousDay = () => {
-        handleDateCallback(start.subtract(1, 'days'), end.subtract(1, 'days'), "Custom Range");
+        handleDateCallback(dateState.start.subtract(1, 'days'), dateState.end.subtract(1, 'days'), "Custom Range");
     }
 
+    /**
+     */
     const nextDay = () => {
-        handleDateCallback(start.add(1, 'days'), end.add(1, 'days'), "Custom Range");
+        handleDateCallback(dateState.start.add(1, 'days'), dateState.end.add(1, 'days'), "Custom Range");
     }
 
+    /**
+     */
     const previousMonth = () => {
-        handleDateCallback(start.subtract(1, 'month').startOf('month'), end.subtract(1, 'month').endOf('month'), "Custom Range");
+        handleDateCallback(dateState.start.subtract(1, 'month').startOf('month'), dateState.end.subtract(1, 'month').endOf('month'), "Custom Range");
     }
 
+    /**
+     */
     const nextMonth = () => {
-        handleDateCallback(start.add(1, 'month').startOf('month'), end.add(1, 'month').endOf('month'), "Custom Range");
+        handleDateCallback(dateState.start.add(1, 'month').startOf('month'), dateState.end.add(1, 'month').endOf('month'), "Custom Range");
     }
 
+    /**
+     */
     const previousYear = () => {
-        handleDateCallback(start.subtract(1, 'year').startOf('year'), end.subtract(1, 'year').endOf('year'), "Custom Range");
+        handleDateCallback(dateState.start.subtract(1, 'year').startOf('year'), dateState.end.subtract(1, 'year').endOf('year'), "Custom Range");
     }
 
+    /**
+     */
     const nextYear = () => {
-        handleDateCallback(start.add(1, 'year').startOf('year'), end.add(1, 'year').endOf('year'), "Custom Range");
+        handleDateCallback(dateState.start.add(1, 'year').startOf('year'), dateState.end.add(1, 'year').endOf('year'), "Custom Range");
     }
 
 
@@ -78,7 +92,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                     // todo better predefined ranges that make sense for this product
                                     ref={dateReference}
                                     initialSettings={{
-                                        startDate: start.toDate(), endDate: end.toDate(), showDropdowns: true,
+                                        startDate: dateState.start.toDate(), endDate: dateState.end.toDate(), showDropdowns: true,
                                         ranges: ranges,
                                         minDate: moment().subtract(5, 'year').startOf('year'), maxDate: moment().toDate(), alwaysShowCalendars: true
                                     }}
@@ -96,7 +110,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                         }}
                                     >
                                         <i className="fa fa-calendar"></i>&nbsp;
-                                        <span>{label}</span> <i className="fa fa-caret-down"></i>
+                                        <span>{dateState.label}</span> <i className="fa fa-caret-down"></i>
                                     </div>
                                 </DateRangePicker>
                             </Col>
