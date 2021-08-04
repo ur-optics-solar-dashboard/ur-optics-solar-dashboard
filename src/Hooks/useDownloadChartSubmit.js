@@ -1,27 +1,23 @@
-import { useState, useRef } from 'react';
-
-import moment from 'moment-timezone';
-import domtoimage from 'dom-to-image';
-
-import React from 'react'
-
 import {
     useHistory,
 } from "react-router-dom";
+
+// https://github.com/tsayen/dom-to-image
+import domtoimage from 'dom-to-image';
+
 import FileSaver from 'file-saver';
 
-//TODO useContext
 /**
- * Custom hook to handle graph data
+ * @param  {{downloadSelection: number, graphData: string}} props
+ * @returns {[handleChartSubmit: function]} array
  */
-const useChart = () => {
-    
+export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
     /**
      * downloads a document element as a png to file `chart.png`
      * @param  {string} elementId element id from document
      * @param  {string} bgcolor background color
      */
-    const downloadLineChartPNG = (elementId, bgcolor) => {
+     const downloadLineChartPNG = (elementId, bgcolor) => {
         domtoimage.toBlob(document.getElementById(elementId),  { bgcolor: bgcolor })
             .then(function (blob) {
                 FileSaver.saveAs(blob, 'chart.png');
@@ -40,8 +36,11 @@ const useChart = () => {
                 FileSaver.saveAs(dataUrl, 'chart.jpeg');
             });
     }
-
     
+    /**
+     * downloads graph data from recharts as a json to file `graph_data.json`
+     * @param  {object} graphData graph object
+     */
     const downloadGraphJson = (graphData) => {
         var blob = new Blob([JSON.stringify(graphData)], { type: "text/plain;charset=utf-8" });
         FileSaver.saveAs(blob, "graph_data.json")
@@ -49,7 +48,7 @@ const useChart = () => {
 
     /**
      * downloads a document element as an svg to file `chart.svg`
-     * @param  {string} elementId
+     * @param  {string} elementId element id from document
      */
     const downloadLineChartSVG = (elementId) => {
         domtoimage.toSvg(document.getElementById(elementId),)
@@ -58,24 +57,13 @@ const useChart = () => {
             });
     }
 
-    /**
-     * 
-     */
-    const [graphData, setGraphData] = useState([{}]);
-
-    const [graphLines, setGraphLines] = useState([]);
-
-    const [irridianceGraphLines, setIrridianceGraphLines] = useState([]);
-    const [meteorologicalGraphLines, setMeteorologicalGraphLines] = useState([]);
-
-    const graphColors = ["#003B71", "red", "green", "purple", "orange", "pink", "black", "brown", "gray", "blue", "lightgreen", "lightorange"];
-
-    
     let history = useHistory();
-    const [downloadSelection, setDownloadSelection] = useState(0);
 
+    /**
+     * handler to submit chart options
+     * @param {*} event
+     */
     const handleChartSubmit = (event) => {
-        // console.log(graphOptions["show-graph-options"])
         switch (downloadSelection) {
             case 1:
                 history.push("/zip-compressed"); //todo
@@ -97,25 +85,5 @@ const useChart = () => {
         }
     }
 
-    const defaultGraphOptions = {
-        "show-graph-options": false,
-        "line-thickness": 1,
-        "font-size": 16,
-        "legend": true,
-        "dot": false,
-    }
-
-    const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
-
-
-    const handleChartCheckFormChange = (event) => { setGraphOptions({ ...graphOptions, [event.target.name]: event.target.checked }); };
-
-    return [graphData, setGraphData, graphLines, setGraphLines, 
-        irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
-        graphColors,
-        downloadSelection, setDownloadSelection, handleChartSubmit,
-        defaultGraphOptions, graphOptions, setGraphOptions,
-        handleChartCheckFormChange];
+    return [handleChartSubmit]
 }
-
-export default useChart

@@ -10,6 +10,7 @@ import { DataFormProvider } from './contexts/DataFormContext';
 
 // now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })
 import moment from 'moment';
+import 'moment-timezone';
 
 moment.tz.setDefault("America/New_York");
 

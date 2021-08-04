@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 
-import { defaultDataForm } from '../DefaultValues';
+import { defaultDataForm } from '../DefaultConstants';
 
 import {
     useHistory,
@@ -9,48 +9,26 @@ import {
 import moment from 'moment';
 import { DataFormContext } from '../contexts/DataFormContext';
 
-export const useSelectionForm = ({ handleDateCallback, getChartData, scrollRef }) => {
+/** @typedef StateSetter */
+/**
+ * Custom Hook that handles button presses that interacts outside of DataSelection.js
+ * @param  {{getChartData: function}} props
+ * @returns {[handleSubmit: function, handleReset: function, showModal: boolean, setShowModalState: StateSetter]} array
+ */
+export const useSelectionForm = ({ getChartData }) => {
     let history = useHistory();
     let location = useLocation();
+
     //
     //Data Form stuff
     //
-    const [dataForm, setDataFormState] = useContext(DataFormContext);
-    
-    /**
-     * handle when the checkboxes changes in the form
-     * @param  {} event
-     */
-    const handleCheckFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.checked }); }
-
-    /**
-     * handle when the radio button changes in the form
-     * @param  {} event
-     */
-    const handleRadioFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.value }); }
-
-    /**
-     * handle when the raw checkbox changes in the form
-     * @param  {} event
-     */
-    const handleRawDataCheckChange = (event) => {
-        if (dataForm["output-group"] === "1") {
-            //todo strange bug, for some reason, this line of code does not work if I have the regular setdataformstate. 
-            // Workaround: detect if raw data === true and outputgroup === 1, then we assume outputgroup = 2
-            setDataFormState({ ...dataForm, "output-group": "2" });
-        }
-        setDataFormState({ ...dataForm, [event.target.name]: event.target.checked });
-    }
-
-    const [showModal, setShowModal] = useState(false);
-    const handleShowModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
+    const {dataForm, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);
+    const [showModal, setShowModalState] = useState(false);
 
     /**
      * handle when the submit button is clicked
      * @param  {} event
      */
-    
     const handleSubmit = (event) => {
         // console.log(location.pathname);
 
@@ -66,7 +44,7 @@ export const useSelectionForm = ({ handleDateCallback, getChartData, scrollRef }
         }
 
         if (noSelection) {
-            handleShowModal();
+            setShowModalState(false);
         } else {
             //handle bug
             if (dataForm["output-raw"] && dataForm["output-group"] === "1") {
@@ -115,7 +93,6 @@ export const useSelectionForm = ({ handleDateCallback, getChartData, scrollRef }
         localStorage.removeItem("dateEnd")
     }
 
-    return [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange,
-        handleSubmit, handleReset,
-        showModal, handleShowModal, handleCloseModal]
+    return [handleSubmit, handleReset,
+        showModal, setShowModalState]
 }

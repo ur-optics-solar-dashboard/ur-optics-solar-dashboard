@@ -6,51 +6,53 @@ import {
 } from 'recharts';
 // https://recharts.org/en-US/examples
 
-// https://github.com/tsayen/dom-to-image
-import domtoimage from 'dom-to-image';
 
 import { Resizable, ResizableBox } from 'react-resizable';
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 
 import arrowdown from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
 import copyicon from '../images/copy.svg';
-// import arrow from '../logo.svg';
-
-import {
-    useHistory,
-} from "react-router-dom";
 
 import '../App.css';
 import "./react-resizable.css";
 
 //todo change to only import individual components
 import { Button, Form, Collapse, Row, Col, OverlayTrigger, Tooltip as BSTooltip } from 'react-bootstrap';
-import FileSaver from 'file-saver';
 
+import { defaultGraphOptions, graphColors } from '../DefaultConstants';
+import { DataFormContext } from '../contexts/DataFormContext';
+import { useDownloadChartSubmit } from '../Hooks/useDownloadChartSubmit';
 
-const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines, graphColors,
-    downloadSelection, setDownloadSelection, handleChartSubmit,
-    defaultGraphOptions, graphOptions, setGraphOptions,
-    handleChartCheckFormChange,
-    copyLinkText, setCopyLinkText, createQuery }) => {
+/** @typedef StateSetter */
+/**
+ * Chart functional component to display data selected from DataSelection
+ * @param  {{graphData:, graphLines: Array.<string>, irridianceGraphLines: Array.<string>, meteorologicalGraphLines: Array.<string>, copyLinkText: string, setCopyLinkText: StateSetter, createQuery: function}} props
+ */
+const Chart = ({graphData, graphLines, 
+    irridianceGraphLines, meteorologicalGraphLines,
+    createQuery, copyLinkText, setCopyLinkText }) => {
 
+    const {graphTitle, scrollRef} = useContext(DataFormContext);
+
+    const [copiedState, setCopiedState] = useState(false);
+    const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
     const [size, setSize] = useState({ width: 1000, height: 600 })
     const onResize = (event, { element, size }) => {
         setSize({ width: size.width, height: size.height });
     }
+    const [downloadSelection, setDownloadSelection] = useState(0);
+
+    const [handleChartSubmit] = useDownloadChartSubmit({downloadSelection, graphData});
 
     //
     //initialize stuff
     //
     useEffect(() => {
-
         // api data
         // getGraph() // initial data
     }, [])
-
-    const [copiedState, setCopiedState] = useState(false)
 
     return (
         <div ref={scrollRef}>
@@ -136,7 +138,7 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                                 name={'legend'}
                                 checked={graphOptions["legend"]}
                                 label={'Legend'}
-                                onChange={handleChartCheckFormChange} />
+                                onChange={(event) => setGraphOptions({ ...graphOptions, [event.target.name]: event.target.checked })} />
 
                             {/* <Form.Check
                                 // todo: dots are very slow
@@ -259,29 +261,6 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                                                 dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
                                             />
                                         ))}
-
-                                    {/* <Line
-                        yAxisId="left"
-                        type="monotone"
-                        dataKey="Global Horizontal [W/m^2]"
-                        stroke="#8884d8"
-                        strokeWidth={graphOptions["line-thickness"]}
-                        fillOpacity={1}
-                        // fill="url(#colorUv)"
-                        type={"natural"}
-                        dot={false}
-                    />
-                    <Line
-                        yAxisId="left"
-                        type="monotone"
-                        dataKey="Direct Normal [W/m^2]"
-                        stroke="#82ca9d"
-                        strokeWidth={graphOptions["line-thickness"]}
-                        fillOpacity={1}
-                        // fill="url(#colorPv)"
-                        type={"natural"}
-                        dot={false}
-                    /> */}
                                 </LineChart>
                             </>
                         </div>

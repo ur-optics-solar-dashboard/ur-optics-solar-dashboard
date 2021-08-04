@@ -1,9 +1,11 @@
 import { useHistory, useLocation } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
+/**
+ * Header functional component
+ * @param  {} props
+ */
 const Header = (props) => {
-  let history = useHistory()
-  let location = useLocation()
   return (
     <header className={props.className}>
       {/* <h1

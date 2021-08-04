@@ -9,38 +9,37 @@ import {
 } from "react-router-dom";
 
 //hooks
-import useDateRangeSelection from '../Hooks/useDateRangeSelection';
 import { useSelectionForm } from '../Hooks/useSelectionForm';
 import moment from 'moment';
-import useChart from '../Hooks/useChart';
+import useGraph from '../Hooks/useGraph';
 
 // default values
-import { defaultDataForm } from '../DefaultValues';
+import { defaultDataForm,initialShowSelectionFalse } from '../DefaultConstants';
+
 import { DataFormContext } from '../contexts/DataFormContext';
 
-
+/**
+ * Graph Page component @ /graph
+ */
 const Graph = () => {
-  const scrollRef = useRef(null);
+  
   let location = useLocation()
   let query = new URLSearchParams(location.search);
 
-  const [dataForm, setDataFormState, ] = useContext(DataFormContext);
+  const {dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback} = useContext(DataFormContext);
 
-  // Predefined Date Ranges
-  // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
-  const [dateState, setDateState, ranges, handleDateCallback, dateReference, graphTitle, setGraphTitle] = useDateRangeSelection()
-
-  const [graphData, setGraphData, graphLines, setGraphLines,
-    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
-    graphColors,
-    downloadSelection, setDownloadSelection, handleChartSubmit,
-    defaultGraphOptions, graphOptions, setGraphOptions,
-    handleChartCheckFormChange] = useChart();
+  // 
+  const [graphData, setGraphData, graphLines, setGraphLines, 
+    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();
 
 
   //todo: handle interval ourselves because having them chose is a bit unreliable (can cause too many points to be rendered)
-  const [queryFetchString, setQueryFetchString]= useState(null);
+  const [queryFetchString, setQueryFetchString] = useState(null);
 
+  //todo: there is probably a way to clean up this stuff a bit more
+  /**
+   * Fetch chart data from backend and handle chart states
+   */
   const getChartData = () => {
     console.log("fetching data...");
     let query_fetch_array = [];
@@ -64,15 +63,15 @@ const Graph = () => {
         })
         .then(function (myJson) {
           // console.log("response json: ", myJson);
-          console.log("loading data...")
+          console.log("loading data...");
           setGraphTitle(dateState.label);
           
-          setGraphData(myJson["return_data"])
+          setGraphData(myJson["return_data"]);
 
-          setGraphLines(myJson["included_headers"])
+          setGraphLines(myJson["included_headers"]);
 
-          setIrridianceGraphLines(myJson["irridiance_headers"])
-          setMeteorologicalGraphLines(myJson["meteorological_headers"])
+          setIrridianceGraphLines(myJson["irridiance_headers"]);
+          setMeteorologicalGraphLines(myJson["meteorological_headers"]);
         });
 
     } else {
@@ -81,16 +80,8 @@ const Graph = () => {
     }
   }
 
-  const [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
-    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
-      {
-        handleDateCallback: handleDateCallback,
-        getChartData: getChartData,
-        scrollRef: scrollRef
-      })
-
-
-  const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
+  const [handleSubmit, handleReset,
+    showModal, setShowModalState] = useSelectionForm({getChartData: getChartData});
 
   /**
    * parse query from the URL and replace localstorage values
@@ -120,7 +111,8 @@ const Graph = () => {
     }
 
   }
-// http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
+
+  // example: http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
   /**
    * Create a link from the current graph query
    * @returns {string} link
@@ -132,13 +124,7 @@ const Graph = () => {
     return 'http://localhost:3000/graph'
   }
 
-  const [
-    /**
-     * 
-     */
-    queryData, 
-    setQueryData
-  ] = useState(false)
+  const [queryData, setQueryData] = useState(false)
 
   const [copyLinkText, setCopyLinkText] = useState(createQuery());
 
@@ -179,21 +165,15 @@ const Graph = () => {
         <section className="App-main-section" id="App-main-data">
           <DataSelection
             //todo useContext to pass these props stuff down?
-            dateState={dateState} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference} // handles
-            handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange} //date functions
             handleSubmit={handleSubmit} handleReset={handleReset}
-            initialShowSelection={initialShowSelection}
-            showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />
+            initialShowSelection={initialShowSelectionFalse}
+            showModal={showModal} setShowModalState={setShowModalState} />
         </section>
         <div style={{ paddingBottom: "100px" }}></div>
         <section id="App-main-graph" style={{ width: "100%" }} >
-          <Chart scrollRef={scrollRef} graphTitle={graphTitle}
-            graphData={graphData} setGraphData={setGraphData} graphLines={graphLines} setGraphLines={setGraphLines}
-            irridianceGraphLines={irridianceGraphLines} setIrridianceGraphLines={setIrridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines} setMeteorologicalGraphLines={setMeteorologicalGraphLines}
-            graphColors={graphColors}
-            downloadSelection={downloadSelection} setDownloadSelection={setDownloadSelection} handleChartSubmit={handleChartSubmit}
-            defaultGraphOptions={defaultGraphOptions} graphOptions={graphOptions} setGraphOptions={setGraphOptions}
-            handleChartCheckFormChange={handleChartCheckFormChange}
+          <Chart
+            graphData={graphData} graphLines={graphLines}
+            irridianceGraphLines={irridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines}
             createQuery={createQuery} copyLinkText={copyLinkText} setCopyLinkText={setCopyLinkText} />
         </section>
         <div style={{ paddingBottom: "32px" }} ></div>

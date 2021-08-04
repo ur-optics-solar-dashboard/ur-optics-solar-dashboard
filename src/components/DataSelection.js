@@ -16,70 +16,43 @@ import arrowup from '../images/up-arrow.svg';
 import arrowright from '../images/keyboard-right-arrow-button.svg';
 import closebutton from '../images/close.svg';
 import { DataFormContext } from '../contexts/DataFormContext';
+import { ranges } from '../DefaultConstants';
+import useDateShift from '../Hooks/useDateShift';
+import useHandleDataSelectionForm from '../Hooks/useHandleDataSelectionForm';
 
-
-const DataSelection = ({dateState, dateReference, ranges, handleDateCallback,
-    handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
+/** @typedef StateSetter */
+/**
+ * DataSelection functional component to handle data selection form process
+ * @param  {{ handleSubmit: Function, handleReset: Function, initialShowSelection: object, showModal: boolean, setShowModalState: StateSetter}} props
+ */
+const DataSelection = ({
+    handleSubmit, handleReset,
     initialShowSelection,
-    showModal, handleShowModal, handleCloseModal}) => {
+    showModal, setShowModalState}) => {
     
     // button styles
     const button_cal_styles = { backgroundColor: "transparent", boxShadow: "none", borderColor: "transparent", color: "#003B71", padding: "5px" }
 
-    const [dataForm, setDataFormState] = useContext(DataFormContext);
+    const {dataForm, dateState, dateReference, handleDateCallback} = useContext(DataFormContext);
 
     const [show, setShow] = useState(initialShowSelection);
 
-    const handleDataShowSelection = () => {
-        if (!show.showDataSelection) {
-            setShow({ showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true })
-        } else {
-            setShow({ ...show, showDataSelection: false })
-        }
-    }
+    const [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange] = useHandleDataSelectionForm();
 
-    /**
-     */
-    const previousDay = () => {
-        handleDateCallback(dateState.start.subtract(1, 'days'), dateState.end.subtract(1, 'days'), "Custom Range");
-    }
-
-    /**
-     */
-    const nextDay = () => {
-        handleDateCallback(dateState.start.add(1, 'days'), dateState.end.add(1, 'days'), "Custom Range");
-    }
-
-    /**
-     */
-    const previousMonth = () => {
-        handleDateCallback(dateState.start.subtract(1, 'month').startOf('month'), dateState.end.subtract(1, 'month').endOf('month'), "Custom Range");
-    }
-
-    /**
-     */
-    const nextMonth = () => {
-        handleDateCallback(dateState.start.add(1, 'month').startOf('month'), dateState.end.add(1, 'month').endOf('month'), "Custom Range");
-    }
-
-    /**
-     */
-    const previousYear = () => {
-        handleDateCallback(dateState.start.subtract(1, 'year').startOf('year'), dateState.end.subtract(1, 'year').endOf('year'), "Custom Range");
-    }
-
-    /**
-     */
-    const nextYear = () => {
-        handleDateCallback(dateState.start.add(1, 'year').startOf('year'), dateState.end.add(1, 'year').endOf('year'), "Custom Range");
-    }
+    const [previousDay, nextDay, previousMonth, nextMonth, previousYear, nextYear] = useDateShift();
 
 
     return (
         <div>
             <h2
                 style={{ cursor: "pointer" }}
-                onClick={handleDataShowSelection}>
+                onClick={() => {
+                    if (!show.showDataSelection) {
+                        setShow({ showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true })
+                    } else {
+                        setShow({ ...show, showDataSelection: false })
+                    }
+                }}>
                 Data Selection
                 {/* <i className={show.showDataSelection ? "arrow down": "arrow up"}></i> */}
                 <img src={show.showDataSelection ? arrowup : arrow} alt={show.showDataSelection ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
@@ -370,12 +343,12 @@ const DataSelection = ({dateState, dateReference, ranges, handleDateCallback,
                                     <Button variant="primary" onClick={handleSubmit} type="submit">Submit</Button>{' '}
                                     <Button variant="outline-primary" onClick={handleReset}>Reset</Button>{' '}
 
-                                    <Modal show={showModal} onHide={handleCloseModal}>
+                                    <Modal show={showModal} onHide={() => {setShowModalState(false)}}>
                                         <Modal.Header>
                                             <Modal.Title>Error</Modal.Title>
                                             <img src={closebutton} height={20} width={20}
                                                 alt={"Close Modal"}
-                                                onClick={handleCloseModal}
+                                                onClick={() => {setShowModalState(false)}}
                                                 style={{ alignSelf: "flex-end", marginBottom: "5px", marginRight: "10px", cursor: "pointer" }}></img>
                                         </Modal.Header>
                                         <Modal.Body>No selection was made</Modal.Body>
