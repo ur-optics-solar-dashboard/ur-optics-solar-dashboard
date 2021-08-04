@@ -6,7 +6,7 @@ import Graph from './routes/Graph';
 import Live from './routes/Live';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { GlobalProvider } from './contexts/GlobalContext';
+import { DataFormProvider } from './contexts/DataFormContext';
 
 // now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })
 import moment from 'moment';
@@ -14,7 +14,7 @@ import moment from 'moment';
 moment.tz.setDefault("America/New_York");
 
 ReactDOM.render(
-  <GlobalProvider>
+  <DataFormProvider>
     <Router>
       <Switch>
         <Route path="/graph">
@@ -28,7 +28,7 @@ ReactDOM.render(
         </Route>
       </Switch>
     </Router>
-  </GlobalProvider>,
+  </DataFormProvider>,
   document.getElementById('root')
 );
 

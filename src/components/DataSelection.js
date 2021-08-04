@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 //todo change to only import individual components
 import { Button, Row, Col, Container, Form, FormGroup, Collapse, Modal } from 'react-bootstrap';
@@ -15,16 +15,18 @@ import arrow from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
 import arrowright from '../images/keyboard-right-arrow-button.svg';
 import closebutton from '../images/close.svg';
+import { DataFormContext } from '../contexts/DataFormContext';
 
 
 const DataSelection = ({dateState, dateReference, ranges, handleDateCallback,
-    dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
+    handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
     initialShowSelection,
     showModal, handleShowModal, handleCloseModal}) => {
     
     // button styles
     const button_cal_styles = { backgroundColor: "transparent", boxShadow: "none", borderColor: "transparent", color: "#003B71", padding: "5px" }
 
+    const [dataForm, setDataFormState] = useContext(DataFormContext);
 
     const [show, setShow] = useState(initialShowSelection);
 

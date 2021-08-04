@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 
 import Header from '../Components/Header';
 import DataSelection from '../Components/DataSelection';
@@ -16,12 +16,15 @@ import useChart from '../Hooks/useChart';
 
 // default values
 import { defaultDataForm } from '../DefaultValues';
+import { DataFormContext } from '../contexts/DataFormContext';
 
 
 const Graph = () => {
   const scrollRef = useRef(null);
   let location = useLocation()
   let query = new URLSearchParams(location.search);
+
+  const [dataForm, setDataFormState, ] = useContext(DataFormContext);
 
   // Predefined Date Ranges
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
@@ -78,10 +81,9 @@ const Graph = () => {
     }
   }
 
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
+  const [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
     showModal, handleShowModal, handleCloseModal] = useSelectionForm(
       {
-        initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
         handleDateCallback: handleDateCallback,
         getChartData: getChartData,
         scrollRef: scrollRef
@@ -90,7 +92,6 @@ const Graph = () => {
 
   const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
 
-  // todo: parse query parameters before using the dataForm internal storage for sharable links
   /**
    * parse query from the URL and replace localstorage values
    */
@@ -178,9 +179,8 @@ const Graph = () => {
         <section className="App-main-section" id="App-main-data">
           <DataSelection
             //todo useContext to pass these props stuff down?
-            dateState={dateState} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
-            dataForm={dataForm} setDataFormState={setDataFormState}
-            handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
+            dateState={dateState} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference} // handles
+            handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange} //date functions
             handleSubmit={handleSubmit} handleReset={handleReset}
             initialShowSelection={initialShowSelection}
             showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />

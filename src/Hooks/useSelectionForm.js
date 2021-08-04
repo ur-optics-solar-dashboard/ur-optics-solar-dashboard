@@ -7,21 +7,15 @@ import {
     useLocation,
 } from "react-router-dom";
 import moment from 'moment';
+import { DataFormContext } from '../contexts/DataFormContext';
 
-export const useSelectionForm = ({ initialDataForm, handleDateCallback, getChartData, scrollRef }) => {
+export const useSelectionForm = ({ handleDateCallback, getChartData, scrollRef }) => {
     let history = useHistory();
     let location = useLocation();
     //
     //Data Form stuff
     //
-
-
-    const [dataForm, setDataFormState] = useState(initialDataForm);
-
-    useEffect(() => {
-        localStorage.setItem('dataForm', JSON.stringify(dataForm)); //set in Storage each update
-        // console.log("dataForm: ", dataForm);
-    }, [dataForm]);
+    const [dataForm, setDataFormState] = useContext(DataFormContext);
     
     /**
      * handle when the checkboxes changes in the form
@@ -121,7 +115,7 @@ export const useSelectionForm = ({ initialDataForm, handleDateCallback, getChart
         localStorage.removeItem("dateEnd")
     }
 
-    return [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange,
+    return [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange,
         handleSubmit, handleReset,
         showModal, handleShowModal, handleCloseModal]
 }

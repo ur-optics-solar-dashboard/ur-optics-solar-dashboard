@@ -36,46 +36,6 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
     handleChartCheckFormChange,
     copyLinkText, setCopyLinkText, createQuery }) => {
 
-    function grayscale(image, bPlaceImage) {
-        var myCanvas = document.createElement("canvas");
-        var myCanvasContext = myCanvas.getContext("2d");
-
-        var imgWidth = image.width;
-        var imgHeight = image.height;
-        // You'll get some string error if you fail to specify the dimensions
-        myCanvas.width = imgWidth;
-        myCanvas.height = imgHeight;
-        //  alert(imgWidth);
-        myCanvasContext.drawImage(image, 0, 0);
-
-        // This function cannot be called if the image is not rom the same domain.
-        // You'll get security error if you do.
-        var imageData = myCanvasContext.getImageData(0, 0, imgWidth, imgHeight);
-
-        // This loop gets every pixels on the image and
-        for (let j = 0; j < imageData.height; j++) {
-            for (let i = 0; i < imageData.width; i++) {
-                var index = (i * 4) * imageData.width + (j * 4);
-                var red = imageData.data[index];
-                var green = imageData.data[index + 1];
-                var blue = imageData.data[index + 2];
-                var alpha = imageData.data[index + 3];
-                var average = (red + green + blue) / 3;
-                imageData.data[index] = average;
-                imageData.data[index + 1] = average;
-                imageData.data[index + 2] = average;
-                imageData.data[index + 3] = alpha;
-            }
-        }
-
-        if (bPlaceImage) {
-            var myDiv = document.createElement("div");
-            myDiv.appendChild(myCanvas);
-            image.parentNode.appendChild(myCanvas);
-        }
-        return myCanvas.toDataURL();
-    }
-
     const [size, setSize] = useState({ width: 1000, height: 600 })
     const onResize = (event, { element, size }) => {
         setSize({ width: size.width, height: size.height });

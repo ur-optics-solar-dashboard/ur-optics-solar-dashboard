@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 
 import Header from '../Components/Header';
 import LiveMeasurements from '../Components/LiveMeasurements';
@@ -14,6 +14,7 @@ import { defaultDataForm } from '../DefaultValues';
 
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { DataFormContext } from '../contexts/DataFormContext';
 
 /**
  * import individual components
@@ -32,6 +33,8 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 function App() {
   //todo define the structure before... maybe I should use middleware instead?
+
+  const [dataForm, setDataFormState] = useContext(DataFormContext);
   const [solarData, setSoloarData] = useState({
     'time': "",
     'irradiance': {
@@ -66,11 +69,7 @@ function App() {
     }
   });
 
-  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion")==="true" || false)
-  useEffect(() => {
-    localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
-    // console.log("liveConversion: ", liveConversion);
-  }, [liveConversion]);
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion")==="true" || false);
 
   const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
 
@@ -91,13 +90,11 @@ function App() {
 
   // Predefined Date Ranges
   // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
-  const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection()
+  const [dateState, setDateState, ranges, handleDateCallback, dateReference] = useDateRangeSelection();
 
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, 
+  const [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset, 
     showModal, handleShowModal, handleCloseModal] = useSelectionForm(
     {
-      initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
-      defaultDataForm: defaultDataForm,
       handleDateCallback: handleDateCallback
     })
 
@@ -107,8 +104,14 @@ function App() {
   //initialize stuff
   //
   useEffect(() => {
+    localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
+    // console.log("liveConversion: ", liveConversion);
+  }, [liveConversion]);
+
+  useEffect(() => {
     // console.log(ranges[localStorage.getItem("dateRangeLabel")][0])
     // api data
+
     getData() // initial data
 
     const interval = setInterval(() => { //every 1 minute will request for the data again
@@ -118,7 +121,7 @@ function App() {
     return () => clearInterval(interval)
   }, [])
 
-  // todo handle Events
+  // handle Events
   // Raw Data radio should disable all checkboxes... and graph radio?
   // English conversion should be linked to the other checkboxes, also convert the live data
   // reset button resets all checkboxes and radio to default
