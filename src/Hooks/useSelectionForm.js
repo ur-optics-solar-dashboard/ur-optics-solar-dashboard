@@ -1,43 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+
+import { defaultDataForm } from '../DefaultConstants';
 
 import {
     useHistory,
     useLocation,
 } from "react-router-dom";
 import moment from 'moment';
+import { DataFormContext } from '../contexts/DataFormContext';
 
-export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, setDateState, handleDateCallback, getChartData, scrollRef, setGraphTitle }) => {
+/** @typedef StateSetter */
+/**
+ * Custom Hook that handles button presses that interacts outside of DataSelection.js
+ * @param  {{getChartData: function}} props
+ * @returns {[handleSubmit: function, handleReset: function, showModal: boolean, setShowModalState: StateSetter]} array
+ */
+export const useSelectionForm = ({ getChartData }) => {
     let history = useHistory();
     let location = useLocation();
+
     //
     //Data Form stuff
     //
+    const {dataForm, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);
+    const [showModal, setShowModalState] = useState(false);
 
-    const [dataForm, setDataFormState] = useState(initialDataForm)
-
-    useEffect(() => {
-        localStorage.setItem('dataForm', JSON.stringify(dataForm)); //set in Storage each update
-        // console.log("dataForm: ", dataForm);
-    }, [dataForm]);
-
-    const handleCheckFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.checked }); }
-    const handleRadioFormChange = (event) => { setDataFormState({ ...dataForm, [event.target.name]: event.target.value }); }
-    const handleRawDataCheckChange = (event) => {
-        if (dataForm["output-group"] === "1") {
-            //todo strange bug, for some reason, this line of code does not work if I have the regular setdataformstate. 
-            // Workaround: detect if raw data === true and outputgroup === 1, then we assume outputgroup = 2
-            setDataFormState({ ...dataForm, ["output-group"]: "2" });
-        }
-        setDataFormState({ ...dataForm, [event.target.name]: event.target.checked });
-    }
-
-    const [showModal, setShowModal] = useState(false);
-    const handleShowModal = () => setShowModal(true);
-    const handleCloseModal = () => setShowModal(false);
-
+    /**
+     * handle when the submit button is clicked
+     * @param  {} event
+     */
     const handleSubmit = (event) => {
-
-        console.log(location.pathname);
+        // console.log(location.pathname);
 
         let noSelection = true
 
@@ -51,7 +44,7 @@ export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, 
         }
 
         if (noSelection) {
-            handleShowModal();
+            setShowModalState(false);
         } else {
             //handle bug
             if (dataForm["output-raw"] && dataForm["output-group"] === "1") {
@@ -76,24 +69,21 @@ export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, 
                         if(location.pathname !== "/graph"){
                             history.push("/graph");   
                         }else{
-                            setGraphTitle(dateState.label)
+                            // if we are already at graph, then we have to recall getChartData() from the backend
                             getChartData();
                             scrollRef.current.scrollIntoView();
                         }
                     }
             }
         }
-
-
-        // if (dataForm["output-group"] === "1") {
-        //   history.push("/graph")
-        // }
-        // setCheckedItems({...checkedItems, [event.target.name] : event.target.checked });
     }
 
+    /**
+     * handle when the reset button is clicked
+     * @param  {} event
+     */
     const handleReset = (event) => {
         setDataFormState(defaultDataForm)
-        // setDateState({ start, end });
         const start = moment()
         const end = moment()
         handleDateCallback(start, end, "Today") //reset back to initial value
@@ -101,10 +91,8 @@ export const useSelectionForm = ({ initialDataForm, defaultDataForm, dateState, 
         localStorage.removeItem("dateRangeLabel")
         localStorage.removeItem("dateStart")
         localStorage.removeItem("dateEnd")
-        // history.push("/");
     }
 
-    return [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange,
-        handleSubmit, handleReset,
-        showModal, handleShowModal, handleCloseModal]
+    return [handleSubmit, handleReset,
+        showModal, setShowModalState]
 }

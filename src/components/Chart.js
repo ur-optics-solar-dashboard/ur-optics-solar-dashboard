@@ -6,91 +6,86 @@ import {
 } from 'recharts';
 // https://recharts.org/en-US/examples
 
-// https://github.com/tsayen/dom-to-image
-import domtoimage from 'dom-to-image';
 
 import { Resizable, ResizableBox } from 'react-resizable';
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 
 import arrowdown from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
-// import arrow from '../logo.svg';
-
-import {
-    useHistory,
-} from "react-router-dom";
+import copyicon from '../images/copy.svg';
 
 import '../App.css';
 import "./react-resizable.css";
 
 //todo change to only import individual components
-import { Button, Form, Collapse, Row, Col } from 'react-bootstrap';
-import FileSaver from 'file-saver';
+import { Button, Form, Collapse, Row, Col, OverlayTrigger, Tooltip as BSTooltip } from 'react-bootstrap';
 
+import { defaultGraphOptions, graphColors } from '../DefaultConstants';
+import { DataFormContext } from '../contexts/DataFormContext';
+import { useDownloadChartSubmit } from '../Hooks/useDownloadChartSubmit';
 
-const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines, graphColors,
-    downloadSelection, setDownloadSelection, handleChartSubmit,
-    defaultGraphOptions, graphOptions, setGraphOptions,
-    handleChartCheckFormChange }) => {
+/** @typedef StateSetter */
+/**
+ * Chart functional component to display data selected from DataSelection
+ * @param  {{graphData:, graphLines: Array.<string>, irridianceGraphLines: Array.<string>, meteorologicalGraphLines: Array.<string>, copyLinkText: string, setCopyLinkText: StateSetter, createQuery: function}} props
+ */
+const Chart = ({graphData, graphLines, 
+    irridianceGraphLines, meteorologicalGraphLines,
+    createQuery, copyLinkText, setCopyLinkText }) => {
 
-    function grayscale(image, bPlaceImage) {
-        var myCanvas = document.createElement("canvas");
-        var myCanvasContext = myCanvas.getContext("2d");
+    const {graphTitle, scrollRef} = useContext(DataFormContext);
 
-        var imgWidth = image.width;
-        var imgHeight = image.height;
-        // You'll get some string error if you fail to specify the dimensions
-        myCanvas.width = imgWidth;
-        myCanvas.height = imgHeight;
-        //  alert(imgWidth);
-        myCanvasContext.drawImage(image, 0, 0);
-
-        // This function cannot be called if the image is not rom the same domain.
-        // You'll get security error if you do.
-        var imageData = myCanvasContext.getImageData(0, 0, imgWidth, imgHeight);
-
-        // This loop gets every pixels on the image and
-        for (let j = 0; j < imageData.height; j++) {
-            for (let i = 0; i < imageData.width; i++) {
-                var index = (i * 4) * imageData.width + (j * 4);
-                var red = imageData.data[index];
-                var green = imageData.data[index + 1];
-                var blue = imageData.data[index + 2];
-                var alpha = imageData.data[index + 3];
-                var average = (red + green + blue) / 3;
-                imageData.data[index] = average;
-                imageData.data[index + 1] = average;
-                imageData.data[index + 2] = average;
-                imageData.data[index + 3] = alpha;
-            }
-        }
-
-        if (bPlaceImage) {
-            var myDiv = document.createElement("div");
-            myDiv.appendChild(myCanvas);
-            image.parentNode.appendChild(myCanvas);
-        }
-        return myCanvas.toDataURL();
-    }
-
+    const [copiedState, setCopiedState] = useState(false);
+    const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
     const [size, setSize] = useState({ width: 1000, height: 600 })
     const onResize = (event, { element, size }) => {
         setSize({ width: size.width, height: size.height });
     }
+    const [downloadSelection, setDownloadSelection] = useState(0);
+
+    const [handleChartSubmit] = useDownloadChartSubmit({downloadSelection, graphData});
 
     //
     //initialize stuff
     //
     useEffect(() => {
-
         // api data
         // getGraph() // initial data
     }, [])
 
     return (
         <div ref={scrollRef}>
-            <h2>Graph</h2>
+            <h2>Graph
+                <OverlayTrigger
+                    // placement="auto"
+                    placement="bottom-start"
+                    delay={{ show: 50, hide: 100 }}
+                    overlay={<BSTooltip id="button-tooltip">{copiedState ?  "Copied!": copyLinkText}</BSTooltip>}
+                    onToggle={(show) => {
+                        if(!show){
+                            console.log("onHide");
+                            setCopyLinkText(createQuery());
+                            setCopiedState(false);
+                        }else{
+                            console.log("onshow");
+                        }
+                    }}
+                >
+                    {/* <Button variant="success">Hover me to see</Button> */}
+                    <img alt="copy icon" src={copyicon} style={{ marginLeft: "10px", cursor: "pointer" }} width={20} height={20}
+                    onClick={() => {
+                        navigator.clipboard.writeText(copyLinkText)
+                        .then(() => {
+                            setCopiedState(true);
+                        })
+                        .catch(err => {
+                            console.log('Something went wrong', err);
+                        });
+                    }}
+                    />
+                </OverlayTrigger>
+            </h2>
             <div style={{ marginLeft: "24px" }}>
                 <h4
                     style={{ opacity: "0.75", cursor: "pointer" }}
@@ -144,7 +139,7 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                                 name={'legend'}
                                 checked={graphOptions["legend"]}
                                 label={'Legend'}
-                                onChange={handleChartCheckFormChange} />
+                                onChange={(event) => setGraphOptions({ ...graphOptions, [event.target.name]: event.target.checked })} />
 
                             {/* <Form.Check
                                 // todo: dots are very slow
@@ -179,116 +174,96 @@ const Chart = ({ scrollRef, graphTitle, graphData, graphLines, irridianceGraphLi
                         }}
                     >
                         <div id="lineChart">
-                        <h3 style={{ paddingTop: 12 }}>{graphTitle}</h3>
-                        <ResponsiveContainer width={size.width} height={size.height}>
-                            <LineChart
-                                data={graphData}
-                                margin={{ top: 24, right: 128, left: 64, bottom: 108 }}
-                            >
-                                <defs>
-                                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                                    </linearGradient>
-                                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                                        <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                                    </linearGradient>
-                                </defs>
-                                {/* TODO: Xaxis formatter, based on day, month, etc */}
-                                <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={graphOptions["font-size"] > 24 ? 359 : 179}
-                                    // interval={359} 
-                                    style={{ fontSize: graphOptions["font-size"] }}
-                                    height={36} />
+                            <h3 style={{ paddingTop: 12 }}>{graphTitle}</h3>
+                            <>
+                                <LineChart
+                                    data={graphData}
+                                    margin={{ top: 24, right: 128, left: 64, bottom: 108 }}
+                                    width={size.width} height={size.height}
+                                >
+                                    <defs>
+                                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                                        </linearGradient>
+                                        <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                                            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    {/* TODO: Xaxis formatter, based on day, month, etc */}
+                                    <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={graphOptions["font-size"] > 24 ? 359 : 179}
+                                        // interval={359} 
+                                        style={{ fontSize: graphOptions["font-size"] }}
+                                        height={36} />
 
-                                <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439}
-                                    // interval={1439} 
-                                    // label="America/New_York"
-                                    // dy={10}
-                                    // height={64}
-                                    style={{ fontSize: graphOptions["font-size"] }} >
-                                    <Label dy={20} value="America/New_York" offset={0} position="insideBottom" style={{ fontSize: graphOptions["font-size"] }} />
-                                </XAxis>
+                                    <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439}
+                                        // interval={1439} 
+                                        // label="America/New_York"
+                                        // dy={10}
+                                        // height={64}
+                                        style={{ fontSize: graphOptions["font-size"] }} >
+                                        <Label dy={20} value="America/New_York" offset={0} position="insideBottom" style={{ fontSize: graphOptions["font-size"] }} />
+                                    </XAxis>
 
 
-                                {(irridianceGraphLines.length === 0) ? null :
-                                    <YAxis yAxisId="left" label={<Label
-                                        value="Irridiance"
-                                        position="insideLeft"
-                                        angle={-90}
-                                        style={{ textAnchor: 'middle', fontSize: graphOptions["font-size"] }} />}
-                                    />}
+                                    {(irridianceGraphLines.length === 0) ? null :
+                                        <YAxis yAxisId="left" label={<Label
+                                            value="Irridiance"
+                                            position="insideLeft"
+                                            angle={-90}
+                                            style={{ textAnchor: 'middle', fontSize: graphOptions["font-size"] }} />}
+                                        />}
 
-                                {(meteorologicalGraphLines.length === 0) ? null :
-                                    <YAxis yAxisId="right" orientation="right" label={<Label
-                                        value="Meteorological"
-                                        position="insideRight"
-                                        angle={90}
-                                        style={{ textAnchor: 'middle', fontSize: graphOptions["font-size"] }} />}
-                                    />}
+                                    {(meteorologicalGraphLines.length === 0) ? null :
+                                        <YAxis yAxisId="right" orientation="right" label={<Label
+                                            value="Meteorological"
+                                            position="insideRight"
+                                            angle={90}
+                                            style={{ textAnchor: 'middle', fontSize: graphOptions["font-size"] }} />}
+                                        />}
 
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip />
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <Tooltip />
 
-                                {graphOptions["legend"] ?
-                                    <Legend dy={10}
-                                        //todo if I want to implement shapes, I have to make custom shapes along with legend
-                                        wrapperStyle={{ position: 'relative', marginTop: '16px' }}
-                                    />
-                                    : null}
-
-                                {(irridianceGraphLines.length === 0) ? null :
-                                    irridianceGraphLines.map((line_name, index) => (
-                                        <Line
-                                            yAxisId="left"
-                                            type="monotone"
-                                            dataKey={line_name}
-                                            stroke={graphColors[graphLines[line_name]]}
-                                            strokeWidth={graphOptions["line-thickness"]}
-                                            fillOpacity={1}
-                                            // fill="url(#colorUv)"
-                                            dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
+                                    {graphOptions["legend"] ?
+                                        <Legend dy={10}
+                                            //todo if I want to implement shapes, I have to make custom shapes along with legend
+                                            wrapperStyle={{ position: 'relative', marginTop: '16px' }}
                                         />
-                                    ))}
+                                        : null}
 
-                                {(meteorologicalGraphLines.length === 0) ? null :
-                                    meteorologicalGraphLines.map((line_name, index) => (
-                                        <Line
-                                            yAxisId="right"
-                                            type="linear"
-                                            dataKey={line_name}
-                                            stroke={graphColors[graphLines[line_name]]}
-                                            strokeWidth={graphOptions["line-thickness"]}
-                                            fillOpacity={1}
-                                            // fill="url(#colorUv)"
-                                            dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
-                                        />
-                                    ))}
+                                    {(irridianceGraphLines.length === 0) ? null :
+                                        irridianceGraphLines.map((line_name, index) => (
+                                            <Line
+                                                yAxisId="left"
+                                                type="monotone"
+                                                key={`left-${line_name}`}
+                                                dataKey={line_name}
+                                                stroke={graphColors[graphLines[line_name]]}
+                                                strokeWidth={graphOptions["line-thickness"]}
+                                                fillOpacity={1}
+                                                // fill="url(#colorUv)"
+                                                dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
+                                            />
+                                        ))}
 
-                                {/* <Line
-                        yAxisId="left"
-                        type="monotone"
-                        dataKey="Global Horizontal [W/m^2]"
-                        stroke="#8884d8"
-                        strokeWidth={graphOptions["line-thickness"]}
-                        fillOpacity={1}
-                        // fill="url(#colorUv)"
-                        type={"natural"}
-                        dot={false}
-                    />
-                    <Line
-                        yAxisId="left"
-                        type="monotone"
-                        dataKey="Direct Normal [W/m^2]"
-                        stroke="#82ca9d"
-                        strokeWidth={graphOptions["line-thickness"]}
-                        fillOpacity={1}
-                        // fill="url(#colorPv)"
-                        type={"natural"}
-                        dot={false}
-                    /> */}
-                            </LineChart>
-                        </ResponsiveContainer>
+                                    {(meteorologicalGraphLines.length === 0) ? null :
+                                        meteorologicalGraphLines.map((line_name, index) => (
+                                            <Line
+                                                yAxisId="right"
+                                                type="linear"
+                                                key={`right-${line_name}`}
+                                                dataKey={line_name}
+                                                stroke={graphColors[graphLines[line_name]]}
+                                                strokeWidth={graphOptions["line-thickness"]}
+                                                fillOpacity={1}
+                                                // fill="url(#colorUv)"
+                                                dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
+                                            />
+                                        ))}
+                                </LineChart>
+                            </>
                         </div>
                     </div>
                 </Resizable>

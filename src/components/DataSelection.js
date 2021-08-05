@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 //todo change to only import individual components
 import { Button, Row, Col, Container, Form, FormGroup, Collapse, Modal } from 'react-bootstrap';
@@ -15,55 +15,44 @@ import arrow from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
 import arrowright from '../images/keyboard-right-arrow-button.svg';
 import closebutton from '../images/close.svg';
+import { DataFormContext } from '../contexts/DataFormContext';
+import { ranges } from '../DefaultConstants';
+import useDateShift from '../Hooks/useDateShift';
+import useHandleDataSelectionForm from '../Hooks/useHandleDataSelectionForm';
 
-
-const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, label,
-    dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
+/** @typedef StateSetter */
+/**
+ * DataSelection functional component to handle data selection form process
+ * @param  {{ handleSubmit: Function, handleReset: Function, initialShowSelection: object, showModal: boolean, setShowModalState: StateSetter}} props
+ */
+const DataSelection = ({
+    handleSubmit, handleReset,
     initialShowSelection,
-    showModal, handleShowModal, handleCloseModal }) => {
-    const [show, setShow] = useState(initialShowSelection)
-
-    const handleDataShowSelection = () => {
-        if (!show.showDataSelection) {
-            setShow({ showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true })
-        } else {
-            setShow({ ...show, showDataSelection: false })
-        }
-    }
-
+    showModal, setShowModalState}) => {
+    
+    // button styles
     const button_cal_styles = { backgroundColor: "transparent", boxShadow: "none", borderColor: "transparent", color: "#003B71", padding: "5px" }
 
+    const {dataForm, dateState, dateReference, handleDateCallback} = useContext(DataFormContext);
 
-    const previousDay = () => {
-        handleDateCallback(start.subtract(1, 'days'), end.subtract(1, 'days'), "Custom Range");
-    }
+    const [show, setShow] = useState(initialShowSelection);
 
-    const nextDay = () => {
-        handleDateCallback(start.add(1, 'days'), end.add(1, 'days'), "Custom Range");
-    }
+    const [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange] = useHandleDataSelectionForm();
 
-    const previousMonth = () => {
-        handleDateCallback(start.subtract(1, 'month').startOf('month'), end.subtract(1, 'month').endOf('month'), "Custom Range");
-    }
-
-    const nextMonth = () => {
-        handleDateCallback(start.add(1, 'month').startOf('month'), end.add(1, 'month').endOf('month'), "Custom Range");
-    }
-
-    const previousYear = () => {
-        handleDateCallback(start.subtract(1, 'year').startOf('year'), end.subtract(1, 'year').endOf('year'), "Custom Range");
-    }
-
-    const nextYear = () => {
-        handleDateCallback(start.add(1, 'year').startOf('year'), end.add(1, 'year').endOf('year'), "Custom Range");
-    }
+    const [previousDay, nextDay, previousMonth, nextMonth, previousYear, nextYear] = useDateShift();
 
 
     return (
         <div>
             <h2
                 style={{ cursor: "pointer" }}
-                onClick={handleDataShowSelection}>
+                onClick={() => {
+                    if (!show.showDataSelection) {
+                        setShow({ showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true })
+                    } else {
+                        setShow({ ...show, showDataSelection: false })
+                    }
+                }}>
                 Data Selection
                 {/* <i className={show.showDataSelection ? "arrow down": "arrow up"}></i> */}
                 <img src={show.showDataSelection ? arrowup : arrow} alt={show.showDataSelection ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
@@ -79,7 +68,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                     // todo better predefined ranges that make sense for this product
                                     ref={dateReference}
                                     initialSettings={{
-                                        startDate: start.toDate(), endDate: end.toDate(), showDropdowns: true,
+                                        startDate: dateState.start.toDate(), endDate: dateState.end.toDate(), showDropdowns: true,
                                         ranges: ranges,
                                         minDate: moment().subtract(5, 'year').startOf('year'), maxDate: moment().toDate(), alwaysShowCalendars: true
                                     }}
@@ -97,7 +86,7 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                         }}
                                     >
                                         <i className="fa fa-calendar"></i>&nbsp;
-                                        <span>{label}</span> <i className="fa fa-caret-down"></i>
+                                        <span>{dateState.label}</span> <i className="fa fa-caret-down"></i>
                                     </div>
                                 </DateRangePicker>
                             </Col>
@@ -355,12 +344,12 @@ const DataSelection = ({ start, end, dateReference, ranges, handleDateCallback, 
                                     <Button variant="primary" onClick={handleSubmit} type="submit">Submit</Button>{' '}
                                     <Button variant="outline-primary" onClick={handleReset}>Reset</Button>{' '}
 
-                                    <Modal show={showModal} onHide={handleCloseModal}>
+                                    <Modal show={showModal} onHide={() => {setShowModalState(false)}}>
                                         <Modal.Header>
                                             <Modal.Title>Error</Modal.Title>
                                             <img src={closebutton} height={20} width={20}
                                                 alt={"Close Modal"}
-                                                onClick={handleCloseModal}
+                                                onClick={() => {setShowModalState(false)}}
                                                 style={{ alignSelf: "flex-end", marginBottom: "5px", marginRight: "10px", cursor: "pointer" }}></img>
                                         </Modal.Header>
                                         <Modal.Body>No selection was made</Modal.Body>

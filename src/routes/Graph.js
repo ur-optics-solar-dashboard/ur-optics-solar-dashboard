@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 
 import Header from '../Components/Header';
 import DataSelection from '../Components/DataSelection';
@@ -9,56 +9,39 @@ import {
 } from "react-router-dom";
 
 //hooks
-import useDateRangeSelection from '../Hooks/useDateRangeSelection';
 import { useSelectionForm } from '../Hooks/useSelectionForm';
 import moment from 'moment';
-import useChart from '../Hooks/useChart';
+import useGraph from '../Hooks/useGraph';
 
+// default values
+import { defaultDataForm,initialShowSelectionFalse } from '../DefaultConstants';
 
+import { DataFormContext } from '../contexts/DataFormContext';
+
+/**
+ * Graph Page component @ /graph
+ */
 const Graph = () => {
-  const scrollRef = useRef(null);
-
-  const executeScroll = () => scrollRef.current.scrollIntoView();
-
-  let query = new URLSearchParams(useLocation().search);
-
-  // Predefined Date Ranges
-  // https://projects.skratchdot.com/react-bootstrap-daterangepicker/?path=/story/daterangepicker--predefined-date-ranges
-  const [dateState, setDateState, ranges, handleDateCallback, dateReference, graphTitle, setGraphTitle] = useDateRangeSelection()
-
-  const defaultDataForm = {
-    "irradiance-global-horizontal": false,
-    "irradiance-direct-normal": false,
-    "irradiance-diffuse-horizontal": false,
-    "meteorological-pr1-temperature": false,
-    "meteorological-ph1-temperature": false,
-    "meteorological-pressure": false,
-    "meteorological-zenith-angle": false,
-    "meteorological-azimuth-angle": false,
-    "meteorological-razon-status": false,
-    "meteorological-razon-time": false,
-    "meteorological-logger-battery": false,
-    "meteorological-logger-temp": false,
-    "interval-group": "1",
-    "output-group": "1",
-    "output-raw": false,
-    "options-black-white": false,
-    "options-english-conversion": false,
-  }
-
   
-  const [graphData, setGraphData, graphLines, setGraphLines,
-    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
-    graphColors,
-    downloadSelection, setDownloadSelection, handleChartSubmit,
-    defaultGraphOptions, graphOptions, setGraphOptions,
-    handleChartCheckFormChange] = useChart();
+  let location = useLocation()
+  let query = new URLSearchParams(location.search);
+
+  const {dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback} = useContext(DataFormContext);
+
+  // 
+  const [graphData, setGraphData, graphLines, setGraphLines, 
+    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();
 
 
   //todo: handle interval ourselves because having them chose is a bit unreliable (can cause too many points to be rendered)
+  const [queryFetchString, setQueryFetchString] = useState(null);
+
+  //todo: there is probably a way to clean up this stuff a bit more
+  /**
+   * Fetch chart data from backend and handle chart states
+   */
   const getChartData = () => {
     console.log("fetching data...");
-
     let query_fetch_array = [];
     for (const field in dataForm) {
       if (dataForm[field] === true) {
@@ -66,50 +49,44 @@ const Graph = () => {
       }
     }
 
-    console.log("query_fetch_array", query_fetch_array)
-    if (query_fetch_array.length !== 0) {
+    const start = moment(dateState.start).format("YYYY-MM-DD");
+    const end = moment(dateState.end).format("YYYY-MM-DD");
 
-      fetch(`/graph?${query_fetch_array.join("&")}`)
+    // console.log("query_fetch_array", query_fetch_array)
+    if (query_fetch_array.length !== 0) {
+      // console.log("query:",`/graph?start=${start}&end=${end}&${query_fetch_array.join("&")}`)
+      fetch(`/graph?start=${start}&end=${end}&${query_fetch_array.join("&")}`)
         .then(function (response) {
           // console.log("response: ", response)
+          setQueryFetchString(`start=${start}&end=${end}&${query_fetch_array.join("&")}`);
           return response.json();
         })
         .then(function (myJson) {
           // console.log("response json: ", myJson);
-          console.log("loading data...")
-          setGraphData(myJson["return_data"])
+          console.log("loading data...");
+          setGraphTitle(dateState.label);
+          
+          setGraphData(myJson["return_data"]);
 
-          setGraphLines(myJson["included_headers"])
+          setGraphLines(myJson["included_headers"]);
 
-          setIrridianceGraphLines(myJson["irridiance_headers"])
-          setMeteorologicalGraphLines(myJson["meteorological_headers"])
+          setIrridianceGraphLines(myJson["irridiance_headers"]);
+          setMeteorologicalGraphLines(myJson["meteorological_headers"]);
         });
 
     } else {
-      console.log("no data selected")
-      setGraphTitle("No Data Selected")
+      console.log("no data selected");
+      setGraphTitle("No Data Selected");
     }
   }
 
-  const [dataForm, setDataFormState, handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange, handleSubmit, handleReset,
-    showModal, handleShowModal, handleCloseModal] = useSelectionForm(
-      {
-        initialDataForm: JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm,
-        defaultDataForm: defaultDataForm,
-        setDateState: setDateState,
-        handleDateCallback: handleDateCallback,
-        getChartData: getChartData,
-        scrollRef: scrollRef,
-        dateState: dateState,
-        setGraphTitle: setGraphTitle
-      })
+  const [handleSubmit, handleReset,
+    showModal, setShowModalState] = useSelectionForm({getChartData: getChartData});
 
-
-  // console.log("QWEFFFFF", query.get("qef") || JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm)
-  const initialShowSelection = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
-
-  // todo: parse query parameters before using the dataForm internal storage for sharable links
-  function parseQuerySetForm() {
+  /**
+   * parse query from the URL and replace localstorage values
+   */
+  async function parseQuerySetForm() {
     let change = false
     const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
 
@@ -117,11 +94,12 @@ const Graph = () => {
       const field_value = query.get(field);
       if (field_value !== null) {
         change = true
-        newQueryObj[field] = field_value
+        newQueryObj[field] = (field_value === "true")
       }
     }
 
     if (change) {
+      setQueryData(true);
       setDataFormState(newQueryObj);
     }
 
@@ -134,9 +112,41 @@ const Graph = () => {
 
   }
 
+  // example: http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
+  /**
+   * Create a link from the current graph query
+   * @returns {string} link
+   */
+  function createQuery() {
+    if(graphTitle!=="No Data Selected"){
+      return `http://localhost:3000/graph?${queryFetchString}`
+    }
+    return 'http://localhost:3000/graph'
+  }
+
+  const [queryData, setQueryData] = useState(false)
+
+  const [copyLinkText, setCopyLinkText] = useState(createQuery());
+
+  useEffect(() =>   {
+    setCopyLinkText(createQuery());
+  }, [queryFetchString]);
+
+  useEffect(() => {
+    if(queryData){
+      console.log("querying...")
+      getChartData();
+    }
+    setQueryData(false);
+  }, [dataForm]);
+
   useEffect(() => {
     parseQuerySetForm();
-    getChartData();
+    if(location.search === ""){ // no queries
+      if(!queryData){ // not currently querying data (and changing it)
+        getChartData();
+      }
+    }
   }, []);
 
   return (
@@ -155,22 +165,16 @@ const Graph = () => {
         <section className="App-main-section" id="App-main-data">
           <DataSelection
             //todo useContext to pass these props stuff down?
-            start={dateState.start} end={dateState.end} label={dateState.label} ranges={ranges} handleDateCallback={handleDateCallback} dateReference={dateReference}
-            dataForm={dataForm} setDataFormState={setDataFormState}
-            handleCheckFormChange={handleCheckFormChange} handleRadioFormChange={handleRadioFormChange} handleRawDataCheckChange={handleRawDataCheckChange}
             handleSubmit={handleSubmit} handleReset={handleReset}
-            initialShowSelection={initialShowSelection}
-            showModal={showModal} handleShowModal={handleShowModal} handleCloseModal={handleCloseModal} />
+            initialShowSelection={initialShowSelectionFalse}
+            showModal={showModal} setShowModalState={setShowModalState} />
         </section>
         <div style={{ paddingBottom: "100px" }}></div>
         <section id="App-main-graph" style={{ width: "100%" }} >
-          <Chart scrollRef={scrollRef} graphTitle={graphTitle}
-            graphData={graphData} setGraphData={setGraphData} graphLines={graphLines} setGraphLines={setGraphLines}
-            irridianceGraphLines={irridianceGraphLines} setIrridianceGraphLines={setIrridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines} setMeteorologicalGraphLines={setMeteorologicalGraphLines}
-            graphColors={graphColors}
-            downloadSelection={downloadSelection} setDownloadSelection={setDownloadSelection} handleChartSubmit={handleChartSubmit}
-            defaultGraphOptions={defaultGraphOptions} graphOptions={graphOptions} setGraphOptions={setGraphOptions}
-            handleChartCheckFormChange={handleChartCheckFormChange} />
+          <Chart
+            graphData={graphData} graphLines={graphLines}
+            irridianceGraphLines={irridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines}
+            createQuery={createQuery} copyLinkText={copyLinkText} setCopyLinkText={setCopyLinkText} />
         </section>
         <div style={{ paddingBottom: "32px" }} ></div>
       </main>

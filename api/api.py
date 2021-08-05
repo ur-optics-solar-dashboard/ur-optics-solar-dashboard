@@ -1,14 +1,35 @@
 import time
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import datetime
 import pytz
 import csv
+
+from flask_pymongo import PyMongo
+
 # my_date = datetime.datetime.now(pytz.timezone('US/New_York'))
+
+
 
 global counter
 counter = 0
 
 app = Flask(__name__)
+
+mongodb_client = PyMongo(app, uri="mongodb://localhost:27017/solar_dashboard_database")
+db = mongodb_client.db
+# db.test.insert_one({'title': "todo title", 'body': "todo body"})
+@app.route('/test_insert')
+def test_insert():
+    db.test.insert_one({'title': "todo title", 'body': "todo body"})
+    return jsonify(message="success")
+
+@app.route("/test_find")
+def home():
+    test = db.test.find()
+    for t in test:
+        print(t)
+    return jsonify([t for t in test])
+
 
 @app.route('/time')
 def get_current_time():
