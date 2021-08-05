@@ -4,8 +4,8 @@
 
 * [Figma](https://www.figma.com/file/29rFLNlgjcEXfhJ0YYqAzQ/Solar-Dashboard?node-id=0%3A1) created used [Bootstrap UI Kit](https://www.figma.com/community/file/876022745968684318)
 
-* Based on: <https://midcdmz.nrel.gov/apps/daily.pl?site=RAZON&live=1>
-    and <https://midcdmz.nrel.gov/apps/daily.pl?site=RAZON&start=20170216&yr=2021&mo=6&dy=29>
+* Based on: [NREL live](https://midcdmz.nrel.gov/apps/daily.pl?site=RAZON&live=1)
+    and [NREL daily](https://midcdmz.nrel.gov/apps/daily.pl?site=RAZON&start=20170216&yr=2021&mo=6&dy=29>)
 
 ### React
 
@@ -13,7 +13,7 @@
 
 * Created to look like a "Form," I guess
 
-* React-Bootstrap[https://react-bootstrap.github.io/] for UI Components
+* [React-Bootstrap](https://react-bootstrap.github.io/) for UI Components
 
 * [Recharts](https://recharts.org/en-US/) for charting
 
@@ -32,6 +32,10 @@
     * Raw Data: The raw data file of all the measurements (from Box?)
 
 * Live Data updates every 1 minute (we might not have this feature)
+
+Seperate scroll for side pane
+
+Center everything?
 
 ## Backend (TODO)
 
