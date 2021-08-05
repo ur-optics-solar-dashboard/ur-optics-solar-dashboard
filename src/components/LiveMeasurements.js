@@ -1,9 +1,87 @@
-import React from 'react'
+
 
 //todo change to only import individual components
+import { useState, useEffect } from 'react';
 import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form } from 'react-bootstrap';
 
-const LiveMeasurements = ({solarData, liveConversion, setLiveConversion, handleLiveCheckChange}) => {
+/**
+ * LiveMeasurements function component for providing live data every minute
+ */
+const LiveMeasurements = () => {
+
+  // note: the live measurement stuff doesn't interact with any other components
+  // Could also create a custom hook for this, but this should be alright, there isn't too much else to do
+  const [solarData, setSoloarData] = useState({
+    'time': "",
+    'irradiance': {
+      'global_horizontal': 0,
+      'direct_normal': 0,
+      'diffuse_horizontal': 0,
+    },
+    'meteorological': {
+      'pr1_temperature': 0,
+      'ph1_temperature': 0,
+      'pressure': 0,
+      'zenith_angle': 0,
+      'azimuth_angle': 0,
+      'razon_status': 0,
+      'razon_time': 0,
+      'logger_battery': 0,
+      'logger_temp': 0,
+    },
+    'units': {
+      'global_horizontal': "",
+      'direct_normal': "",
+      'diffuse_horizontal': "",
+      'pr1_temperature': "",
+      'ph1_temperature': "",
+      'pressure': "",
+      'zenith_angle': "",
+      'azimuth_angle': "",
+      'razon_status': "",
+      'razon_time': "",
+      'logger_battery': "",
+      'logger_temp': "",
+    }
+  });
+
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion")==="true" || false)
+  const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
+
+  /**
+   * Obtain data from /livedata endpoint (similar json as tempData)
+   */
+     const getData = () => {
+      fetch('/livedata')
+        .then(function (response) {
+          console.log("response: ", response)
+          return response.json();
+        })
+        .then(function (myJson) {
+          console.log("response json: ", myJson);
+          setSoloarData(myJson)
+        });
+    }
+
+  useEffect(() => {
+    localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
+    // console.log("liveConversion: ", liveConversion);
+  }, [liveConversion]);
+
+  //
+  //initialize stuff
+  //
+  useEffect(() => {
+    // api data
+    getData() // initial data
+
+    const interval = setInterval(() => { //every 1 minute will request for the data again
+      getData()
+    }, 60 * 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
     return (
         <div>
         <h2>Live Measurements</h2>
