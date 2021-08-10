@@ -5,7 +5,7 @@
 testing.py
 
 # secrets
-box_config_1.json
+api_keys/
 
 # dependencies
 /node_modules
