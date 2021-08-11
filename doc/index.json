@@ -1,0 +1,1188 @@
+[
+  {
+    "__docId__": 1,
+    "kind": "external",
+    "name": "Infinity",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Infinity",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Infinity",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "external",
+    "name": "NaN",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~NaN",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "external",
+    "name": "undefined",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~undefined",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "external",
+    "name": "null",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~null",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "external",
+    "name": "Object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "external",
+    "name": "object",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~object",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "external",
+    "name": "Function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "external",
+    "name": "function",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~function",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "external",
+    "name": "Boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "external",
+    "name": "boolean",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~boolean",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "external",
+    "name": "Symbol",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Symbol",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "external",
+    "name": "Error",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Error",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "external",
+    "name": "EvalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/EvalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~EvalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 14,
+    "kind": "external",
+    "name": "InternalError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/InternalError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~InternalError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 15,
+    "kind": "external",
+    "name": "RangeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RangeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 16,
+    "kind": "external",
+    "name": "ReferenceError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ReferenceError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ReferenceError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 17,
+    "kind": "external",
+    "name": "SyntaxError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/SyntaxError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~SyntaxError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 18,
+    "kind": "external",
+    "name": "TypeError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~TypeError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 19,
+    "kind": "external",
+    "name": "URIError",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/URIError",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~URIError",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 20,
+    "kind": "external",
+    "name": "Number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 21,
+    "kind": "external",
+    "name": "number",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~number",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 22,
+    "kind": "external",
+    "name": "Date",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Date",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 23,
+    "kind": "external",
+    "name": "String",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~String",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 24,
+    "kind": "external",
+    "name": "string",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~string",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 25,
+    "kind": "external",
+    "name": "RegExp",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~RegExp",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 26,
+    "kind": "external",
+    "name": "Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 27,
+    "kind": "external",
+    "name": "Int8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 28,
+    "kind": "external",
+    "name": "Uint8Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "external",
+    "name": "Uint8ClampedArray",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8ClampedArray",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint8ClampedArray",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "external",
+    "name": "Int16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "external",
+    "name": "Uint16Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint16Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint16Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 32,
+    "kind": "external",
+    "name": "Int32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Int32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Int32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "external",
+    "name": "Uint32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Uint32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "external",
+    "name": "Float32Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float32Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float32Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "external",
+    "name": "Float64Array",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Float64Array",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Float64Array",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "external",
+    "name": "Map",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Map",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "external",
+    "name": "Set",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Set",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "external",
+    "name": "WeakMap",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakMap",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "external",
+    "name": "WeakSet",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~WeakSet",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "external",
+    "name": "ArrayBuffer",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~ArrayBuffer",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 41,
+    "kind": "external",
+    "name": "DataView",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~DataView",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 42,
+    "kind": "external",
+    "name": "JSON",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~JSON",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 43,
+    "kind": "external",
+    "name": "Promise",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Promise",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 44,
+    "kind": "external",
+    "name": "Generator",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Generator",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 45,
+    "kind": "external",
+    "name": "GeneratorFunction",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/GeneratorFunction",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~GeneratorFunction",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 46,
+    "kind": "external",
+    "name": "Reflect",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Reflect",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 47,
+    "kind": "external",
+    "name": "Proxy",
+    "externalLink": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+    "memberof": "src/.external-ecmascript.js",
+    "static": true,
+    "longname": "src/.external-ecmascript.js~Proxy",
+    "access": "public",
+    "description": "",
+    "builtinExternal": true
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "src/Components/Header.js",
+    "content": "import { Nav } from \"react-bootstrap\";\r\n\r\n/**\r\n * Header functional component\r\n * @param  {} props\r\n */\r\nconst Header = (props) => {\r\n  return (\r\n    <header className={props.className}>\r\n      <Nav\r\n        activeKey=\"/\"\r\n        id=\"header-nav\">\r\n\r\n        <Nav.Item>\r\n          <Nav.Link style={{color:\"white\", fontSize:32, paddingLeft:0, fontWeight:\"bold\"}} href=\"/\">Home</Nav.Link>\r\n        </Nav.Item>\r\n        <Nav.Item>\r\n          <Nav.Link style={{color:\"white\", fontSize:32, fontWeight:\"bold\"}} href=\"/graph\">Graph</Nav.Link>\r\n        </Nav.Item>\r\n        <Nav.Item>\r\n          <Nav.Link style={{color:\"white\", fontSize:32, fontWeight:\"bold\"}} href=\"/live\">Live</Nav.Link>\r\n        </Nav.Item>\r\n      </Nav>\r\n    </header>\r\n  )\r\n}\r\n\r\nexport default Header",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/Components/Header.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "function",
+    "name": "Header",
+    "memberof": "src/Components/Header.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Components/Header.js~Header",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/Components/Header.js",
+    "importStyle": "Header",
+    "description": "Header functional component",
+    "lineNumber": 7,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 50,
+    "kind": "file",
+    "name": "src/Components/LiveMeasurements.js",
+    "content": "\r\n\r\n//todo change to only import individual components\r\nimport { useState, useEffect } from 'react';\r\nimport { Card, ListGroup, ListGroupItem, Row, Col, Container, Form } from 'react-bootstrap';\r\n\r\n/**\r\n * LiveMeasurements function component for providing live data every minute\r\n */\r\nconst LiveMeasurements = () => {\r\n\r\n  // note: the live measurement stuff doesn't really interact with any other components\r\n  // note 2: we probably wouldn't serve the live measurements in the final application\r\n  const [solarData, setSoloarData] = useState({\r\n    'time': \"\",\r\n    'irradiance': {\r\n      'global_horizontal': 0,\r\n      'direct_normal': 0,\r\n      'diffuse_horizontal': 0,\r\n    },\r\n    'meteorological': {\r\n      'pr1_temperature': 0,\r\n      'ph1_temperature': 0,\r\n      'pressure': 0,\r\n      'zenith_angle': 0,\r\n      'azimuth_angle': 0,\r\n      'razon_status': 0,\r\n      'razon_time': 0,\r\n      'logger_battery': 0,\r\n      'logger_temp': 0,\r\n    },\r\n    'units': {\r\n      'global_horizontal': \"\",\r\n      'direct_normal': \"\",\r\n      'diffuse_horizontal': \"\",\r\n      'pr1_temperature': \"\",\r\n      'ph1_temperature': \"\",\r\n      'pressure': \"\",\r\n      'zenith_angle': \"\",\r\n      'azimuth_angle': \"\",\r\n      'razon_status': \"\",\r\n      'razon_time': \"\",\r\n      'logger_battery': \"\",\r\n      'logger_temp': \"\",\r\n    }\r\n  });\r\n\r\n  const [liveConversion, setLiveConversion] = useState(localStorage.getItem(\"liveConversion\") === \"true\" || false)\r\n  const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }\r\n\r\n  /**\r\n   * Obtain data from /livedata endpoint\r\n  */\r\n  const getLiveData = () => {\r\n    fetch('/livedata')\r\n      .then(function (response) {\r\n        console.log(\"response: \", response)\r\n        return response.json();\r\n      })\r\n      .then(function (myJson) {\r\n        console.log(\"response json: \", myJson);\r\n        setSoloarData(myJson)\r\n      });\r\n  }\r\n\r\n  useEffect(() => {\r\n    localStorage.setItem('liveConversion', liveConversion); //set in Storage each update\r\n  }, [liveConversion]);\r\n\r\n  //\r\n  //initialize stuff\r\n  //\r\n  useEffect(() => {\r\n    // api data\r\n    getLiveData() // initial data\r\n\r\n    const interval = setInterval(() => { // every 1 minute will request for the data again\r\n      getLiveData()\r\n    }, 60 * 1000)\r\n\r\n    return () => clearInterval(interval) // clears interval when component is gone\r\n  }, [])\r\n\r\n  return (\r\n    <div>\r\n      <h2>Live Measurements</h2>\r\n      <Form.Check\r\n        type={'checkbox'}\r\n        id={'live-english-conversion'}\r\n        name={'live-english-conversion'}\r\n        checked={liveConversion}\r\n        label={'English Conversion'}\r\n        onChange={handleLiveCheckChange} />\r\n      <Container style={{ marginTop: \"24px\" }}>\r\n        <Row>\r\n          <Col>\r\n            <Card style={{ width: '18rem' }}>\r\n\r\n              <Card.Body>\r\n                <Card.Title><h3>Irradiance</h3></Card.Title>\r\n              </Card.Body>\r\n\r\n              <ListGroup className=\"list-group-flush\">\r\n                <ListGroupItem key={\"solarData.irradiance.global_horizontal\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Global Horizontal</div>\r\n                    <div>{solarData.irradiance.global_horizontal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.irradiance.direct_normal\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Direct Normal</div>\r\n                    <div>{solarData.irradiance.direct_normal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.irradiance.diffuse_horizontal\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Diffuse Horizontal</div>\r\n                    <div>{solarData.irradiance.diffuse_horizontal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n              </ListGroup>\r\n\r\n              <Card.Body>\r\n              </Card.Body>\r\n\r\n            </Card>\r\n          </Col>\r\n\r\n          <Col>\r\n            <Card style={{ width: '18rem' }}>\r\n\r\n              <Card.Body>\r\n                <Card.Title><h3>Meteorological</h3></Card.Title>\r\n              </Card.Body>\r\n\r\n              <ListGroup className=\"list-group-flush\">\r\n                <ListGroupItem key={\"solarData.meteorological.pr1_temperature\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>PR1 Temperature</div>\r\n                    <div>{solarData.meteorological.pr1_temperature} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.ph1_temperature\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>PH1 Temperature</div>\r\n                    <div>{solarData.meteorological.ph1_temperature} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.pressure\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Pressure</div>\r\n                    <div>{solarData.meteorological.pressure} <small style={{ fontWeight: 'lighter' }}>mBar</small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.zenith_angle\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Zenith Angle</div>\r\n                    <div>{solarData.meteorological.zenith_angle} &#176;<small style={{ fontWeight: 'lighter' }}></small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.azimuth_angle\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Azimuth Angle</div>\r\n                    <div>{solarData.meteorological.azimuth_angle} &#176;<small style={{ fontWeight: 'lighter' }}></small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.razon_status\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Razon Status</div>\r\n                    <div>{solarData.meteorological.razon_status} <small style={{ fontWeight: 'lighter' }}></small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.razon_time\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Razon Time</div>\r\n                    <div>{solarData.meteorological.razon_time} <small style={{ fontWeight: 'lighter' }}>hhmm</small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.logger_battery\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Logger Battery</div>\r\n                    <div>{solarData.meteorological.logger_battery} <small style={{ fontWeight: 'lighter' }}>VDC</small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n                <ListGroupItem key={\"solarData.meteorological.logger_temp\"}>\r\n                  <div className=\"d-flex justify-content-between\">\r\n                    <div style={{ fontWeight: 'bolder' }}>Logger Temp</div>\r\n                    <div>{solarData.meteorological.logger_temp} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>\r\n                  </div>\r\n                </ListGroupItem>\r\n              </ListGroup>\r\n\r\n              <Card.Body>\r\n              </Card.Body>\r\n\r\n            </Card>\r\n          </Col>\r\n        </Row>\r\n      </Container>\r\n\r\n    </div>\r\n  )\r\n}\r\n\r\nexport default LiveMeasurements\r\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/Components/LiveMeasurements.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 51,
+    "kind": "function",
+    "name": "LiveMeasurements",
+    "memberof": "src/Components/LiveMeasurements.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Components/LiveMeasurements.js~LiveMeasurements",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/Components/LiveMeasurements.js",
+    "importStyle": "LiveMeasurements",
+    "description": "LiveMeasurements function component for providing live data every minute",
+    "lineNumber": 10,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 52,
+    "kind": "file",
+    "name": "src/contexts/DataFormContext.js",
+    "content": "\r\nimport moment from \"moment\";\r\nimport React from \"react\"\r\nimport { defaultDataForm, ranges } from \"../DefaultConstants\";\r\n\r\nexport const DataFormContext = React.createContext()\r\n\r\n/**\r\n * Provides Global Context for values that need to be passed globally\r\n * @param  {object} {children}\r\n */\r\nexport const DataFormProvider = ({ children }) => {\r\n\r\n    /**\r\n     * Returns an object containing the range of date stored in localstorage\r\n     * If it was a provided range, then returns that provided range with respect to today's date\r\n     * \r\n     * @returns {{string:moment, string:moment}} {\"startDate\": moment,\"endDate\": moment}\r\n     */\r\n    const getStartEnd = () => {\r\n        let dateLabel = localStorage.getItem(\"dateRangeLabel\")\r\n        // console.log(localStorage.getItem(\"dateRangeLabel\"))\r\n        if (dateLabel === \"Custom Range\") {\r\n            return [moment(localStorage.getItem('dateStart')), moment(localStorage.getItem('dateEnd'))]\r\n        }\r\n        else if (dateLabel !== null && dateLabel !== \"Custom Range\") {\r\n            return [moment(ranges[localStorage.getItem(\"dateRangeLabel\")][0]), moment(ranges[localStorage.getItem(\"dateRangeLabel\")][1])];\r\n\r\n        } else {\r\n            return [moment(), moment()];\r\n        }\r\n    }\r\n\r\n    /**\r\n     * Returns formatted date label from `start` to `end` dates\r\n     * @param {moment} start \r\n     * @param {moment} end \r\n     * @returns {string} formated date label\r\n     */\r\n    const getDateLabel = (start, end) => {\r\n        return start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY');\r\n    }\r\n\r\n    /** Data Form data */\r\n    const [dataForm, setDataFormState] = React.useState(JSON.parse(localStorage.getItem(\"dataForm\")) || defaultDataForm);\r\n\r\n    /** Date for data form state */\r\n    const [dateState, setDateState] = React.useState({\r\n        start: getStartEnd()[0],\r\n        end: getStartEnd()[1],\r\n        label: getDateLabel(getStartEnd()[0], getStartEnd()[1])\r\n    });\r\n\r\n    /** Graph Title that updates during onSubmit of form */\r\n    const [graphTitle, setGraphTitle] = React.useState(dateState.label);\r\n\r\n    /** datePicker reference */\r\n    const dateReference = React.useRef();\r\n\r\n    /** reference to scroll to after submitting */\r\n    const scrollRef = React.useRef(null);\r\n\r\n    /** Callback that handles when the date changes in date picker */\r\n    const handleDateCallback = (start, end, label) => {\r\n\r\n        dateReference.current.setStartDate(start);\r\n        dateReference.current.setEndDate(end);\r\n\r\n        setDateState({ start: start, end: end, label: start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY') });\r\n\r\n        localStorage.setItem('dateStart', start);\r\n        localStorage.setItem('dateEnd', end);\r\n        localStorage.setItem('dateRangeLabel', label);\r\n    };\r\n\r\n    /** Every time dataForm is updated, update it in localstorage */\r\n    React.useEffect(() => {\r\n        localStorage.setItem('dataForm', JSON.stringify(dataForm)); //set in Storage each update\r\n    }, [dataForm]);\r\n\r\n    return (\r\n        <DataFormContext.Provider value={{ \r\n            dataForm: dataForm, setDataFormState: setDataFormState, \r\n            dateState: dateState, setDateState: setDateState, \r\n            dateReference:dateReference, \r\n            scrollRef:scrollRef,\r\n            graphTitle:graphTitle, setGraphTitle:setGraphTitle, \r\n            handleDateCallback:handleDateCallback \r\n        }}>\r\n            {children}\r\n        </DataFormContext.Provider>\r\n    )\r\n}",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/contexts/DataFormContext.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 53,
+    "kind": "variable",
+    "name": "DataFormContext",
+    "memberof": "src/contexts/DataFormContext.js",
+    "static": true,
+    "longname": "src/contexts/DataFormContext.js~DataFormContext",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/contexts/DataFormContext.js",
+    "importStyle": "{DataFormContext}",
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "function",
+    "name": "DataFormProvider",
+    "memberof": "src/contexts/DataFormContext.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/contexts/DataFormContext.js~DataFormProvider",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/contexts/DataFormContext.js",
+    "importStyle": "{DataFormProvider}",
+    "description": "Provides Global Context for values that need to be passed globally",
+    "lineNumber": 12,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "object"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "{children}",
+        "description": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 55,
+    "kind": "file",
+    "name": "src/DefaultConstants.js",
+    "content": "import moment from \"moment\"\r\n\r\nexport const defaultDataForm = {\r\n    \"irradiance-global-horizontal\": false,\r\n    \"irradiance-direct-normal\": false,\r\n    \"irradiance-diffuse-horizontal\": false,\r\n    \"meteorological-pr1-temperature\": false,\r\n    \"meteorological-ph1-temperature\": false,\r\n    \"meteorological-pressure\": false,\r\n    \"meteorological-zenith-angle\": false,\r\n    \"meteorological-azimuth-angle\": false,\r\n    \"meteorological-razon-status\": false,\r\n    \"meteorological-razon-time\": false,\r\n    \"meteorological-logger-battery\": false,\r\n    \"meteorological-logger-temp\": false,\r\n    \"interval-group\": \"1\",\r\n    \"output-group\": \"1\",\r\n    \"output-raw\": false,\r\n    \"options-black-white\": false,\r\n    \"options-english-conversion\": false,\r\n}\r\n\r\nexport const initialShowSelectionTrue = { showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true }\r\n\r\nexport const initialShowSelectionFalse = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }\r\n\r\nexport const defaultGraphOptions = {\r\n    \"show-graph-options\": false,\r\n    \"line-thickness\": 1,\r\n    \"font-size\": 16,\r\n    \"legend\": true,\r\n    \"dot\": false,\r\n}\r\n\r\nexport const graphColors = [\"#003B71\", \"red\", \"green\", \"purple\", \"orange\", \"pink\", \"black\", \"brown\", \"gray\", \"blue\", \"lightgreen\", \"lightorange\"];\r\n\r\nexport const ranges = {\r\n    Today: [moment().toDate(), moment().toDate()],\r\n    'Past 7 Days': [\r\n        moment().subtract(6, 'days').toDate(),\r\n        moment().toDate(),\r\n    ],\r\n    'Past 30 Days': [\r\n        moment().subtract(29, 'days').toDate(),\r\n        moment().toDate(),\r\n    ],\r\n    'Past Month': [\r\n        moment().subtract(1, 'month').toDate(),\r\n        moment().toDate(),\r\n    ],\r\n    'Past Year': [\r\n        moment().subtract(1, 'year').toDate(),\r\n        moment().toDate(),\r\n    ],\r\n    'Past 5 Years': [\r\n        moment().subtract(5, 'year').toDate(),\r\n        moment().toDate(),\r\n    ],\r\n    'This Week': [\r\n        moment().startOf('week').toDate(),\r\n        moment().endOf('week').toDate(),\r\n    ],\r\n    'This Month': [\r\n        moment().startOf('month').toDate(),\r\n        moment().endOf('month').toDate(),\r\n    ],\r\n    'All 5 Years': [\r\n        moment().subtract(5, 'year').startOf('year').toDate(),\r\n        moment().toDate(),\r\n    ],\r\n}",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 56,
+    "kind": "variable",
+    "name": "defaultDataForm",
+    "memberof": "src/DefaultConstants.js",
+    "static": true,
+    "longname": "src/DefaultConstants.js~defaultDataForm",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "importStyle": "{defaultDataForm}",
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"irradiance-global-horizontal\": *, \"irradiance-direct-normal\": *, \"irradiance-diffuse-horizontal\": *, \"meteorological-pr1-temperature\": *, \"meteorological-ph1-temperature\": *, \"meteorological-pressure\": *, \"meteorological-zenith-angle\": *, \"meteorological-azimuth-angle\": *, \"meteorological-razon-status\": *, \"meteorological-razon-time\": *, \"meteorological-logger-battery\": *, \"meteorological-logger-temp\": *, \"interval-group\": string, \"output-group\": string, \"output-raw\": *, \"options-black-white\": *, \"options-english-conversion\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "variable",
+    "name": "initialShowSelectionTrue",
+    "memberof": "src/DefaultConstants.js",
+    "static": true,
+    "longname": "src/DefaultConstants.js~initialShowSelectionTrue",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "importStyle": "{initialShowSelectionTrue}",
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"showDataSelection\": boolean, \"showIrradiance\": boolean, \"showMeteorological\": boolean, \"showInterval\": boolean, \"showOutputType\": boolean}"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "variable",
+    "name": "initialShowSelectionFalse",
+    "memberof": "src/DefaultConstants.js",
+    "static": true,
+    "longname": "src/DefaultConstants.js~initialShowSelectionFalse",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "importStyle": "{initialShowSelectionFalse}",
+    "description": null,
+    "lineNumber": 25,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"showDataSelection\": *, \"showIrradiance\": *, \"showMeteorological\": *, \"showInterval\": *, \"showOutputType\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "variable",
+    "name": "defaultGraphOptions",
+    "memberof": "src/DefaultConstants.js",
+    "static": true,
+    "longname": "src/DefaultConstants.js~defaultGraphOptions",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "importStyle": "{defaultGraphOptions}",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"show-graph-options\": *, \"line-thickness\": number, \"font-size\": number, \"legend\": boolean, \"dot\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "variable",
+    "name": "graphColors",
+    "memberof": "src/DefaultConstants.js",
+    "static": true,
+    "longname": "src/DefaultConstants.js~graphColors",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "importStyle": "{graphColors}",
+    "description": null,
+    "lineNumber": 35,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string[]"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
+    "kind": "variable",
+    "name": "ranges",
+    "memberof": "src/DefaultConstants.js",
+    "static": true,
+    "longname": "src/DefaultConstants.js~ranges",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/DefaultConstants.js",
+    "importStyle": "{ranges}",
+    "description": null,
+    "lineNumber": 37,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"Today\": *, \"Past 7 Days\": *, \"Past 30 Days\": *, \"Past Month\": *, \"Past Year\": *, \"Past 5 Years\": *, \"This Week\": *, \"This Month\": *, \"All 5 Years\": *}"
+      ]
+    }
+  },
+  {
+    "__docId__": 62,
+    "kind": "file",
+    "name": "src/Hooks/useDateShift.js",
+    "content": "\r\nimport {useContext} from 'react'\r\nimport { DataFormContext } from '../contexts/DataFormContext'\r\n/**\r\n * Provide handler functions to shift the datePicker by a full day, month, or year\r\n * @returns {[previousDay: function, nextDay: function, previousMonth: function, nextMonth: function, previousYear: function, nextYear: function]} array\r\n */\r\nconst useDateShift = () => {\r\n\r\n    const {dateState, handleDateCallback} = useContext(DataFormContext)\r\n    \r\n    /***/\r\n     const previousDay = () => {\r\n        handleDateCallback(dateState.start.subtract(1, 'days'), dateState.end.subtract(1, 'days'), \"Custom Range\");\r\n    }\r\n\r\n    /***/\r\n    const nextDay = () => {\r\n        handleDateCallback(dateState.start.add(1, 'days'), dateState.end.add(1, 'days'), \"Custom Range\");\r\n    }\r\n\r\n    /***/\r\n    const previousMonth = () => {\r\n        handleDateCallback(dateState.start.subtract(1, 'month').startOf('month'), dateState.end.subtract(1, 'month').endOf('month'), \"Custom Range\");\r\n    }\r\n\r\n    /***/\r\n    const nextMonth = () => {\r\n        handleDateCallback(dateState.start.add(1, 'month').startOf('month'), dateState.end.add(1, 'month').endOf('month'), \"Custom Range\");\r\n    }\r\n\r\n    /***/\r\n    const previousYear = () => {\r\n        handleDateCallback(dateState.start.subtract(1, 'year').startOf('year'), dateState.end.subtract(1, 'year').endOf('year'), \"Custom Range\");\r\n    }\r\n\r\n    /***/\r\n    const nextYear = () => {\r\n        handleDateCallback(dateState.start.add(1, 'year').startOf('year'), dateState.end.add(1, 'year').endOf('year'), \"Custom Range\");\r\n    }\r\n\r\n    return [previousDay, nextDay, previousMonth, nextMonth, previousYear, nextYear]\r\n}\r\n\r\nexport default useDateShift\r\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/Hooks/useDateShift.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 63,
+    "kind": "function",
+    "name": "useDateShift",
+    "memberof": "src/Hooks/useDateShift.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Hooks/useDateShift.js~useDateShift",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/Hooks/useDateShift.js",
+    "importStyle": "useDateShift",
+    "description": "Provide handler functions to shift the datePicker by a full day, month, or year",
+    "lineNumber": 8,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{[previousDay: function, nextDay: function, previousMonth: function, nextMonth: function, previousYear: function, nextYear: function]} array"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "[previousDay: function, nextDay: function, previousMonth: function, nextMonth: function, previousYear: function, nextYear: function]"
+      ],
+      "spread": false,
+      "description": "array"
+    },
+    "params": []
+  },
+  {
+    "__docId__": 64,
+    "kind": "file",
+    "name": "src/Hooks/useDownloadChartSubmit.js",
+    "content": "import {\r\n    useHistory,\r\n} from \"react-router-dom\";\r\n\r\nimport domtoimage from 'dom-to-image';\r\n\r\nimport FileSaver from 'file-saver';\r\n\r\n/**\r\n * @param  {{downloadSelection: number, graphData: string}} props\r\n * @returns {[handleChartSubmit: function]} array\r\n */\r\nexport const useDownloadChartSubmit = ({downloadSelection, graphData}) => {\r\n\r\n    /**\r\n     * downloads a document element as a png to file `chart.png`\r\n     * @param  {string} elementId element id from document\r\n     * @param  {string} bgcolor background color\r\n     */\r\n     const downloadLineChartPNG = (elementId, bgcolor) => {\r\n        domtoimage.toBlob(document.getElementById(elementId),  { bgcolor: bgcolor })\r\n            .then(function (blob) {\r\n                FileSaver.saveAs(blob, 'chart.png');\r\n            });\r\n    }\r\n    \r\n    /**\r\n     * downloads a document element as a jpeg to file `chart.jpeg`\r\n     * @param  {string} elementId element id from document\r\n     * @param  {number} quality quality of jpeg\r\n     * @param  {string} bgcolor background color\r\n     */\r\n    const downloadLineChartJPEG = (elementId, quality, bgcolor) => {\r\n        domtoimage.toJpeg(document.getElementById(elementId), { quality: quality, bgcolor: bgcolor })\r\n            .then(function (dataUrl) {\r\n                FileSaver.saveAs(dataUrl, 'chart.jpeg');\r\n            });\r\n    }\r\n    \r\n    /**\r\n     * downloads graph data from recharts as a json to file `graph_data.json`\r\n     * @param  {object} graphData graph object\r\n     */\r\n    const downloadGraphJson = (graphData) => {\r\n        var blob = new Blob([JSON.stringify(graphData)], { type: \"text/plain;charset=utf-8\" });\r\n        FileSaver.saveAs(blob, \"graph_data.json\")\r\n    }\r\n\r\n    /**\r\n     * downloads a document element as an svg to file `chart.svg`\r\n     * @param  {string} elementId element id from document\r\n     */\r\n    const downloadLineChartSVG = (elementId) => {\r\n        domtoimage.toSvg(document.getElementById(elementId),)\r\n            .then(function (dataUrl) {\r\n                FileSaver.saveAs(dataUrl, 'chart.svg');\r\n            });\r\n    }\r\n\r\n    let history = useHistory();\r\n\r\n    /**\r\n     * handler to submit optional chart options\r\n     * @param {*} event\r\n     */\r\n    const handleChartSubmit = (event) => {\r\n        switch (downloadSelection) {\r\n            case 1:\r\n                history.push(\"/zip-compressed\"); //todo\r\n                break;\r\n            case 2: // png\r\n                downloadLineChartPNG('lineChart', \"white\");\r\n                break;\r\n            case 3: //jpeg\r\n                downloadLineChartJPEG('lineChart', 0.75, \"white\");\r\n                break;\r\n            case 4: //svg\r\n                downloadLineChartSVG('lineChart');\r\n                break;\r\n            case 5: //json\r\n                downloadGraphJson(graphData);\r\n                break;\r\n            default: // case 0\r\n                history.push(\"/csv\"); //todo\r\n        }\r\n    }\r\n\r\n    return [handleChartSubmit]\r\n}\r\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/Hooks/useDownloadChartSubmit.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 65,
+    "kind": "function",
+    "name": "useDownloadChartSubmit",
+    "memberof": "src/Hooks/useDownloadChartSubmit.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Hooks/useDownloadChartSubmit.js~useDownloadChartSubmit",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/Hooks/useDownloadChartSubmit.js",
+    "importStyle": "{useDownloadChartSubmit}",
+    "description": "",
+    "lineNumber": 13,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{[handleChartSubmit: function]} array"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "{downloadSelection: number, graphData: string}"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "props",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "[handleChartSubmit: function]"
+      ],
+      "spread": false,
+      "description": "array"
+    }
+  },
+  {
+    "__docId__": 66,
+    "kind": "file",
+    "name": "src/Hooks/useGraph.js",
+    "content": "import { useState } from 'react';\r\n\r\n/** @typedef StateSetter */\r\n/**\r\n * Custom hook to handles graph data from Graph.js that needs to communicate with other components\r\n * @returns {[graphData: string[], setGraphData: StateSetter, graphLines: string[], setGraphLines: StateSetter, irridianceGraphLines: string[], setIrridianceGraphLines: StateSetter, meteorologicalGraphLines: string[], setMeteorologicalGraphLines: StateSetter]} array\r\n */\r\nconst useGraph = () => {\r\n\r\n    /**Graph data */\r\n    const [graphData, setGraphData] = useState([{}]);\r\n\r\n    /** Which lines to include in the graph */\r\n    const [graphLines, setGraphLines] = useState([]);\r\n\r\n    /** Which irridiance lines to include in the graph */\r\n    const [irridianceGraphLines, setIrridianceGraphLines] = useState([]);\r\n\r\n    /** Which meteorological lines to include in the graph */\r\n    const [meteorologicalGraphLines, setMeteorologicalGraphLines] = useState([]);\r\n\r\n    return [graphData, setGraphData, graphLines, setGraphLines, \r\n        irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines];\r\n}\r\n\r\nexport default useGraph\r\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/Hooks/useGraph.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 67,
+    "kind": "typedef",
+    "name": "StateSetter",
+    "memberof": "src/Hooks/useGraph.js",
+    "static": true,
+    "longname": "src/Hooks/useGraph.js~StateSetter",
+    "access": "public",
+    "description": null,
+    "type": {
+      "types": [
+        "*"
+      ],
+      "optional": false,
+      "name": "StateSetter"
+    }
+  },
+  {
+    "__docId__": 68,
+    "kind": "function",
+    "name": "useGraph",
+    "memberof": "src/Hooks/useGraph.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Hooks/useGraph.js~useGraph",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/Hooks/useGraph.js",
+    "importStyle": "useGraph",
+    "description": "Custom hook to handles graph data from Graph.js that needs to communicate with other components",
+    "lineNumber": 8,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{[graphData: string[], setGraphData: StateSetter, graphLines: string[], setGraphLines: StateSetter, irridianceGraphLines: string[], setIrridianceGraphLines: StateSetter, meteorologicalGraphLines: string[], setMeteorologicalGraphLines: StateSetter]} array"
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "[graphData: string[], setGraphData: StateSetter, graphLines: string[], setGraphLines: StateSetter, irridianceGraphLines: string[], setIrridianceGraphLines: StateSetter, meteorologicalGraphLines: string[], setMeteorologicalGraphLines: StateSetter]"
+      ],
+      "spread": false,
+      "description": "array"
+    },
+    "params": []
+  },
+  {
+    "__docId__": 69,
+    "kind": "file",
+    "name": "src/Hooks/useSelectionForm.js",
+    "content": "import { useState, useEffect, useContext } from 'react';\r\n\r\nimport { defaultDataForm } from '../DefaultConstants';\r\n\r\nimport {\r\n    useHistory,\r\n    useLocation,\r\n} from \"react-router-dom\";\r\nimport moment from 'moment';\r\nimport { DataFormContext } from '../contexts/DataFormContext';\r\n\r\n/** @typedef StateSetter */\r\n/**\r\n * Custom Hook that handles button presses that interacts outside of DataSelection.js\r\n * @param  {{getChartData: function}} props\r\n * @returns {[handleSubmit: function, handleReset: function, showModal: boolean, setShowModalState: StateSetter]} array\r\n */\r\nexport const useSelectionForm = ({ getChartData }) => {\r\n    let history = useHistory();\r\n    let location = useLocation();\r\n\r\n    //\r\n    //Data Form stuff\r\n    //\r\n    const {dataForm, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);\r\n    /** Shows the popup stopping from submitting nothing */\r\n    const [showModal, setShowModalState] = useState(false);\r\n\r\n    /**\r\n     * handle when the submit button is clicked\r\n     * @param  {} event\r\n     */\r\n    const handleSubmit = (event) => {\r\n\r\n        let noSelection = true\r\n\r\n        for (var key in dataForm) {\r\n            // go through check if there is no in the dataForm\r\n            if (key.startsWith(\"irradiance\") || key.startsWith(\"meteorological\")) {\r\n                if (dataForm[key]) {\r\n                    noSelection = false\r\n                    break\r\n                }\r\n            }\r\n        }\r\n\r\n        if (noSelection) {\r\n            setShowModalState(false);\r\n        } else {\r\n            //handle bug\r\n            if (dataForm[\"output-raw\"] && dataForm[\"output-group\"] === \"1\") {\r\n                console.log(\"csv raw and output-group\");\r\n                history.push(\"/csv\");\r\n            }\r\n\r\n            switch (dataForm[\"output-group\"]) {\r\n                case \"2\":\r\n                    //todo prob not going to new page... just download the csv\r\n                    history.push(\"/csv\");\r\n                    break;\r\n                case \"3\":\r\n                    history.push(\"/zip-compressed\");\r\n                    break;\r\n                default: // case \"1\"\r\n                    //handle bug\r\n                    if (dataForm[\"output-raw\"] && dataForm[\"output-group\"] === \"1\") {\r\n                        console.log(\"handle the bug???\");\r\n                        history.push(\"/csv\");\r\n                    } else {\r\n                        if(location.pathname !== \"/graph\"){\r\n                            history.push(\"/graph\");   \r\n                        }else{\r\n                            // if we are already at graph, then we have to call getChartData() again to get the data from the backend\r\n                            getChartData();\r\n                            scrollRef.current.scrollIntoView();\r\n                        }\r\n                    }\r\n            }\r\n        }\r\n    }\r\n\r\n    /**\r\n     * handle when the reset button is clicked\r\n     * @param  {} event\r\n     */\r\n    const handleReset = (event) => {\r\n        //reset dataform to be empty\r\n        setDataFormState(defaultDataForm)\r\n\r\n        const start = moment()\r\n        const end = moment()\r\n        handleDateCallback(start, end, \"Today\") //reset the datepicker back to initial value\r\n\r\n        // empty localstorage\r\n        localStorage.removeItem(\"dataForm\")\r\n        localStorage.removeItem(\"dateRangeLabel\")\r\n        localStorage.removeItem(\"dateStart\")\r\n        localStorage.removeItem(\"dateEnd\")\r\n    }\r\n\r\n    return [handleSubmit, handleReset,\r\n        showModal, setShowModalState]\r\n}",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/Hooks/useSelectionForm.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 70,
+    "kind": "typedef",
+    "name": "StateSetter",
+    "memberof": "src/Hooks/useSelectionForm.js",
+    "static": true,
+    "longname": "src/Hooks/useSelectionForm.js~StateSetter",
+    "access": "public",
+    "description": null,
+    "type": {
+      "types": [
+        "*"
+      ],
+      "optional": false,
+      "name": "StateSetter"
+    }
+  },
+  {
+    "__docId__": 71,
+    "kind": "function",
+    "name": "useSelectionForm",
+    "memberof": "src/Hooks/useSelectionForm.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/Hooks/useSelectionForm.js~useSelectionForm",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/Hooks/useSelectionForm.js",
+    "importStyle": "{useSelectionForm}",
+    "description": "Custom Hook that handles button presses that interacts outside of DataSelection.js",
+    "lineNumber": 18,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{[handleSubmit: function, handleReset: function, showModal: boolean, setShowModalState: StateSetter]} array"
+      }
+    ],
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "{getChartData: function}"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "props",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "[handleSubmit: function, handleReset: function, showModal: boolean, setShowModalState: StateSetter]"
+      ],
+      "spread": false,
+      "description": "array"
+    }
+  },
+  {
+    "__docId__": 72,
+    "kind": "file",
+    "name": "src/index.js",
+    "content": "import React from 'react';\r\nimport ReactDOM from 'react-dom';\r\nimport './index.css';\r\nimport App from './routes/App';\r\nimport Graph from './routes/Graph';\r\nimport Live from './routes/Live';\r\nimport reportWebVitals from './reportWebVitals';\r\nimport { BrowserRouter as Router, Switch, Route } from \"react-router-dom\";\r\nimport { DataFormProvider } from './contexts/DataFormContext';\r\n\r\n// now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })\r\nimport moment from 'moment';\r\nimport 'moment-timezone';\r\n\r\nmoment.tz.setDefault(\"America/New_York\");\r\n\r\nReactDOM.render(\r\n  <DataFormProvider>\r\n    <Router>\r\n      <Switch>\r\n        <Route path=\"/graph\">\r\n          <Graph />\r\n        </Route>\r\n        <Route path=\"/live\">\r\n          <Live />\r\n        </Route>\r\n        <Route path=\"/\">\r\n          <App />\r\n        </Route>\r\n      </Switch>\r\n    </Router>\r\n  </DataFormProvider>,\r\n  document.getElementById('root')\r\n);\r\n\r\n// If you want to start measuring performance in your app, pass a function\r\n// to log results (for example: reportWebVitals(console.log))\r\n// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals\r\nreportWebVitals();\r\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 73,
+    "kind": "file",
+    "name": "src/routes/App.js",
+    "content": "import React, { useState, useEffect,useContext } from 'react';\r\n\r\nimport Header from '../Components/Header';\r\nimport LiveMeasurements from '../Components/LiveMeasurements';\r\nimport DataSelection from '../Components/DataSelection';\r\n\r\n//hooks\r\nimport { useSelectionForm } from '../Hooks/useSelectionForm';\r\n\r\n\r\n//defaults\r\nimport { initialShowSelectionTrue } from '../DefaultConstants';\r\n\r\nimport '../App.css';\r\nimport 'bootstrap/dist/css/bootstrap.min.css'\r\n\r\n/**\r\n * import individual components\r\n */\r\n\r\n//  import { Link } from “react-router-dom”;\r\n//todo change to only import individual components\r\n/**\r\n * Main Page Component @ /\r\n */\r\nconst App = () => {\r\n\r\n  const [handleSubmit, handleReset, \r\n    showModal, setShowModalState] = useSelectionForm({});\r\n\r\n  /**\r\n   * handling DataForm Events\r\n   * Raw Data radio should disable all checkboxes line type and the graphing options\r\n   * reset button resets all checkboxes and radio to default\r\n   * save previous options in localstorage, but there is a bug when selecting raw data, and we simply check the conditions of raw data\r\n   */\r\n\r\n  return (\r\n    <div className=\"App\">\r\n      <Header className=\"App-header\" />\r\n\r\n      <section className=\"App-main\" id=\"main-header\">\r\n        <div>\r\n          <h1>UR Optics Solar Radiation Research Laboratory (RaZON+)</h1>\r\n          <h1>Current Irradiance and Meteorological Conditions</h1>\r\n        </div>\r\n      </section>\r\n      <hr />\r\n\r\n      <main className=\"App-main\">\r\n\r\n        <section className=\"App-main-section\" id=\"App-main-data\">\r\n          <DataSelection\r\n            //todo useContext to pass these props stuff down?\r\n            handleSubmit={handleSubmit} handleReset={handleReset}\r\n            initialShowSelection={initialShowSelectionTrue}\r\n            showModal={showModal} setShowModalState={setShowModalState} />\r\n        </section>\r\n\r\n        <section className=\"App-main-section\" id=\"App-main-live\">\r\n          <LiveMeasurements />\r\n        </section>\r\n\r\n      </main>\r\n\r\n      <hr />\r\n\r\n      {/* empty div footer */}\r\n      <div style={{ paddingBottom: \"60px\" }} ></div>\r\n\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default App;",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/routes/App.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 74,
+    "kind": "function",
+    "name": "App",
+    "memberof": "src/routes/App.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/routes/App.js~App",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/routes/App.js",
+    "importStyle": "App",
+    "description": "Main Page Component @ /",
+    "lineNumber": 26,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 75,
+    "kind": "file",
+    "name": "src/routes/Graph.js",
+    "content": "import React, { useEffect, useState, useContext } from 'react'\r\n\r\nimport Header from '../Components/Header';\r\nimport DataSelection from '../Components/DataSelection';\r\nimport Chart from '../Components/Chart';\r\n\r\nimport {\r\n  useLocation\r\n} from \"react-router-dom\";\r\n\r\n//hooks\r\nimport { useSelectionForm } from '../Hooks/useSelectionForm';\r\nimport moment from 'moment';\r\nimport useGraph from '../Hooks/useGraph';\r\n\r\n// default values\r\nimport { defaultDataForm, initialShowSelectionFalse } from '../DefaultConstants';\r\n\r\nimport { DataFormContext } from '../contexts/DataFormContext';\r\n\r\n/**\r\n * Graph Page component @ /graph\r\n */\r\nconst Graph = () => {\r\n\r\n  //todo: handle interval ourselves because having users chose is a bit unreliable (can cause too many points to be rendered)\r\n\r\n  let location = useLocation()\r\n  let query = new URLSearchParams(location.search);\r\n\r\n  const { dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback } = useContext(DataFormContext);\r\n\r\n  const [graphData, setGraphData, graphLines, setGraphLines,\r\n    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();\r\n\r\n  /** Backend and Frontend use the same queries to get the same data currently, so if there is a query in the frontend, we simply have to use the same query in the backend */\r\n  const [queryFetchString, setQueryFetchString] = useState(null);\r\n\r\n  /**\r\n   * Fetch chart data from backend and handle chart states\r\n   */\r\n  const getChartData = () => {\r\n    console.log(\"fetching data...\");\r\n    let query_fetch_array = [];\r\n    for (const field in dataForm) {\r\n      if (dataForm[field] === true) {\r\n        query_fetch_array.push(field + \"=true\");\r\n      }\r\n    }\r\n\r\n    const start = moment(dateState.start).format(\"YYYY-MM-DD\");\r\n    const end = moment(dateState.end).format(\"YYYY-MM-DD\");\r\n\r\n    if (query_fetch_array.length !== 0) {\r\n      fetch(`/graph?start=${start}&end=${end}&${query_fetch_array.join(\"&\")}`)\r\n        .then(function (response) {\r\n          setQueryFetchString(`start=${start}&end=${end}&${query_fetch_array.join(\"&\")}`);\r\n          return response.json();\r\n        })\r\n        .then(function (myJson) {\r\n          console.log(\"loading data...\");\r\n          setGraphTitle(dateState.label);\r\n\r\n          setGraphData(myJson[\"return_data\"]);\r\n\r\n          setGraphLines(myJson[\"included_headers\"]);\r\n\r\n          setIrridianceGraphLines(myJson[\"irridiance_headers\"]);\r\n          setMeteorologicalGraphLines(myJson[\"meteorological_headers\"]);\r\n        });\r\n\r\n    } else {\r\n      console.log(\"No Data Selected\");\r\n      setGraphTitle(\"No Data Selected\");\r\n    }\r\n  }\r\n\r\n  const [handleSubmit, handleReset,\r\n    showModal, setShowModalState] = useSelectionForm({ getChartData: getChartData });\r\n\r\n  /**\r\n   * parse query from the URL and replace localstorage values\r\n   */\r\n  function parseQuerySetForm() {\r\n    let change = false // make sure that there are valid query parameters\r\n    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); // quick copy\r\n\r\n    for (const field in defaultDataForm) {\r\n      const field_value = query.get(field);\r\n      if (field_value !== null) {\r\n        change = true\r\n        newQueryObj[field] = (field_value === \"true\")\r\n      }\r\n    }\r\n\r\n    if (change) {\r\n      setQueryingData(true);\r\n      setDataFormState(newQueryObj);\r\n    }\r\n\r\n    const start = moment(query.get(\"start\"), \"YYYY-MM-DD\");\r\n    const end = moment(query.get(\"end\"), \"YYYY-MM-DD\");\r\n\r\n    if (start.isValid() && end.isValid()) {\r\n      handleDateCallback(start, end, 'Custom Range');\r\n    }\r\n\r\n  }\r\n\r\n  // example: http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31\r\n  /**\r\n   * Create a link from the current graph query\r\n   * @returns {string} link\r\n   */\r\n  function createQuery() {\r\n    if (graphTitle !== \"No Data Selected\") {\r\n      return `http://localhost:3000/graph?${queryFetchString}`\r\n    }\r\n    return 'http://localhost:3000/graph'\r\n  }\r\n\r\n  const [queryingData, setQueryingData] = useState(false);\r\n\r\n  /** What the copied link to the current data is */\r\n  const [copyLinkText, setCopyLinkText] = useState(createQuery());\r\n\r\n  useEffect(() => {\r\n    setCopyLinkText(createQuery());\r\n  }, [queryFetchString]);\r\n\r\n  useEffect(() => {\r\n    if (queryingData) {\r\n      console.log(\"querying...\")\r\n      getChartData();\r\n    }\r\n    setQueryingData(false);\r\n  }, [dataForm]);\r\n\r\n  useEffect(() => {\r\n    parseQuerySetForm();\r\n    if (location.search === \"\") { // no queries\r\n      if (!queryingData) { // not currently querying data (and changing it) This is so we do not interfere with the asynchronous calls happening in parseQuerySetForm\r\n        getChartData();\r\n      }\r\n    }\r\n  }, []);\r\n\r\n  return (\r\n    <div className=\"App\">\r\n      <Header className=\"App-header\" />\r\n\r\n      <section className=\"App-main\" id=\"main-header\">\r\n        <div>\r\n          <h1>UR Optics Solar Radiation Research Laboratory (RaZON+)</h1>\r\n          <h1>Irradiance and Meteorological Conditions Graph</h1>\r\n        </div>\r\n      </section>\r\n\r\n      <hr />\r\n\r\n      <main className=\"App-main\">\r\n        <section className=\"App-main-section\" id=\"App-main-data\">\r\n          <DataSelection\r\n            handleSubmit={handleSubmit} handleReset={handleReset}\r\n            initialShowSelection={initialShowSelectionFalse}\r\n            showModal={showModal} setShowModalState={setShowModalState} />\r\n        </section>\r\n        <div style={{ paddingBottom: \"100px\" }}></div>\r\n        <section id=\"App-main-graph\" style={{ width: \"100%\" }} >\r\n          <Chart\r\n            graphData={graphData} graphLines={graphLines}\r\n            irridianceGraphLines={irridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines}\r\n            createQuery={createQuery} copyLinkText={copyLinkText} setCopyLinkText={setCopyLinkText} />\r\n        </section>\r\n        <div style={{ paddingBottom: \"32px\" }} ></div>\r\n      </main>\r\n\r\n      <hr />\r\n\r\n      {/* empty div footer */}\r\n      <div style={{ paddingBottom: \"64px\" }} ></div>\r\n\r\n    </div>\r\n  )\r\n}\r\n\r\nexport default Graph\r\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/routes/Graph.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 76,
+    "kind": "function",
+    "name": "Graph",
+    "memberof": "src/routes/Graph.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/routes/Graph.js~Graph",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/routes/Graph.js",
+    "importStyle": "Graph",
+    "description": "Graph Page component @ /graph",
+    "lineNumber": 24,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 77,
+    "kind": "file",
+    "name": "src/routes/Live.js",
+    "content": "import React, { useState, useEffect } from 'react';\r\n\r\nimport Header from '../Components/Header';\r\nimport LiveMeasurements from '../Components/LiveMeasurements';\r\n\r\n//hooks\r\n\r\nimport '../App.css';\r\nimport 'bootstrap/dist/css/bootstrap.min.css'\r\n/**\r\n * Live Page component @ /live\r\n */\r\nconst Live = () => {\r\n\r\n  return (\r\n    <div className=\"App\">\r\n      <Header className=\"App-header\" />\r\n\r\n      <section className=\"App-main\" id=\"main-header\">\r\n        <div>\r\n          <h1>UR Optics Solar Radiation Research Laboratory (RaZON+)</h1>\r\n          <h1>Current Irradiance and Meteorological Conditions</h1>\r\n        </div>\r\n      </section>\r\n      <hr />\r\n\r\n      <main className=\"App-main\">\r\n\r\n        <section className=\"App-main-section\" id=\"App-main-live\">\r\n          <LiveMeasurements />\r\n        </section>\r\n\r\n      </main>\r\n\r\n      <hr />\r\n\r\n      {/* empty div footer */}\r\n      <div style={{ paddingBottom: \"60px\" }} ></div>\r\n\r\n    </div>\r\n  );\r\n}\r\n\r\nexport default Live;",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/routes/Live.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 78,
+    "kind": "function",
+    "name": "Live",
+    "memberof": "src/routes/Live.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/routes/Live.js~Live",
+    "access": "public",
+    "export": true,
+    "importPath": "ur-optics-solar-dashboard/src/routes/Live.js",
+    "importStyle": "Live",
+    "description": "Live Page component @ /live",
+    "lineNumber": 13,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "file",
+    "name": "src/setupTests.js",
+    "content": "// jest-dom adds custom jest matchers for asserting on DOM nodes.\n// allows you to do things like:\n// expect(element).toHaveTextContent(/react/i)\n// learn more: https://github.com/testing-library/jest-dom\nimport '@testing-library/jest-dom';\n",
+    "static": true,
+    "longname": "D:/Development/RocLabs/ur-optics-solar-dashboard/src/setupTests.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "kind": "index",
+    "content": "# UROpticsSolarDashboard\n\nFlask/React Dashboard for researchers to access data from U of R's new RaZON+ hardware\n\n## Architecture of the application\n\n* React Frontend\n\n* MongoDB Time series collection with 5 year retention for solar data\n\n* Python Flask API connects MongoDB with React Frontend\n\n* **[TBD]** hosting\n\n## Setup Development Environment\n\n* Clone the repository\n\n  * ```git clone https://github.com/Haowjy/ur-optics-solar-dashboard.git```\n\n* Navigate to project directory\n\n  * ```cd ur-optics-solar-dashboard```\n\n* Install packages and dependencies via [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) (or yarn)\n\n  * ```npm install```\n\n* start react application\n\n  * ```npm start```\n\n* Navigate to api direction\n\n  * ```cd api```\n\n* Setup [python](https://www.python.org/downloads/) virtual environment\n\n  * ```python3 -m virtualenv venv```\n\n  * ```source venv/bin/activate``` or ```venv\\Scripts\\activate```\n\n* Install dependencies\n\n  * ```pip3 install -r requirements.txt```\n\n* Run the Flask app\n\n  * ```flask run```\n\n* See the application at ```http://localhost:3000/```\n",
+    "longname": "D:\\Development\\RocLabs\\ur-optics-solar-dashboard\\README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  },
+  {
+    "kind": "packageJSON",
+    "content": "{\r\n  \"name\": \"ur-optics-solar-dashboard\",\r\n  \"version\": \"0.1.0\",\r\n  \"private\": true,\r\n  \"dependencies\": {\r\n    \"@testing-library/jest-dom\": \"^5.11.4\",\r\n    \"@testing-library/react\": \"^11.1.0\",\r\n    \"@testing-library/user-event\": \"^12.1.10\",\r\n    \"bootstrap\": \"^5.0.2\",\r\n    \"bootstrap-daterangepicker\": \"^3.1.0\",\r\n    \"dom-to-image\": \"^2.6.0\",\r\n    \"file-saver\": \"^2.0.5\",\r\n    \"jquery\": \"^3.6.0\",\r\n    \"moment\": \"^2.29.1\",\r\n    \"moment-timezone\": \"^0.5.33\",\r\n    \"react\": \"^17.0.2\",\r\n    \"react-bootstrap\": \"^1.6.1\",\r\n    \"react-bootstrap-daterangepicker\": \"^7.0.0\",\r\n    \"react-dom\": \"^17.0.2\",\r\n    \"react-resizable\": \"^3.0.4\",\r\n    \"react-router-dom\": \"^5.2.0\",\r\n    \"react-scripts\": \"4.0.3\",\r\n    \"recharts\": \"^2.0.9\",\r\n    \"recharts-to-png\": \"^1.1.0\",\r\n    \"web-vitals\": \"^1.0.1\"\r\n  },\r\n  \"scripts\": {\r\n    \"start\": \"react-scripts start\",\r\n    \"start-api\": \"cd api && venv/bin/flask run --no-debugger\",\r\n    \"build\": \"react-scripts build\",\r\n    \"test\": \"react-scripts test\",\r\n    \"eject\": \"react-scripts eject\"\r\n  },\r\n  \"eslintConfig\": {\r\n    \"extends\": [\r\n      \"react-app\",\r\n      \"react-app/jest\"\r\n    ]\r\n  },\r\n  \"browserslist\": {\r\n    \"production\": [\r\n      \">0.2%\",\r\n      \"not dead\",\r\n      \"not op_mini all\"\r\n    ],\r\n    \"development\": [\r\n      \"last 1 chrome version\",\r\n      \"last 1 firefox version\",\r\n      \"last 1 safari version\"\r\n    ]\r\n  },\r\n  \"proxy\": \"http://localhost:5000\",\r\n  \"devDependencies\": {\r\n    \"esdoc\": \"^1.1.0\",\r\n    \"esdoc-jsx-plugin\": \"^1.0.0\",\r\n    \"esdoc-standard-plugin\": \"^1.0.0\",\r\n    \"eslint-plugin-react-hooks\": \"^4.2.0\"\r\n  }\r\n}\r\n",
+    "longname": "D:\\Development\\RocLabs\\ur-optics-solar-dashboard\\package.json",
+    "name": "package.json",
+    "static": true,
+    "access": "public"
+  }
+]

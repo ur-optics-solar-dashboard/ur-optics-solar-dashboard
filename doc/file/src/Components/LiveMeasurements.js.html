@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Components/LiveMeasurements.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Components/LiveMeasurements.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+
+//todo change to only import individual components
+import { useState, useEffect } from &apos;react&apos;;
+import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form } from &apos;react-bootstrap&apos;;
+
+/**
+ * LiveMeasurements function component for providing live data every minute
+ */
+const LiveMeasurements = () =&gt; {
+
+  // note: the live measurement stuff doesn&apos;t really interact with any other components
+  // note 2: we probably wouldn&apos;t serve the live measurements in the final application
+  const [solarData, setSoloarData] = useState({
+    &apos;time&apos;: &quot;&quot;,
+    &apos;irradiance&apos;: {
+      &apos;global_horizontal&apos;: 0,
+      &apos;direct_normal&apos;: 0,
+      &apos;diffuse_horizontal&apos;: 0,
+    },
+    &apos;meteorological&apos;: {
+      &apos;pr1_temperature&apos;: 0,
+      &apos;ph1_temperature&apos;: 0,
+      &apos;pressure&apos;: 0,
+      &apos;zenith_angle&apos;: 0,
+      &apos;azimuth_angle&apos;: 0,
+      &apos;razon_status&apos;: 0,
+      &apos;razon_time&apos;: 0,
+      &apos;logger_battery&apos;: 0,
+      &apos;logger_temp&apos;: 0,
+    },
+    &apos;units&apos;: {
+      &apos;global_horizontal&apos;: &quot;&quot;,
+      &apos;direct_normal&apos;: &quot;&quot;,
+      &apos;diffuse_horizontal&apos;: &quot;&quot;,
+      &apos;pr1_temperature&apos;: &quot;&quot;,
+      &apos;ph1_temperature&apos;: &quot;&quot;,
+      &apos;pressure&apos;: &quot;&quot;,
+      &apos;zenith_angle&apos;: &quot;&quot;,
+      &apos;azimuth_angle&apos;: &quot;&quot;,
+      &apos;razon_status&apos;: &quot;&quot;,
+      &apos;razon_time&apos;: &quot;&quot;,
+      &apos;logger_battery&apos;: &quot;&quot;,
+      &apos;logger_temp&apos;: &quot;&quot;,
+    }
+  });
+
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem(&quot;liveConversion&quot;) === &quot;true&quot; || false)
+  const handleLiveCheckChange = (event) =&gt; { setLiveConversion(event.target.checked); }
+
+  /**
+   * Obtain data from /livedata endpoint
+  */
+  const getLiveData = () =&gt; {
+    fetch(&apos;/livedata&apos;)
+      .then(function (response) {
+        console.log(&quot;response: &quot;, response)
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log(&quot;response json: &quot;, myJson);
+        setSoloarData(myJson)
+      });
+  }
+
+  useEffect(() =&gt; {
+    localStorage.setItem(&apos;liveConversion&apos;, liveConversion); //set in Storage each update
+  }, [liveConversion]);
+
+  //
+  //initialize stuff
+  //
+  useEffect(() =&gt; {
+    // api data
+    getLiveData() // initial data
+
+    const interval = setInterval(() =&gt; { // every 1 minute will request for the data again
+      getLiveData()
+    }, 60 * 1000)
+
+    return () =&gt; clearInterval(interval) // clears interval when component is gone
+  }, [])
+
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Live Measurements&lt;/h2&gt;
+      &lt;Form.Check
+        type={&apos;checkbox&apos;}
+        id={&apos;live-english-conversion&apos;}
+        name={&apos;live-english-conversion&apos;}
+        checked={liveConversion}
+        label={&apos;English Conversion&apos;}
+        onChange={handleLiveCheckChange} /&gt;
+      &lt;Container style={{ marginTop: &quot;24px&quot; }}&gt;
+        &lt;Row&gt;
+          &lt;Col&gt;
+            &lt;Card style={{ width: &apos;18rem&apos; }}&gt;
+
+              &lt;Card.Body&gt;
+                &lt;Card.Title&gt;&lt;h3&gt;Irradiance&lt;/h3&gt;&lt;/Card.Title&gt;
+              &lt;/Card.Body&gt;
+
+              &lt;ListGroup className=&quot;list-group-flush&quot;&gt;
+                &lt;ListGroupItem key={&quot;solarData.irradiance.global_horizontal&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Global Horizontal&lt;/div&gt;
+                    &lt;div&gt;{solarData.irradiance.global_horizontal} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt; W/m&lt;sup&gt;2&lt;/sup&gt;&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.irradiance.direct_normal&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Direct Normal&lt;/div&gt;
+                    &lt;div&gt;{solarData.irradiance.direct_normal} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt; W/m&lt;sup&gt;2&lt;/sup&gt;&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.irradiance.diffuse_horizontal&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Diffuse Horizontal&lt;/div&gt;
+                    &lt;div&gt;{solarData.irradiance.diffuse_horizontal} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt; W/m&lt;sup&gt;2&lt;/sup&gt;&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+              &lt;/ListGroup&gt;
+
+              &lt;Card.Body&gt;
+              &lt;/Card.Body&gt;
+
+            &lt;/Card&gt;
+          &lt;/Col&gt;
+
+          &lt;Col&gt;
+            &lt;Card style={{ width: &apos;18rem&apos; }}&gt;
+
+              &lt;Card.Body&gt;
+                &lt;Card.Title&gt;&lt;h3&gt;Meteorological&lt;/h3&gt;&lt;/Card.Title&gt;
+              &lt;/Card.Body&gt;
+
+              &lt;ListGroup className=&quot;list-group-flush&quot;&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.pr1_temperature&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;PR1 Temperature&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.pr1_temperature} &amp;#176;&lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;C&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.ph1_temperature&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;PH1 Temperature&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.ph1_temperature} &amp;#176;&lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;C&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.pressure&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Pressure&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.pressure} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;mBar&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.zenith_angle&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Zenith Angle&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.zenith_angle} &amp;#176;&lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.azimuth_angle&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Azimuth Angle&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.azimuth_angle} &amp;#176;&lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.razon_status&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Razon Status&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.razon_status} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.razon_time&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Razon Time&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.razon_time} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;hhmm&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.logger_battery&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Logger Battery&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.logger_battery} &lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;VDC&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+                &lt;ListGroupItem key={&quot;solarData.meteorological.logger_temp&quot;}&gt;
+                  &lt;div className=&quot;d-flex justify-content-between&quot;&gt;
+                    &lt;div style={{ fontWeight: &apos;bolder&apos; }}&gt;Logger Temp&lt;/div&gt;
+                    &lt;div&gt;{solarData.meteorological.logger_temp} &amp;#176;&lt;small style={{ fontWeight: &apos;lighter&apos; }}&gt;C&lt;/small&gt;&lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/ListGroupItem&gt;
+              &lt;/ListGroup&gt;
+
+              &lt;Card.Body&gt;
+              &lt;/Card.Body&gt;
+
+            &lt;/Card&gt;
+          &lt;/Col&gt;
+        &lt;/Row&gt;
+      &lt;/Container&gt;
+
+    &lt;/div&gt;
+  )
+}
+
+export default LiveMeasurements
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

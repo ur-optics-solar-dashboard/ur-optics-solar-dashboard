@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Hooks/useSelectionForm.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Hooks/useSelectionForm.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import { useState, useEffect, useContext } from &apos;react&apos;;
+
+import { defaultDataForm } from &apos;../DefaultConstants&apos;;
+
+import {
+    useHistory,
+    useLocation,
+} from &quot;react-router-dom&quot;;
+import moment from &apos;moment&apos;;
+import { DataFormContext } from &apos;../contexts/DataFormContext&apos;;
+
+/** @typedef StateSetter */
+/**
+ * Custom Hook that handles button presses that interacts outside of DataSelection.js
+ * @param  {{getChartData: function}} props
+ * @returns {[handleSubmit: function, handleReset: function, showModal: boolean, setShowModalState: StateSetter]} array
+ */
+export const useSelectionForm = ({ getChartData }) =&gt; {
+    let history = useHistory();
+    let location = useLocation();
+
+    //
+    //Data Form stuff
+    //
+    const {dataForm, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);
+    /** Shows the popup stopping from submitting nothing */
+    const [showModal, setShowModalState] = useState(false);
+
+    /**
+     * handle when the submit button is clicked
+     * @param  {} event
+     */
+    const handleSubmit = (event) =&gt; {
+
+        let noSelection = true
+
+        for (var key in dataForm) {
+            // go through check if there is no in the dataForm
+            if (key.startsWith(&quot;irradiance&quot;) || key.startsWith(&quot;meteorological&quot;)) {
+                if (dataForm[key]) {
+                    noSelection = false
+                    break
+                }
+            }
+        }
+
+        if (noSelection) {
+            setShowModalState(false);
+        } else {
+            //handle bug
+            if (dataForm[&quot;output-raw&quot;] &amp;&amp; dataForm[&quot;output-group&quot;] === &quot;1&quot;) {
+                console.log(&quot;csv raw and output-group&quot;);
+                history.push(&quot;/csv&quot;);
+            }
+
+            switch (dataForm[&quot;output-group&quot;]) {
+                case &quot;2&quot;:
+                    //todo prob not going to new page... just download the csv
+                    history.push(&quot;/csv&quot;);
+                    break;
+                case &quot;3&quot;:
+                    history.push(&quot;/zip-compressed&quot;);
+                    break;
+                default: // case &quot;1&quot;
+                    //handle bug
+                    if (dataForm[&quot;output-raw&quot;] &amp;&amp; dataForm[&quot;output-group&quot;] === &quot;1&quot;) {
+                        console.log(&quot;handle the bug???&quot;);
+                        history.push(&quot;/csv&quot;);
+                    } else {
+                        if(location.pathname !== &quot;/graph&quot;){
+                            history.push(&quot;/graph&quot;);   
+                        }else{
+                            // if we are already at graph, then we have to call getChartData() again to get the data from the backend
+                            getChartData();
+                            scrollRef.current.scrollIntoView();
+                        }
+                    }
+            }
+        }
+    }
+
+    /**
+     * handle when the reset button is clicked
+     * @param  {} event
+     */
+    const handleReset = (event) =&gt; {
+        //reset dataform to be empty
+        setDataFormState(defaultDataForm)
+
+        const start = moment()
+        const end = moment()
+        handleDateCallback(start, end, &quot;Today&quot;) //reset the datepicker back to initial value
+
+        // empty localstorage
+        localStorage.removeItem(&quot;dataForm&quot;)
+        localStorage.removeItem(&quot;dateRangeLabel&quot;)
+        localStorage.removeItem(&quot;dateStart&quot;)
+        localStorage.removeItem(&quot;dateEnd&quot;)
+    }
+
+    return [handleSubmit, handleReset,
+        showModal, setShowModalState]
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

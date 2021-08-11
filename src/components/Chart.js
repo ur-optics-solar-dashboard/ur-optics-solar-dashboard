@@ -1,15 +1,14 @@
 import {
     LineChart, Line,
     CartesianGrid, XAxis, YAxis, Tooltip,
-    Label, Legend, ResponsiveContainer, ReferenceArea,
-    AreaChart, Area
+    Label, Legend
 } from 'recharts';
 // https://recharts.org/en-US/examples
 
 
-import { Resizable, ResizableBox } from 'react-resizable';
+import { Resizable } from 'react-resizable';
 
-import React, { useState, useEffect, useCallback, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 
 import arrowdown from '../images/drop-down-arrow.svg';
 import arrowup from '../images/up-arrow.svg';
@@ -30,29 +29,26 @@ import { useDownloadChartSubmit } from '../Hooks/useDownloadChartSubmit';
  * Chart functional component to display data selected from DataSelection
  * @param  {{graphData:, graphLines: Array.<string>, irridianceGraphLines: Array.<string>, meteorologicalGraphLines: Array.<string>, copyLinkText: string, setCopyLinkText: StateSetter, createQuery: function}} props
  */
-const Chart = ({graphData, graphLines, 
+const Chart = ({ graphData, graphLines,
     irridianceGraphLines, meteorologicalGraphLines,
     createQuery, copyLinkText, setCopyLinkText }) => {
 
-    const {graphTitle, scrollRef} = useContext(DataFormContext);
+    const { graphTitle, scrollRef } = useContext(DataFormContext);
 
     const [copiedState, setCopiedState] = useState(false);
     const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
+    const [downloadSelection, setDownloadSelection] = useState(0);
+    const [handleChartSubmit] = useDownloadChartSubmit({ downloadSelection, graphData });
+
     const [size, setSize] = useState({ width: 1000, height: 600 })
+    /**
+     * 
+     * @param {*} event 
+     * @param {{element, size}} param1 
+     */
     const onResize = (event, { element, size }) => {
         setSize({ width: size.width, height: size.height });
     }
-    const [downloadSelection, setDownloadSelection] = useState(0);
-
-    const [handleChartSubmit] = useDownloadChartSubmit({downloadSelection, graphData});
-
-    //
-    //initialize stuff
-    //
-    useEffect(() => {
-        // api data
-        // getGraph() // initial data
-    }, [])
 
     return (
         <div ref={scrollRef}>
@@ -61,28 +57,28 @@ const Chart = ({graphData, graphLines,
                     // placement="auto"
                     placement="bottom-start"
                     delay={{ show: 50, hide: 100 }}
-                    overlay={<BSTooltip id="button-tooltip">{copiedState ?  "Copied!": copyLinkText}</BSTooltip>}
+                    overlay={<BSTooltip id="button-tooltip">{copiedState ? "Copied!" : copyLinkText}</BSTooltip>}
                     onToggle={(show) => {
-                        if(!show){
+                        if (!show) {
                             console.log("onHide");
                             setCopyLinkText(createQuery());
                             setCopiedState(false);
-                        }else{
+                        } else {
                             console.log("onshow");
                         }
                     }}
                 >
                     {/* <Button variant="success">Hover me to see</Button> */}
                     <img alt="copy icon" src={copyicon} style={{ marginLeft: "10px", cursor: "pointer" }} width={20} height={20}
-                    onClick={() => {
-                        navigator.clipboard.writeText(copyLinkText)
-                        .then(() => {
-                            setCopiedState(true);
-                        })
-                        .catch(err => {
-                            console.log('Something went wrong', err);
-                        });
-                    }}
+                        onClick={() => {
+                            navigator.clipboard.writeText(copyLinkText)
+                                .then(() => {
+                                    setCopiedState(true);
+                                })
+                                .catch(err => {
+                                    console.log('Something went wrong', err);
+                                });
+                        }}
                     />
                 </OverlayTrigger>
             </h2>

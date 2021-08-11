@@ -23,6 +23,7 @@ export const useSelectionForm = ({ getChartData }) => {
     //Data Form stuff
     //
     const {dataForm, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);
+    /** Shows the popup stopping from submitting nothing */
     const [showModal, setShowModalState] = useState(false);
 
     /**
@@ -30,11 +31,11 @@ export const useSelectionForm = ({ getChartData }) => {
      * @param  {} event
      */
     const handleSubmit = (event) => {
-        // console.log(location.pathname);
 
         let noSelection = true
 
         for (var key in dataForm) {
+            // go through check if there is no in the dataForm
             if (key.startsWith("irradiance") || key.startsWith("meteorological")) {
                 if (dataForm[key]) {
                     noSelection = false
@@ -54,7 +55,7 @@ export const useSelectionForm = ({ getChartData }) => {
 
             switch (dataForm["output-group"]) {
                 case "2":
-                    //todo prob not going to new page... just download the thing
+                    //todo prob not going to new page... just download the csv
                     history.push("/csv");
                     break;
                 case "3":
@@ -69,7 +70,7 @@ export const useSelectionForm = ({ getChartData }) => {
                         if(location.pathname !== "/graph"){
                             history.push("/graph");   
                         }else{
-                            // if we are already at graph, then we have to recall getChartData() from the backend
+                            // if we are already at graph, then we have to call getChartData() again to get the data from the backend
                             getChartData();
                             scrollRef.current.scrollIntoView();
                         }
@@ -83,10 +84,14 @@ export const useSelectionForm = ({ getChartData }) => {
      * @param  {} event
      */
     const handleReset = (event) => {
+        //reset dataform to be empty
         setDataFormState(defaultDataForm)
+
         const start = moment()
         const end = moment()
-        handleDateCallback(start, end, "Today") //reset back to initial value
+        handleDateCallback(start, end, "Today") //reset the datepicker back to initial value
+
+        // empty localstorage
         localStorage.removeItem("dataForm")
         localStorage.removeItem("dateRangeLabel")
         localStorage.removeItem("dateStart")

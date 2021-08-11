@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/routes/Graph.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/routes/Graph.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, { useEffect, useState, useContext } from &apos;react&apos;
+
+import Header from &apos;../Components/Header&apos;;
+import DataSelection from &apos;../Components/DataSelection&apos;;
+import Chart from &apos;../Components/Chart&apos;;
+
+import {
+  useLocation
+} from &quot;react-router-dom&quot;;
+
+//hooks
+import { useSelectionForm } from &apos;../Hooks/useSelectionForm&apos;;
+import moment from &apos;moment&apos;;
+import useGraph from &apos;../Hooks/useGraph&apos;;
+
+// default values
+import { defaultDataForm, initialShowSelectionFalse } from &apos;../DefaultConstants&apos;;
+
+import { DataFormContext } from &apos;../contexts/DataFormContext&apos;;
+
+/**
+ * Graph Page component @ /graph
+ */
+const Graph = () =&gt; {
+
+  //todo: handle interval ourselves because having users chose is a bit unreliable (can cause too many points to be rendered)
+
+  let location = useLocation()
+  let query = new URLSearchParams(location.search);
+
+  const { dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback } = useContext(DataFormContext);
+
+  const [graphData, setGraphData, graphLines, setGraphLines,
+    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();
+
+  /** Backend and Frontend use the same queries to get the same data currently, so if there is a query in the frontend, we simply have to use the same query in the backend */
+  const [queryFetchString, setQueryFetchString] = useState(null);
+
+  /**
+   * Fetch chart data from backend and handle chart states
+   */
+  const getChartData = () =&gt; {
+    console.log(&quot;fetching data...&quot;);
+    let query_fetch_array = [];
+    for (const field in dataForm) {
+      if (dataForm[field] === true) {
+        query_fetch_array.push(field + &quot;=true&quot;);
+      }
+    }
+
+    const start = moment(dateState.start).format(&quot;YYYY-MM-DD&quot;);
+    const end = moment(dateState.end).format(&quot;YYYY-MM-DD&quot;);
+
+    if (query_fetch_array.length !== 0) {
+      fetch(`/graph?start=${start}&amp;end=${end}&amp;${query_fetch_array.join(&quot;&amp;&quot;)}`)
+        .then(function (response) {
+          setQueryFetchString(`start=${start}&amp;end=${end}&amp;${query_fetch_array.join(&quot;&amp;&quot;)}`);
+          return response.json();
+        })
+        .then(function (myJson) {
+          console.log(&quot;loading data...&quot;);
+          setGraphTitle(dateState.label);
+
+          setGraphData(myJson[&quot;return_data&quot;]);
+
+          setGraphLines(myJson[&quot;included_headers&quot;]);
+
+          setIrridianceGraphLines(myJson[&quot;irridiance_headers&quot;]);
+          setMeteorologicalGraphLines(myJson[&quot;meteorological_headers&quot;]);
+        });
+
+    } else {
+      console.log(&quot;No Data Selected&quot;);
+      setGraphTitle(&quot;No Data Selected&quot;);
+    }
+  }
+
+  const [handleSubmit, handleReset,
+    showModal, setShowModalState] = useSelectionForm({ getChartData: getChartData });
+
+  /**
+   * parse query from the URL and replace localstorage values
+   */
+  function parseQuerySetForm() {
+    let change = false // make sure that there are valid query parameters
+    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); // quick copy
+
+    for (const field in defaultDataForm) {
+      const field_value = query.get(field);
+      if (field_value !== null) {
+        change = true
+        newQueryObj[field] = (field_value === &quot;true&quot;)
+      }
+    }
+
+    if (change) {
+      setQueryingData(true);
+      setDataFormState(newQueryObj);
+    }
+
+    const start = moment(query.get(&quot;start&quot;), &quot;YYYY-MM-DD&quot;);
+    const end = moment(query.get(&quot;end&quot;), &quot;YYYY-MM-DD&quot;);
+
+    if (start.isValid() &amp;&amp; end.isValid()) {
+      handleDateCallback(start, end, &apos;Custom Range&apos;);
+    }
+
+  }
+
+  // example: http://localhost:3000/graph?irradiance-global-horizontal=true&amp;start=2021-01-01&amp;end=2021-12-31
+  /**
+   * Create a link from the current graph query
+   * @returns {string} link
+   */
+  function createQuery() {
+    if (graphTitle !== &quot;No Data Selected&quot;) {
+      return `http://localhost:3000/graph?${queryFetchString}`
+    }
+    return &apos;http://localhost:3000/graph&apos;
+  }
+
+  const [queryingData, setQueryingData] = useState(false);
+
+  /** What the copied link to the current data is */
+  const [copyLinkText, setCopyLinkText] = useState(createQuery());
+
+  useEffect(() =&gt; {
+    setCopyLinkText(createQuery());
+  }, [queryFetchString]);
+
+  useEffect(() =&gt; {
+    if (queryingData) {
+      console.log(&quot;querying...&quot;)
+      getChartData();
+    }
+    setQueryingData(false);
+  }, [dataForm]);
+
+  useEffect(() =&gt; {
+    parseQuerySetForm();
+    if (location.search === &quot;&quot;) { // no queries
+      if (!queryingData) { // not currently querying data (and changing it) This is so we do not interfere with the asynchronous calls happening in parseQuerySetForm
+        getChartData();
+      }
+    }
+  }, []);
+
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;Header className=&quot;App-header&quot; /&gt;
+
+      &lt;section className=&quot;App-main&quot; id=&quot;main-header&quot;&gt;
+        &lt;div&gt;
+          &lt;h1&gt;UR Optics Solar Radiation Research Laboratory (RaZON+)&lt;/h1&gt;
+          &lt;h1&gt;Irradiance and Meteorological Conditions Graph&lt;/h1&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;hr /&gt;
+
+      &lt;main className=&quot;App-main&quot;&gt;
+        &lt;section className=&quot;App-main-section&quot; id=&quot;App-main-data&quot;&gt;
+          &lt;DataSelection
+            handleSubmit={handleSubmit} handleReset={handleReset}
+            initialShowSelection={initialShowSelectionFalse}
+            showModal={showModal} setShowModalState={setShowModalState} /&gt;
+        &lt;/section&gt;
+        &lt;div style={{ paddingBottom: &quot;100px&quot; }}&gt;&lt;/div&gt;
+        &lt;section id=&quot;App-main-graph&quot; style={{ width: &quot;100%&quot; }} &gt;
+          &lt;Chart
+            graphData={graphData} graphLines={graphLines}
+            irridianceGraphLines={irridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines}
+            createQuery={createQuery} copyLinkText={copyLinkText} setCopyLinkText={setCopyLinkText} /&gt;
+        &lt;/section&gt;
+        &lt;div style={{ paddingBottom: &quot;32px&quot; }} &gt;&lt;/div&gt;
+      &lt;/main&gt;
+
+      &lt;hr /&gt;
+
+      {/* empty div footer */}
+      &lt;div style={{ paddingBottom: &quot;64px&quot; }} &gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+  )
+}
+
+export default Graph
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -2,7 +2,6 @@ import {
     useHistory,
 } from "react-router-dom";
 
-// https://github.com/tsayen/dom-to-image
 import domtoimage from 'dom-to-image';
 
 import FileSaver from 'file-saver';
@@ -12,6 +11,7 @@ import FileSaver from 'file-saver';
  * @returns {[handleChartSubmit: function]} array
  */
 export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
+
     /**
      * downloads a document element as a png to file `chart.png`
      * @param  {string} elementId element id from document
@@ -60,7 +60,7 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
     let history = useHistory();
 
     /**
-     * handler to submit chart options
+     * handler to submit optional chart options
      * @param {*} event
      */
     const handleChartSubmit = (event) => {

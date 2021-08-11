@@ -3,8 +3,6 @@ import moment from "moment";
 import React from "react"
 import { defaultDataForm, ranges } from "../DefaultConstants";
 
-// if I need multiple contexts https://stackoverflow.com/questions/53346462/react-multiple-contexts
-
 export const DataFormContext = React.createContext()
 
 /**
@@ -12,8 +10,6 @@ export const DataFormContext = React.createContext()
  * @param  {object} {children}
  */
 export const DataFormProvider = ({ children }) => {
-
-    //todo: Should put all dataForm stuff here because it is needed in both App.js and Graph.js, instead of using 2 custom hooks
 
     /**
      * Returns an object containing the range of date stored in localstorage
@@ -35,12 +31,20 @@ export const DataFormProvider = ({ children }) => {
         }
     }
 
+    /**
+     * Returns formatted date label from `start` to `end` dates
+     * @param {moment} start 
+     * @param {moment} end 
+     * @returns {string} formated date label
+     */
     const getDateLabel = (start, end) => {
         return start.format('MMM D, YYYY') + ' - ' + end.format('MMM D, YYYY');
     }
 
+    /** Data Form data */
     const [dataForm, setDataFormState] = React.useState(JSON.parse(localStorage.getItem("dataForm")) || defaultDataForm);
 
+    /** Date for data form state */
     const [dateState, setDateState] = React.useState({
         start: getStartEnd()[0],
         end: getStartEnd()[1],
@@ -56,7 +60,7 @@ export const DataFormProvider = ({ children }) => {
     /** reference to scroll to after submitting */
     const scrollRef = React.useRef(null);
 
-    //
+    /** Callback that handles when the date changes in date picker */
     const handleDateCallback = (start, end, label) => {
 
         dateReference.current.setStartDate(start);
@@ -67,13 +71,11 @@ export const DataFormProvider = ({ children }) => {
         localStorage.setItem('dateStart', start);
         localStorage.setItem('dateEnd', end);
         localStorage.setItem('dateRangeLabel', label);
-
-        // console.log(st,"type: ", typeof st)
     };
 
+    /** Every time dataForm is updated, update it in localstorage */
     React.useEffect(() => {
         localStorage.setItem('dataForm', JSON.stringify(dataForm)); //set in Storage each update
-        // console.log("dataForm: ", dataForm);
     }, [dataForm]);
 
     return (

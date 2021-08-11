@@ -13,7 +13,6 @@ import { initialShowSelectionTrue } from '../DefaultConstants';
 
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { DataFormContext } from '../contexts/DataFormContext';
 
 /**
  * import individual components
@@ -21,40 +20,20 @@ import { DataFormContext } from '../contexts/DataFormContext';
 
 //  import { Link } from “react-router-dom”;
 //todo change to only import individual components
-
-// DateRangePicker: https://github.com/skratchdot/react-bootstrap-daterangepicker
-// react wrapper for https://github.com/dangrossman/daterangepicker
-// import DateRangePicker from 'react-bootstrap-daterangepicker';
-// import 'bootstrap-daterangepicker/daterangepicker.css'
-
-
-// todo https://stackoverflow.com/questions/45086005/recharts-component-to-png
-
 /**
  * Main Page Component @ /
  */
 const App = () => {
-  //todo define the structure before... maybe I should use middleware instead?
 
   const [handleSubmit, handleReset, 
     showModal, setShowModalState] = useSelectionForm({});
 
-  //
-  //initialize stuff
-  //
-  useEffect(() => {
-    // console.log(ranges[localStorage.getItem("dateRangeLabel")][0])
-    // api data
-
-  }, [])
-
-  // handle Events
-  // Raw Data radio should disable all checkboxes... and graph radio?
-  // English conversion should be linked to the other checkboxes, also convert the live data
-  // reset button resets all checkboxes and radio to default
-  // save previous options in localstorage??? - done...?
-
-
+  /**
+   * handling DataForm Events
+   * Raw Data radio should disable all checkboxes line type and the graphing options
+   * reset button resets all checkboxes and radio to default
+   * save previous options in localstorage, but there is a bug when selecting raw data, and we simply check the conditions of raw data
+   */
 
   return (
     <div className="App">

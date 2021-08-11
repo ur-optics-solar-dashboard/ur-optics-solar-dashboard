@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Header",
+    "filePath": "src/Components/Header.js",
+    "lines": [
+      {
+        "lineNumber": 2,
+        "line": "/**\r"
+      },
+      {
+        "lineNumber": 3,
+        "line": " * Header functional component\r"
+      },
+      {
+        "lineNumber": 4,
+        "line": " * @param  {} props\r"
+      },
+      {
+        "lineNumber": 5,
+        "line": " */\r"
+      },
+      {
+        "lineNumber": 6,
+        "line": "const Header = (props) => {\r"
+      }
+    ],
+    "codeParams": [
+      "props"
+    ],
+    "docParams": []
+  }
+]

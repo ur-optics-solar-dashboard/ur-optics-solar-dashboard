@@ -35,9 +35,11 @@
 
 * Live Data updates every 1 minute (we might not have this feature)
 
-Seperate scroll for side pane
+### Suggestions
 
-Center everything?
+* Seperate scroll for side pane : <https://www.npmjs.com/package/react-pro-sidebar>?
+
+* Center everything?
 
 ## Backend (TODO)
 
