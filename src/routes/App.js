@@ -1,5 +1,3 @@
-import React, { useState, useEffect,useContext } from 'react';
-
 import Header from '../Components/Header';
 import LiveMeasurements from '../Components/LiveMeasurements';
 import DataSelection from '../Components/DataSelection';

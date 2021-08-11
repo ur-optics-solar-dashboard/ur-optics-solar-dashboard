@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from 'react'
 
 import Header from '../Components/Header';
 import DataSelection from '../Components/DataSelection';
@@ -25,21 +25,22 @@ const Graph = () => {
 
   //todo: handle interval ourselves because having users chose is a bit unreliable (can cause too many points to be rendered)
 
-  let location = useLocation()
+  let location = useLocation();
   let query = new URLSearchParams(location.search);
 
-  const { dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback } = useContext(DataFormContext);
+  const { dataForm, setDataFormState, dateState, setGraphTitle, handleDateCallback } = useContext(DataFormContext);
 
   const [graphData, setGraphData, graphLines, setGraphLines,
     irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();
 
-  /** Backend and Frontend use the same queries to get the same data currently, so if there is a query in the frontend, we simply have to use the same query in the backend */
+  /** Backend and Frontend use the same queries to get the same data currently, so if there is a query in the frontend, we use the same query in the backend */
   const [queryFetchString, setQueryFetchString] = useState(null);
 
   /**
    * Fetch chart data from backend and handle chart states
+   * @param {{dataForm: object, start: moment, end: moment}} params
    */
-  const getChartData = () => {
+  const getChartData = ({ dataForm, start, end }) => {
     console.log("fetching data...");
     let query_fetch_array = [];
     for (const field in dataForm) {
@@ -48,17 +49,21 @@ const Graph = () => {
       }
     }
 
-    const start = moment(dateState.start).format("YYYY-MM-DD");
-    const end = moment(dateState.end).format("YYYY-MM-DD");
+    const startFormatted = moment(start).format("YYYY-MM-DD");
+    const endFormatted = moment(end).format("YYYY-MM-DD");
 
     if (query_fetch_array.length !== 0) {
-      fetch(`/graph?start=${start}&end=${end}&${query_fetch_array.join("&")}`)
+      fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
         .then(function (response) {
-          setQueryFetchString(`start=${start}&end=${end}&${query_fetch_array.join("&")}`);
+          
+          setQueryFetchString(`start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
+          setCopyLinkText(`${window.location.origin.toString()}/graph?start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
+
           return response.json();
         })
         .then(function (myJson) {
           console.log("loading data...");
+
           setGraphTitle(dateState.label);
 
           setGraphData(myJson["return_data"]);
@@ -79,11 +84,12 @@ const Graph = () => {
     showModal, setShowModalState] = useSelectionForm({ getChartData: getChartData });
 
   /**
-   * parse query from the URL and replace localstorage values
+   * parse query from the URL and replace localstorage values, 
+   * then call backend api with getChartData
    */
   function parseQuerySetForm() {
     let change = false // make sure that there are valid query parameters
-    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); // quick copy
+    const newQueryObj = JSON.parse(JSON.stringify(dataForm)); // quick copy
 
     for (const field in defaultDataForm) {
       const field_value = query.get(field);
@@ -94,55 +100,40 @@ const Graph = () => {
     }
 
     if (change) {
-      setQueryingData(true);
       setDataFormState(newQueryObj);
     }
 
-    const start = moment(query.get("start"), "YYYY-MM-DD");
-    const end = moment(query.get("end"), "YYYY-MM-DD");
+    var start = moment(query.get("start"), "YYYY-MM-DD");
+    var end = moment(query.get("end"), "YYYY-MM-DD");
 
     if (start.isValid() && end.isValid()) {
       handleDateCallback(start, end, 'Custom Range');
+    } else {
+      start = dateState.start
+      end = dateState.end
     }
+
+    getChartData({ dataForm: newQueryObj, start: start, end: end });
 
   }
 
-  // example: http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
   /**
    * Create a link from the current graph query
+   * @example
+   * returns http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
+   * 
    * @returns {string} link
    */
   function createQuery() {
-    if (graphTitle !== "No Data Selected") {
-      return `http://localhost:3000/graph?${queryFetchString}`
-    }
-    return 'http://localhost:3000/graph'
+    return `${window.location.origin.toString()}/graph?${queryFetchString===null ? "" : queryFetchString}`
   }
-
-  const [queryingData, setQueryingData] = useState(false);
 
   /** What the copied link to the current data is */
   const [copyLinkText, setCopyLinkText] = useState(createQuery());
 
-  useEffect(() => {
-    setCopyLinkText(createQuery());
-  }, [queryFetchString]);
-
-  useEffect(() => {
-    if (queryingData) {
-      console.log("querying...")
-      getChartData();
-    }
-    setQueryingData(false);
-  }, [dataForm]);
-
+  /** componentDidMount, only on mount do we parse the url for query */
   useEffect(() => {
     parseQuerySetForm();
-    if (location.search === "") { // no queries
-      if (!queryingData) { // not currently querying data (and changing it) This is so we do not interfere with the asynchronous calls happening in parseQuerySetForm
-        getChartData();
-      }
-    }
   }, []);
 
   return (

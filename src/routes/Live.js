@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react';
-
 import Header from '../Components/Header';
 import LiveMeasurements from '../Components/LiveMeasurements';
-
-//hooks
 
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'

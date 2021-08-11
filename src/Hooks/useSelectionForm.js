@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 
 import { defaultDataForm } from '../DefaultConstants';
 
@@ -22,7 +22,7 @@ export const useSelectionForm = ({ getChartData }) => {
     //
     //Data Form stuff
     //
-    const {dataForm, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);
+    const {dataForm, dateState, setDataFormState, handleDateCallback, scrollRef} = useContext(DataFormContext);
     /** Shows the popup stopping from submitting nothing */
     const [showModal, setShowModalState] = useState(false);
 
@@ -45,7 +45,7 @@ export const useSelectionForm = ({ getChartData }) => {
         }
 
         if (noSelection) {
-            setShowModalState(false);
+            setShowModalState(true);
         } else {
             //handle bug
             if (dataForm["output-raw"] && dataForm["output-group"] === "1") {
@@ -71,7 +71,7 @@ export const useSelectionForm = ({ getChartData }) => {
                             history.push("/graph");   
                         }else{
                             // if we are already at graph, then we have to call getChartData() again to get the data from the backend
-                            getChartData();
+                            getChartData({dataForm: dataForm, start: dateState.start, end: dateState.end});
                             scrollRef.current.scrollIntoView();
                         }
                     }

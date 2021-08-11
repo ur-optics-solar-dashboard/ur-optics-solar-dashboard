@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react"
 import { defaultDataForm, ranges } from "../DefaultConstants";
 
-export const DataFormContext = React.createContext()
+export const DataFormContext = React.createContext();
 
 /**
  * Provides Global Context for values that need to be passed globally

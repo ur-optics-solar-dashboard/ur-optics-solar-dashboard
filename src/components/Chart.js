@@ -3,8 +3,6 @@ import {
     CartesianGrid, XAxis, YAxis, Tooltip,
     Label, Legend
 } from 'recharts';
-// https://recharts.org/en-US/examples
-
 
 import { Resizable } from 'react-resizable';
 
@@ -40,7 +38,8 @@ const Chart = ({ graphData, graphLines,
     const [downloadSelection, setDownloadSelection] = useState(0);
     const [handleChartSubmit] = useDownloadChartSubmit({ downloadSelection, graphData });
 
-    const [size, setSize] = useState({ width: 1000, height: 600 })
+    const [size, setSize] = useState({ width: 1000, height: 600 });
+
     /**
      * 
      * @param {*} event 
@@ -54,7 +53,6 @@ const Chart = ({ graphData, graphLines,
         <div ref={scrollRef}>
             <h2>Graph
                 <OverlayTrigger
-                    // placement="auto"
                     placement="bottom-start"
                     delay={{ show: 50, hide: 100 }}
                     overlay={<BSTooltip id="button-tooltip">{copiedState ? "Copied!" : copyLinkText}</BSTooltip>}
@@ -68,7 +66,6 @@ const Chart = ({ graphData, graphLines,
                         }
                     }}
                 >
-                    {/* <Button variant="success">Hover me to see</Button> */}
                     <img alt="copy icon" src={copyicon} style={{ marginLeft: "10px", cursor: "pointer" }} width={20} height={20}
                         onClick={() => {
                             navigator.clipboard.writeText(copyLinkText)
@@ -136,21 +133,10 @@ const Chart = ({ graphData, graphLines,
                                 label={'Legend'}
                                 onChange={(event) => setGraphOptions({ ...graphOptions, [event.target.name]: event.target.checked })} />
 
-                            {/* <Form.Check
-                                // todo: dots are very slow
-                                type={'checkbox'}
-                                id={'dot'}
-                                name={'dot'}
-                                checked={graphOptions["dot"]}
-                                label={'dot'}
-                                onChange={handleChartCheckFormChange} /> */}
-
-
                         </Form>
                     </div>
                 </Collapse>
             </div>
-            {/* <hr /> */}
 
             <div className="layoutRoot">
                 <Resizable
@@ -159,7 +145,6 @@ const Chart = ({ graphData, graphLines,
                     height={size.height}
                     width={size.width}
                     onResize={onResize}
-
                 >
                     <div
                         className="box"
@@ -188,15 +173,10 @@ const Chart = ({ graphData, graphLines,
                                     </defs>
                                     {/* TODO: Xaxis formatter, based on day, month, etc */}
                                     <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={graphOptions["font-size"] > 24 ? 359 : 179}
-                                        // interval={359} 
                                         style={{ fontSize: graphOptions["font-size"] }}
                                         height={36} />
 
                                     <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439}
-                                        // interval={1439} 
-                                        // label="America/New_York"
-                                        // dy={10}
-                                        // height={64}
                                         style={{ fontSize: graphOptions["font-size"] }} >
                                         <Label dy={20} value="America/New_York" offset={0} position="insideBottom" style={{ fontSize: graphOptions["font-size"] }} />
                                     </XAxis>
@@ -223,7 +203,6 @@ const Chart = ({ graphData, graphLines,
 
                                     {graphOptions["legend"] ?
                                         <Legend dy={10}
-                                            //todo if I want to implement shapes, I have to make custom shapes along with legend
                                             wrapperStyle={{ position: 'relative', marginTop: '16px' }}
                                         />
                                         : null}
@@ -275,7 +254,6 @@ const Chart = ({ graphData, graphLines,
 
                 </Form.Check>
 
-                {/* top right bottom left */}
                 <Button variant="primary" style={{ margin: "20px 0px 10px 50px" }} onClick={handleChartSubmit}>
                     Download Data
                 </Button>
