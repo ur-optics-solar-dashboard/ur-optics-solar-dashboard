@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/contexts/DataFormContext.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/contexts/DataFormContext.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">
+import moment from &quot;moment&quot;;
+import React from &quot;react&quot;
+import { defaultDataForm, ranges } from &quot;../DefaultConstants&quot;;
+
+export const DataFormContext = React.createContext()
+
+/**
+ * Provides Global Context for values that need to be passed globally
+ * @param  {object} {children}
+ */
+export const DataFormProvider = ({ children }) =&gt; {
+
+    /**
+     * Returns an object containing the range of date stored in localstorage
+     * If it was a provided range, then returns that provided range with respect to today&apos;s date
+     * 
+     * @returns {{string:moment, string:moment}} {&quot;startDate&quot;: moment,&quot;endDate&quot;: moment}
+     */
+    const getStartEnd = () =&gt; {
+        let dateLabel = localStorage.getItem(&quot;dateRangeLabel&quot;)
+        // console.log(localStorage.getItem(&quot;dateRangeLabel&quot;))
+        if (dateLabel === &quot;Custom Range&quot;) {
+            return [moment(localStorage.getItem(&apos;dateStart&apos;)), moment(localStorage.getItem(&apos;dateEnd&apos;))]
+        }
+        else if (dateLabel !== null &amp;&amp; dateLabel !== &quot;Custom Range&quot;) {
+            return [moment(ranges[localStorage.getItem(&quot;dateRangeLabel&quot;)][0]), moment(ranges[localStorage.getItem(&quot;dateRangeLabel&quot;)][1])];
+
+        } else {
+            return [moment(), moment()];
+        }
+    }
+
+    /**
+     * Returns formatted date label from `start` to `end` dates
+     * @param {moment} start 
+     * @param {moment} end 
+     * @returns {string} formated date label
+     */
+    const getDateLabel = (start, end) =&gt; {
+        return start.format(&apos;MMM D, YYYY&apos;) + &apos; - &apos; + end.format(&apos;MMM D, YYYY&apos;);
+    }
+
+    /** Data Form data */
+    const [dataForm, setDataFormState] = React.useState(JSON.parse(localStorage.getItem(&quot;dataForm&quot;)) || defaultDataForm);
+
+    /** Date for data form state */
+    const [dateState, setDateState] = React.useState({
+        start: getStartEnd()[0],
+        end: getStartEnd()[1],
+        label: getDateLabel(getStartEnd()[0], getStartEnd()[1])
+    });
+
+    /** Graph Title that updates during onSubmit of form */
+    const [graphTitle, setGraphTitle] = React.useState(dateState.label);
+
+    /** datePicker reference */
+    const dateReference = React.useRef();
+
+    /** reference to scroll to after submitting */
+    const scrollRef = React.useRef(null);
+
+    /** Callback that handles when the date changes in date picker */
+    const handleDateCallback = (start, end, label) =&gt; {
+
+        dateReference.current.setStartDate(start);
+        dateReference.current.setEndDate(end);
+
+        setDateState({ start: start, end: end, label: start.format(&apos;MMM D, YYYY&apos;) + &apos; - &apos; + end.format(&apos;MMM D, YYYY&apos;) });
+
+        localStorage.setItem(&apos;dateStart&apos;, start);
+        localStorage.setItem(&apos;dateEnd&apos;, end);
+        localStorage.setItem(&apos;dateRangeLabel&apos;, label);
+    };
+
+    /** Every time dataForm is updated, update it in localstorage */
+    React.useEffect(() =&gt; {
+        localStorage.setItem(&apos;dataForm&apos;, JSON.stringify(dataForm)); //set in Storage each update
+    }, [dataForm]);
+
+    return (
+        &lt;DataFormContext.Provider value={{ 
+            dataForm: dataForm, setDataFormState: setDataFormState, 
+            dateState: dateState, setDateState: setDateState, 
+            dateReference:dateReference, 
+            scrollRef:scrollRef,
+            graphTitle:graphTitle, setGraphTitle:setGraphTitle, 
+            handleDateCallback:handleDateCallback 
+        }}&gt;
+            {children}
+        &lt;/DataFormContext.Provider&gt;
+    )
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

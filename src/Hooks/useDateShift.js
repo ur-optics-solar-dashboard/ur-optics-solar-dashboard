@@ -8,6 +8,7 @@ import { DataFormContext } from '../contexts/DataFormContext'
 const useDateShift = () => {
 
     const {dateState, handleDateCallback} = useContext(DataFormContext)
+    
     /***/
      const previousDay = () => {
         handleDateCallback(dateState.start.subtract(1, 'days'), dateState.end.subtract(1, 'days'), "Custom Range");

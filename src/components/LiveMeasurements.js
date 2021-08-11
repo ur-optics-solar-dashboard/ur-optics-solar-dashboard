@@ -9,8 +9,8 @@ import { Card, ListGroup, ListGroupItem, Row, Col, Container, Form } from 'react
  */
 const LiveMeasurements = () => {
 
-  // note: the live measurement stuff doesn't interact with any other components
-  // Could also create a custom hook for this, but this should be alright, there isn't too much else to do
+  // note: the live measurement stuff doesn't really interact with any other components
+  // note 2: we probably wouldn't serve the live measurements in the final application
   const [solarData, setSoloarData] = useState({
     'time': "",
     'irradiance': {
@@ -45,27 +45,26 @@ const LiveMeasurements = () => {
     }
   });
 
-  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion")==="true" || false)
+  const [liveConversion, setLiveConversion] = useState(localStorage.getItem("liveConversion") === "true" || false)
   const handleLiveCheckChange = (event) => { setLiveConversion(event.target.checked); }
 
   /**
-   * Obtain data from /livedata endpoint (similar json as tempData)
-   */
-     const getData = () => {
-      fetch('/livedata')
-        .then(function (response) {
-          console.log("response: ", response)
-          return response.json();
-        })
-        .then(function (myJson) {
-          console.log("response json: ", myJson);
-          setSoloarData(myJson)
-        });
-    }
+   * Obtain data from /livedata endpoint
+  */
+  const getLiveData = () => {
+    fetch('/livedata')
+      .then(function (response) {
+        console.log("response: ", response)
+        return response.json();
+      })
+      .then(function (myJson) {
+        console.log("response json: ", myJson);
+        setSoloarData(myJson)
+      });
+  }
 
   useEffect(() => {
     localStorage.setItem('liveConversion', liveConversion); //set in Storage each update
-    // console.log("liveConversion: ", liveConversion);
   }, [liveConversion]);
 
   //
@@ -73,139 +72,135 @@ const LiveMeasurements = () => {
   //
   useEffect(() => {
     // api data
-    getData() // initial data
+    getLiveData() // initial data
 
-    const interval = setInterval(() => { //every 1 minute will request for the data again
-      getData()
+    const interval = setInterval(() => { // every 1 minute will request for the data again
+      getLiveData()
     }, 60 * 1000)
 
-    return () => clearInterval(interval)
+    return () => clearInterval(interval) // clears interval when component is gone
   }, [])
 
-    return (
-        <div>
-        <h2>Live Measurements</h2>
-        <Form.Check
-          type={'checkbox'}
-          id={'live-english-conversion'}
-          name={'live-english-conversion'}
-          checked={liveConversion}
-          label={'English Conversion'}
-          onChange={handleLiveCheckChange} />
-        {/* <p>The current time is {currentTime}.</p> */}
-        <Container style={{ marginTop: "24px" }}>
-          <Row>
-            <Col>
-              <Card style={{ width: '18rem' }}>
-                <Card.Body>
-                  <Card.Title><h3>Irradiance</h3></Card.Title>
-                </Card.Body>
+  return (
+    <div>
+      <h2>Live Measurements</h2>
+      <Form.Check
+        type={'checkbox'}
+        id={'live-english-conversion'}
+        name={'live-english-conversion'}
+        checked={liveConversion}
+        label={'English Conversion'}
+        onChange={handleLiveCheckChange} />
+      <Container style={{ marginTop: "24px" }}>
+        <Row>
+          <Col>
+            <Card style={{ width: '18rem' }}>
 
-                {/* // todo maybe somehow make this into another functional component, prob not too important though */}
+              <Card.Body>
+                <Card.Title><h3>Irradiance</h3></Card.Title>
+              </Card.Body>
 
-                    <ListGroup className="list-group-flush">
-                      <ListGroupItem key={"solarData.irradiance.global_horizontal"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Global Horizontal</div>
-                          <div>{solarData.irradiance.global_horizontal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.irradiance.direct_normal"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Direct Normal</div>
-                          <div>{solarData.irradiance.direct_normal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.irradiance.diffuse_horizontal"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Diffuse Horizontal</div>
-                          <div>{solarData.irradiance.diffuse_horizontal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>
-                        </div>
-                      </ListGroupItem>
-                    </ListGroup>
+              <ListGroup className="list-group-flush">
+                <ListGroupItem key={"solarData.irradiance.global_horizontal"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Global Horizontal</div>
+                    <div>{solarData.irradiance.global_horizontal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.irradiance.direct_normal"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Direct Normal</div>
+                    <div>{solarData.irradiance.direct_normal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.irradiance.diffuse_horizontal"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Diffuse Horizontal</div>
+                    <div>{solarData.irradiance.diffuse_horizontal} <small style={{ fontWeight: 'lighter' }}> W/m<sup>2</sup></small></div>
+                  </div>
+                </ListGroupItem>
+              </ListGroup>
 
+              <Card.Body>
+              </Card.Body>
 
-                <Card.Body>
+            </Card>
+          </Col>
 
-                </Card.Body>
-              </Card>
-            </Col>
+          <Col>
+            <Card style={{ width: '18rem' }}>
 
-            <Col>
-              <Card style={{ width: '18rem' }}>
-                <Card.Body>
-                  <Card.Title><h3>Meteorological</h3></Card.Title>
-                </Card.Body>
+              <Card.Body>
+                <Card.Title><h3>Meteorological</h3></Card.Title>
+              </Card.Body>
 
-                    <ListGroup className="list-group-flush">
-                      <ListGroupItem key={"solarData.meteorological.pr1_temperature"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>PR1 Temperature</div>
-                          <div>{solarData.meteorological.pr1_temperature} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.ph1_temperature"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>PH1 Temperature</div>
-                          <div>{solarData.meteorological.ph1_temperature} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.pressure"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Pressure</div>
-                          <div>{solarData.meteorological.pressure} <small style={{ fontWeight: 'lighter' }}>mBar</small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.zenith_angle"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Zenith Angle</div>
-                          <div>{solarData.meteorological.zenith_angle} &#176;<small style={{ fontWeight: 'lighter' }}></small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.azimuth_angle"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Azimuth Angle</div>
-                          <div>{solarData.meteorological.azimuth_angle} &#176;<small style={{ fontWeight: 'lighter' }}></small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.razon_status"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Razon Status</div>
-                          <div>{solarData.meteorological.razon_status} <small style={{ fontWeight: 'lighter' }}></small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.razon_time"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Razon Time</div>
-                          <div>{solarData.meteorological.razon_time} <small style={{ fontWeight: 'lighter' }}>hhmm</small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.logger_battery"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Logger Battery</div>
-                          <div>{solarData.meteorological.logger_battery} <small style={{ fontWeight: 'lighter' }}>VDC</small></div>
-                        </div>
-                      </ListGroupItem>
-                      <ListGroupItem key={"solarData.meteorological.logger_temp"}>
-                        <div className="d-flex justify-content-between">
-                          <div style={{ fontWeight: 'bolder' }}>Logger Temp</div>
-                          <div>{solarData.meteorological.logger_temp} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>
-                        </div>
-                      </ListGroupItem>
+              <ListGroup className="list-group-flush">
+                <ListGroupItem key={"solarData.meteorological.pr1_temperature"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>PR1 Temperature</div>
+                    <div>{solarData.meteorological.pr1_temperature} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.ph1_temperature"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>PH1 Temperature</div>
+                    <div>{solarData.meteorological.ph1_temperature} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.pressure"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Pressure</div>
+                    <div>{solarData.meteorological.pressure} <small style={{ fontWeight: 'lighter' }}>mBar</small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.zenith_angle"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Zenith Angle</div>
+                    <div>{solarData.meteorological.zenith_angle} &#176;<small style={{ fontWeight: 'lighter' }}></small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.azimuth_angle"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Azimuth Angle</div>
+                    <div>{solarData.meteorological.azimuth_angle} &#176;<small style={{ fontWeight: 'lighter' }}></small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.razon_status"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Razon Status</div>
+                    <div>{solarData.meteorological.razon_status} <small style={{ fontWeight: 'lighter' }}></small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.razon_time"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Razon Time</div>
+                    <div>{solarData.meteorological.razon_time} <small style={{ fontWeight: 'lighter' }}>hhmm</small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.logger_battery"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Logger Battery</div>
+                    <div>{solarData.meteorological.logger_battery} <small style={{ fontWeight: 'lighter' }}>VDC</small></div>
+                  </div>
+                </ListGroupItem>
+                <ListGroupItem key={"solarData.meteorological.logger_temp"}>
+                  <div className="d-flex justify-content-between">
+                    <div style={{ fontWeight: 'bolder' }}>Logger Temp</div>
+                    <div>{solarData.meteorological.logger_temp} &#176;<small style={{ fontWeight: 'lighter' }}>C</small></div>
+                  </div>
+                </ListGroupItem>
+              </ListGroup>
 
-                    </ListGroup>
+              <Card.Body>
+              </Card.Body>
 
+            </Card>
+          </Col>
+        </Row>
+      </Container>
 
-                <Card.Body>
-
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-
-        </div>
-    )
+    </div>
+  )
 }
 
 export default LiveMeasurements

@@ -2,9 +2,6 @@ import React, { useState, useContext } from 'react'
 
 //todo change to only import individual components
 import { Button, Row, Col, Container, Form, FormGroup, Collapse, Modal } from 'react-bootstrap';
-
-// DateRangePicker: https://github.com/skratchdot/react-bootstrap-daterangepicker
-// react wrapper for https://github.com/dangrossman/daterangepicker
 import DateRangePicker from 'react-bootstrap-daterangepicker';
 import moment from 'moment';
 
@@ -28,17 +25,14 @@ import useHandleDataSelectionForm from '../Hooks/useHandleDataSelectionForm';
 const DataSelection = ({
     handleSubmit, handleReset,
     initialShowSelection,
-    showModal, setShowModalState}) => {
-    
+    showModal, setShowModalState }) => {
+
     // button styles
     const button_cal_styles = { backgroundColor: "transparent", boxShadow: "none", borderColor: "transparent", color: "#003B71", padding: "5px" }
 
-    const {dataForm, dateState, dateReference, handleDateCallback} = useContext(DataFormContext);
-
+    const { dataForm, dateState, dateReference, handleDateCallback } = useContext(DataFormContext);
     const [show, setShow] = useState(initialShowSelection);
-
     const [handleCheckFormChange, handleRadioFormChange, handleRawDataCheckChange] = useHandleDataSelectionForm();
-
     const [previousDay, nextDay, previousMonth, nextMonth, previousYear, nextYear] = useDateShift();
 
 
@@ -54,7 +48,6 @@ const DataSelection = ({
                     }
                 }}>
                 Data Selection
-                {/* <i className={show.showDataSelection ? "arrow down": "arrow up"}></i> */}
                 <img src={show.showDataSelection ? arrowup : arrow} alt={show.showDataSelection ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
             </h2>
 
@@ -81,7 +74,6 @@ const DataSelection = ({
                                             cursor: 'pointer',
                                             padding: '5px 10px',
                                             border: '1px solid #ccc',
-                                            // width: '50%',
                                         }}
                                     >
                                         <i className="fa fa-calendar"></i>&nbsp;
@@ -117,13 +109,11 @@ const DataSelection = ({
                                                 style={{ cursor: "pointer" }}
                                                 onClick={() => setShow({ ...show, showIrradiance: !show.showIrradiance })}>
                                                 Irradiance
-                                                {/* <i className={show.showIrradiance ? "arrow down": "arrow up"}/> */}
                                                 <img src={show.showIrradiance ? arrowup : arrow} alt={show.showIrradiance ? "arrow up" : "arrow down"} style={{ marginLeft: "10px" }} width={10} height={10} />
                                             </h3>
                                             <Collapse in={show.showIrradiance}>
                                                 <div>
                                                     <Form.Check
-                                                        // todo... I prob can make all of this cleaner with a map or something
                                                         type={'checkbox'}
                                                         id={'irradiance-global-horizontal'}
                                                         name={'irradiance-global-horizontal'}
@@ -203,7 +193,6 @@ const DataSelection = ({
                                                         label={'Azimuth Angle'}
                                                         onChange={handleCheckFormChange} />
                                                     <Form.Check
-                                                        //dup
                                                         type={'checkbox'}
                                                         id={'meteorological-razon-status'}
                                                         name={'meteorological-razon-status'}
@@ -295,7 +284,7 @@ const DataSelection = ({
                                                                         name={"interval-group"}
                                                                         value={'1'}
                                                                         checked={(dataForm["interval-group"] === "1") ? true : false}
-                                                                        // TODO FIXME: bug: interval is not enabled if output type is originally graph after checking raw data
+                                                                        //FIXED: bug: interval is not enabled if output type is originally graph after checking raw data, check during submit
                                                                         disabled={(dataForm["output-group"] !== "1" || (dataForm["output-group"] === "1" && dataForm["output-raw"])) ? false : true}
                                                                         label={'1-minute'}
                                                                         onChange={handleRadioFormChange} />
@@ -343,12 +332,12 @@ const DataSelection = ({
                                     <Button variant="primary" onClick={handleSubmit} type="submit">Submit</Button>{' '}
                                     <Button variant="outline-primary" onClick={handleReset}>Reset</Button>{' '}
 
-                                    <Modal show={showModal} onHide={() => {setShowModalState(false)}}>
+                                    <Modal show={showModal} onHide={() => { setShowModalState(false) }}>
                                         <Modal.Header>
                                             <Modal.Title>Error</Modal.Title>
                                             <img src={closebutton} height={20} width={20}
                                                 alt={"Close Modal"}
-                                                onClick={() => {setShowModalState(false)}}
+                                                onClick={() => { setShowModalState(false) }}
                                                 style={{ alignSelf: "flex-end", marginBottom: "5px", marginRight: "10px", cursor: "pointer" }}></img>
                                         </Modal.Header>
                                         <Modal.Body>No selection was made</Modal.Body>

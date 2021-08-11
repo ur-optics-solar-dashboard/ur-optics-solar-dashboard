@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/DefaultConstants.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/DefaultConstants.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import moment from &quot;moment&quot;
+
+export const defaultDataForm = {
+    &quot;irradiance-global-horizontal&quot;: false,
+    &quot;irradiance-direct-normal&quot;: false,
+    &quot;irradiance-diffuse-horizontal&quot;: false,
+    &quot;meteorological-pr1-temperature&quot;: false,
+    &quot;meteorological-ph1-temperature&quot;: false,
+    &quot;meteorological-pressure&quot;: false,
+    &quot;meteorological-zenith-angle&quot;: false,
+    &quot;meteorological-azimuth-angle&quot;: false,
+    &quot;meteorological-razon-status&quot;: false,
+    &quot;meteorological-razon-time&quot;: false,
+    &quot;meteorological-logger-battery&quot;: false,
+    &quot;meteorological-logger-temp&quot;: false,
+    &quot;interval-group&quot;: &quot;1&quot;,
+    &quot;output-group&quot;: &quot;1&quot;,
+    &quot;output-raw&quot;: false,
+    &quot;options-black-white&quot;: false,
+    &quot;options-english-conversion&quot;: false,
+}
+
+export const initialShowSelectionTrue = { showDataSelection: true, showIrradiance: true, showMeteorological: true, showInterval: true, showOutputType: true }
+
+export const initialShowSelectionFalse = { showDataSelection: false, showIrradiance: false, showMeteorological: false, showInterval: false, showOutputType: false }
+
+export const defaultGraphOptions = {
+    &quot;show-graph-options&quot;: false,
+    &quot;line-thickness&quot;: 1,
+    &quot;font-size&quot;: 16,
+    &quot;legend&quot;: true,
+    &quot;dot&quot;: false,
+}
+
+export const graphColors = [&quot;#003B71&quot;, &quot;red&quot;, &quot;green&quot;, &quot;purple&quot;, &quot;orange&quot;, &quot;pink&quot;, &quot;black&quot;, &quot;brown&quot;, &quot;gray&quot;, &quot;blue&quot;, &quot;lightgreen&quot;, &quot;lightorange&quot;];
+
+export const ranges = {
+    Today: [moment().toDate(), moment().toDate()],
+    &apos;Past 7 Days&apos;: [
+        moment().subtract(6, &apos;days&apos;).toDate(),
+        moment().toDate(),
+    ],
+    &apos;Past 30 Days&apos;: [
+        moment().subtract(29, &apos;days&apos;).toDate(),
+        moment().toDate(),
+    ],
+    &apos;Past Month&apos;: [
+        moment().subtract(1, &apos;month&apos;).toDate(),
+        moment().toDate(),
+    ],
+    &apos;Past Year&apos;: [
+        moment().subtract(1, &apos;year&apos;).toDate(),
+        moment().toDate(),
+    ],
+    &apos;Past 5 Years&apos;: [
+        moment().subtract(5, &apos;year&apos;).toDate(),
+        moment().toDate(),
+    ],
+    &apos;This Week&apos;: [
+        moment().startOf(&apos;week&apos;).toDate(),
+        moment().endOf(&apos;week&apos;).toDate(),
+    ],
+    &apos;This Month&apos;: [
+        moment().startOf(&apos;month&apos;).toDate(),
+        moment().endOf(&apos;month&apos;).toDate(),
+    ],
+    &apos;All 5 Years&apos;: [
+        moment().subtract(5, &apos;year&apos;).startOf(&apos;year&apos;).toDate(),
+        moment().toDate(),
+    ],
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,3 +1,4 @@
+/* CSS for resizable components */
 .react-resizable {
     position: relative;
   }
@@ -15,23 +16,13 @@
     box-sizing: border-box;
     cursor: se-resize;
   }
-  /* demo */
-  /* body {
-    background: white;
-    padding: 20px;
-  } */
-  /* #content {
-    width: 100%;
-    background: #eee;
-    padding-bottom: 200px;
-  } */
+
   .layoutRoot {
     display: flex;
     flex-wrap: wrap;
   }
   .box {
     display: inline-block;
-    /* background: #ccc; */
     border: 1px solid black;
     text-align: center;
     padding: 10px;

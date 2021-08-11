@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/Hooks/useDownloadChartSubmit.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/Hooks/useDownloadChartSubmit.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {
+    useHistory,
+} from &quot;react-router-dom&quot;;
+
+import domtoimage from &apos;dom-to-image&apos;;
+
+import FileSaver from &apos;file-saver&apos;;
+
+/**
+ * @param  {{downloadSelection: number, graphData: string}} props
+ * @returns {[handleChartSubmit: function]} array
+ */
+export const useDownloadChartSubmit = ({downloadSelection, graphData}) =&gt; {
+
+    /**
+     * downloads a document element as a png to file `chart.png`
+     * @param  {string} elementId element id from document
+     * @param  {string} bgcolor background color
+     */
+     const downloadLineChartPNG = (elementId, bgcolor) =&gt; {
+        domtoimage.toBlob(document.getElementById(elementId),  { bgcolor: bgcolor })
+            .then(function (blob) {
+                FileSaver.saveAs(blob, &apos;chart.png&apos;);
+            });
+    }
+    
+    /**
+     * downloads a document element as a jpeg to file `chart.jpeg`
+     * @param  {string} elementId element id from document
+     * @param  {number} quality quality of jpeg
+     * @param  {string} bgcolor background color
+     */
+    const downloadLineChartJPEG = (elementId, quality, bgcolor) =&gt; {
+        domtoimage.toJpeg(document.getElementById(elementId), { quality: quality, bgcolor: bgcolor })
+            .then(function (dataUrl) {
+                FileSaver.saveAs(dataUrl, &apos;chart.jpeg&apos;);
+            });
+    }
+    
+    /**
+     * downloads graph data from recharts as a json to file `graph_data.json`
+     * @param  {object} graphData graph object
+     */
+    const downloadGraphJson = (graphData) =&gt; {
+        var blob = new Blob([JSON.stringify(graphData)], { type: &quot;text/plain;charset=utf-8&quot; });
+        FileSaver.saveAs(blob, &quot;graph_data.json&quot;)
+    }
+
+    /**
+     * downloads a document element as an svg to file `chart.svg`
+     * @param  {string} elementId element id from document
+     */
+    const downloadLineChartSVG = (elementId) =&gt; {
+        domtoimage.toSvg(document.getElementById(elementId),)
+            .then(function (dataUrl) {
+                FileSaver.saveAs(dataUrl, &apos;chart.svg&apos;);
+            });
+    }
+
+    let history = useHistory();
+
+    /**
+     * handler to submit optional chart options
+     * @param {*} event
+     */
+    const handleChartSubmit = (event) =&gt; {
+        switch (downloadSelection) {
+            case 1:
+                history.push(&quot;/zip-compressed&quot;); //todo
+                break;
+            case 2: // png
+                downloadLineChartPNG(&apos;lineChart&apos;, &quot;white&quot;);
+                break;
+            case 3: //jpeg
+                downloadLineChartJPEG(&apos;lineChart&apos;, 0.75, &quot;white&quot;);
+                break;
+            case 4: //svg
+                downloadLineChartSVG(&apos;lineChart&apos;);
+                break;
+            case 5: //json
+                downloadGraphJson(graphData);
+                break;
+            default: // case 0
+                history.push(&quot;/csv&quot;); //todo
+        }
+    }
+
+    return [handleChartSubmit]
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

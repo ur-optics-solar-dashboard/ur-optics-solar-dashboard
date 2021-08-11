@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 
 import Header from '../Components/Header';
 import DataSelection from '../Components/DataSelection';
@@ -14,7 +14,7 @@ import moment from 'moment';
 import useGraph from '../Hooks/useGraph';
 
 // default values
-import { defaultDataForm,initialShowSelectionFalse } from '../DefaultConstants';
+import { defaultDataForm, initialShowSelectionFalse } from '../DefaultConstants';
 
 import { DataFormContext } from '../contexts/DataFormContext';
 
@@ -22,21 +22,20 @@ import { DataFormContext } from '../contexts/DataFormContext';
  * Graph Page component @ /graph
  */
 const Graph = () => {
-  
+
+  //todo: handle interval ourselves because having users chose is a bit unreliable (can cause too many points to be rendered)
+
   let location = useLocation()
   let query = new URLSearchParams(location.search);
 
-  const {dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback} = useContext(DataFormContext);
+  const { dataForm, setDataFormState, dateState, graphTitle, setGraphTitle, handleDateCallback } = useContext(DataFormContext);
 
-  // 
-  const [graphData, setGraphData, graphLines, setGraphLines, 
+  const [graphData, setGraphData, graphLines, setGraphLines,
     irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();
 
-
-  //todo: handle interval ourselves because having them chose is a bit unreliable (can cause too many points to be rendered)
+  /** Backend and Frontend use the same queries to get the same data currently, so if there is a query in the frontend, we simply have to use the same query in the backend */
   const [queryFetchString, setQueryFetchString] = useState(null);
 
-  //todo: there is probably a way to clean up this stuff a bit more
   /**
    * Fetch chart data from backend and handle chart states
    */
@@ -52,20 +51,16 @@ const Graph = () => {
     const start = moment(dateState.start).format("YYYY-MM-DD");
     const end = moment(dateState.end).format("YYYY-MM-DD");
 
-    // console.log("query_fetch_array", query_fetch_array)
     if (query_fetch_array.length !== 0) {
-      // console.log("query:",`/graph?start=${start}&end=${end}&${query_fetch_array.join("&")}`)
       fetch(`/graph?start=${start}&end=${end}&${query_fetch_array.join("&")}`)
         .then(function (response) {
-          // console.log("response: ", response)
           setQueryFetchString(`start=${start}&end=${end}&${query_fetch_array.join("&")}`);
           return response.json();
         })
         .then(function (myJson) {
-          // console.log("response json: ", myJson);
           console.log("loading data...");
           setGraphTitle(dateState.label);
-          
+
           setGraphData(myJson["return_data"]);
 
           setGraphLines(myJson["included_headers"]);
@@ -75,20 +70,20 @@ const Graph = () => {
         });
 
     } else {
-      console.log("no data selected");
+      console.log("No Data Selected");
       setGraphTitle("No Data Selected");
     }
   }
 
   const [handleSubmit, handleReset,
-    showModal, setShowModalState] = useSelectionForm({getChartData: getChartData});
+    showModal, setShowModalState] = useSelectionForm({ getChartData: getChartData });
 
   /**
    * parse query from the URL and replace localstorage values
    */
-  async function parseQuerySetForm() {
-    let change = false
-    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); //quick copy
+  function parseQuerySetForm() {
+    let change = false // make sure that there are valid query parameters
+    const newQueryObj = JSON.parse(JSON.stringify(defaultDataForm)); // quick copy
 
     for (const field in defaultDataForm) {
       const field_value = query.get(field);
@@ -99,7 +94,7 @@ const Graph = () => {
     }
 
     if (change) {
-      setQueryData(true);
+      setQueryingData(true);
       setDataFormState(newQueryObj);
     }
 
@@ -118,32 +113,33 @@ const Graph = () => {
    * @returns {string} link
    */
   function createQuery() {
-    if(graphTitle!=="No Data Selected"){
+    if (graphTitle !== "No Data Selected") {
       return `http://localhost:3000/graph?${queryFetchString}`
     }
     return 'http://localhost:3000/graph'
   }
 
-  const [queryData, setQueryData] = useState(false)
+  const [queryingData, setQueryingData] = useState(false);
 
+  /** What the copied link to the current data is */
   const [copyLinkText, setCopyLinkText] = useState(createQuery());
 
-  useEffect(() =>   {
+  useEffect(() => {
     setCopyLinkText(createQuery());
   }, [queryFetchString]);
 
   useEffect(() => {
-    if(queryData){
+    if (queryingData) {
       console.log("querying...")
       getChartData();
     }
-    setQueryData(false);
+    setQueryingData(false);
   }, [dataForm]);
 
   useEffect(() => {
     parseQuerySetForm();
-    if(location.search === ""){ // no queries
-      if(!queryData){ // not currently querying data (and changing it)
+    if (location.search === "") { // no queries
+      if (!queryingData) { // not currently querying data (and changing it) This is so we do not interfere with the asynchronous calls happening in parseQuerySetForm
         getChartData();
       }
     }
@@ -159,12 +155,12 @@ const Graph = () => {
           <h1>Irradiance and Meteorological Conditions Graph</h1>
         </div>
       </section>
+
       <hr />
 
       <main className="App-main">
         <section className="App-main-section" id="App-main-data">
           <DataSelection
-            //todo useContext to pass these props stuff down?
             handleSubmit={handleSubmit} handleReset={handleReset}
             initialShowSelection={initialShowSelectionFalse}
             showModal={showModal} setShowModalState={setShowModalState} />

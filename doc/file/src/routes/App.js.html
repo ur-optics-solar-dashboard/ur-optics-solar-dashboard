@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/routes/App.js | ur-optics-solar-dashboard</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultDataForm">defaultDataForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultGraphOptions">defaultGraphOptions</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-graphColors">graphColors</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionFalse">initialShowSelectionFalse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-initialShowSelectionTrue">initialShowSelectionTrue</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ranges">ranges</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components">Components</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Header">Header</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-LiveMeasurements">LiveMeasurements</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#hooks">Hooks</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDateShift">useDateShift</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useDownloadChartSubmit">useDownloadChartSubmit</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useGraph">useGraph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-useSelectionForm">useSelectionForm</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-typedef">T</span><span data-ice="name"><span><a href="typedef/index.html#static-typedef-StateSetter">StateSetter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#contexts">contexts</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-DataFormProvider">DataFormProvider</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DataFormContext">DataFormContext</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#routes">routes</a><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-App">App</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Graph">Graph</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-Live">Live</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/routes/App.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, { useState, useEffect,useContext } from &apos;react&apos;;
+
+import Header from &apos;../Components/Header&apos;;
+import LiveMeasurements from &apos;../Components/LiveMeasurements&apos;;
+import DataSelection from &apos;../Components/DataSelection&apos;;
+
+//hooks
+import { useSelectionForm } from &apos;../Hooks/useSelectionForm&apos;;
+
+
+//defaults
+import { initialShowSelectionTrue } from &apos;../DefaultConstants&apos;;
+
+import &apos;../App.css&apos;;
+import &apos;bootstrap/dist/css/bootstrap.min.css&apos;
+
+/**
+ * import individual components
+ */
+
+//  import { Link } from &#x201C;react-router-dom&#x201D;;
+//todo change to only import individual components
+/**
+ * Main Page Component @ /
+ */
+const App = () =&gt; {
+
+  const [handleSubmit, handleReset, 
+    showModal, setShowModalState] = useSelectionForm({});
+
+  /**
+   * handling DataForm Events
+   * Raw Data radio should disable all checkboxes line type and the graphing options
+   * reset button resets all checkboxes and radio to default
+   * save previous options in localstorage, but there is a bug when selecting raw data, and we simply check the conditions of raw data
+   */
+
+  return (
+    &lt;div className=&quot;App&quot;&gt;
+      &lt;Header className=&quot;App-header&quot; /&gt;
+
+      &lt;section className=&quot;App-main&quot; id=&quot;main-header&quot;&gt;
+        &lt;div&gt;
+          &lt;h1&gt;UR Optics Solar Radiation Research Laboratory (RaZON+)&lt;/h1&gt;
+          &lt;h1&gt;Current Irradiance and Meteorological Conditions&lt;/h1&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+      &lt;hr /&gt;
+
+      &lt;main className=&quot;App-main&quot;&gt;
+
+        &lt;section className=&quot;App-main-section&quot; id=&quot;App-main-data&quot;&gt;
+          &lt;DataSelection
+            //todo useContext to pass these props stuff down?
+            handleSubmit={handleSubmit} handleReset={handleReset}
+            initialShowSelection={initialShowSelectionTrue}
+            showModal={showModal} setShowModalState={setShowModalState} /&gt;
+        &lt;/section&gt;
+
+        &lt;section className=&quot;App-main-section&quot; id=&quot;App-main-live&quot;&gt;
+          &lt;LiveMeasurements /&gt;
+        &lt;/section&gt;
+
+      &lt;/main&gt;
+
+      &lt;hr /&gt;
+
+      {/* empty div footer */}
+      &lt;div style={{ paddingBottom: &quot;60px&quot; }} &gt;&lt;/div&gt;
+
+    &lt;/div&gt;
+  );
+}
+
+export default App;</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
