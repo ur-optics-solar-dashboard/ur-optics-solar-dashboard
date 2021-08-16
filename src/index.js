@@ -11,6 +11,7 @@ import { DataFormProvider } from './contexts/DataFormContext';
 // now = new Date().toLocaleString('en-US', { timeZone: 'Indian/Christmas' })
 import moment from 'moment';
 import 'moment-timezone';
+import Main from './routes/Main';
 
 moment.tz.setDefault("America/New_York");
 
@@ -23,6 +24,9 @@ ReactDOM.render(
         </Route>
         <Route path="/live">
           <Live />
+        </Route>
+        <Route path="/main">
+          <Main />
         </Route>
         <Route path="/">
           <App />
