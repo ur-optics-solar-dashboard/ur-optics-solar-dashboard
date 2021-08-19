@@ -1,17 +1,17 @@
 import { useEffect, useState, useContext } from 'react'
 
-import Header from '../Components/Header';
-import DataSelection from '../Components/DataSelection';
-import Chart from '../Components/Chart';
+import Header from '../components/Header';
+import DataSelection from '../components/DataSelection';
+import Chart from '../components/Chart';
 
 import {
   useLocation
 } from "react-router-dom";
 
 //hooks
-import { useSelectionForm } from '../Hooks/useSelectionForm';
+import { useSelectionForm } from '../hooks/useSelectionForm';
 import moment from 'moment';
-import useGraph from '../Hooks/useGraph';
+import useGraph from '../hooks/useGraph';
 
 // default values
 import { defaultDataForm, initialShowSelectionFalse } from '../DefaultConstants';

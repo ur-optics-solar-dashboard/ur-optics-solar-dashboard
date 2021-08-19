@@ -21,8 +21,8 @@ import {
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
-import solarIcon from '../images/solar-icon.svg';
-import { FaGem, FaHeart } from 'react-icons/fa';
+import Sidebar from '../components/Sidebar';
+import SidebarLayout from '../components/SidebarLayout';
 
 const IrridianceOptions = [
     { value: 'irradiance-global-horizontal', label: 'Global Horizontal', color: '#00B8D9' },
@@ -33,21 +33,9 @@ const IrridianceOptions = [
 const Main = () => {
     return (
         <>
-            <div className="sidebar">
-                <ProSidebar>
-                    <Menu iconShape="square">
-                        <MenuItem icon={<FaGem />}>Dashboard</MenuItem>
-                        <SubMenu title="Components" icon={<FaHeart />}>
-                            <MenuItem>Component 1</MenuItem>
-                            <MenuItem>Component 2</MenuItem>
-                        </SubMenu>
-                    </Menu>
-                </ProSidebar>
-            </div>
-            <main className="content">
+            <SidebarLayout width={290}>
                 <Select
                     options={IrridianceOptions}>
-
                 </Select>
                 <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
                 <h1>Iusto ipsum accusamus vero recusandae! </h1>
@@ -73,8 +61,8 @@ const Main = () => {
                 <h1>Iusto ipsum accusamus vero recusandae! </h1>
                 <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
                 <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+            </SidebarLayout>
 
-            </main>
         </>
     )
 }

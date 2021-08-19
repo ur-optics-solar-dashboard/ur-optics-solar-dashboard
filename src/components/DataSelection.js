@@ -14,8 +14,8 @@ import arrowright from '../images/keyboard-right-arrow-button.svg';
 import closebutton from '../images/close.svg';
 import { DataFormContext } from '../contexts/DataFormContext';
 import { ranges } from '../DefaultConstants';
-import useDateShift from '../Hooks/useDateShift';
-import useHandleDataSelectionForm from '../Hooks/useHandleDataSelectionForm';
+import useDateShift from '../hooks/useDateShift';
+import useHandleDataSelectionForm from '../hooks/useHandleDataSelectionForm';
 
 /** @typedef StateSetter */
 /**

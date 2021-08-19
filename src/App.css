@@ -2,6 +2,7 @@
   --main-margin-left: 10vh;
   background-color: #F8F9FA;
   --primary-color:#003B71;
+  --sidebar-width: 250px;
   /* width: 100%; */
 }
 
@@ -15,21 +16,17 @@
 }
 
 
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  min-height: 100vh !important;
-  z-index: 100;
-  width: 300px;
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+.content {
+  /* margin-left: var(--sidebar-width); change with Javascript along with sidebar width */
+  transition: margin-left .5s; /* If you want a transition effect */
+  padding: 20px;
 }
 
-.content {
-  flex: 1 0 auto;
-  padding-left: 300px;
-  /* enable grow, disable shrink */
-}
+/* .content {
+  display: flex;
+  flex-direction: column;
+} */
 
 .App-layout {
   height: 100%;

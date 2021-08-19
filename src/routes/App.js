@@ -1,9 +1,9 @@
-import Header from '../Components/Header';
-import LiveMeasurements from '../Components/LiveMeasurements';
-import DataSelection from '../Components/DataSelection';
+import Header from '../components/Header';
+import LiveMeasurements from '../components/LiveMeasurements';
+import DataSelection from '../components/DataSelection';
 
 //hooks
-import { useSelectionForm } from '../Hooks/useSelectionForm';
+import { useSelectionForm } from '../hooks/useSelectionForm';
 
 
 //defaults
