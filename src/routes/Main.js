@@ -21,7 +21,6 @@ import {
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
-import Sidebar from '../components/Sidebar';
 import SidebarLayout from '../components/SidebarLayout';
 
 const IrridianceOptions = [
@@ -34,34 +33,83 @@ const Main = () => {
     return (
         <>
             <SidebarLayout width={290}>
-                <Select
-                    options={IrridianceOptions}>
-                </Select>
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
-                <h1>Iusto ipsum accusamus vero recusandae! </h1>
-                <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
-                <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
-                <h1>Iusto ipsum accusamus vero recusandae! </h1>
-                <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
-                <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
-                <h1>Iusto ipsum accusamus vero recusandae! </h1>
-                <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
-                <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
-                \<h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
-                <h1>Iusto ipsum accusamus vero recusandae! </h1>
-                <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
-                <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
-                <h1>Iusto ipsum accusamus vero recusandae! </h1>
-                <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
-                <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
-                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
-                <h1>Iusto ipsum accusamus vero recusandae! </h1>
-                <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
-                <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                <div className="main-content">
+                    <h2 id="main-title">Data Export Tool</h2>
+                    <section className="section-selection">
+                        <h4 id="section-title-selection">Data Selection</h4>
+                        <div className="data-wrapper">
+                            <div className="data-irradiance">
+                                <h6>Irradiance</h6>
+                                <div style={{ paddingRight: 10 }}>
+                                    <Select
+                                        isMulti
+                                        options={IrridianceOptions}>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="data-meteorological">
+                                <h6 id="data-meteorological-header">Meteorological</h6>
+                                <div style={{ paddingRight: 10 }}>
+                                    <Select
+                                        isMulti
+                                        options={IrridianceOptions}>
+                                    </Select>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section className="section-options">
+                        <div className="options-wrapper">
+                            <div className="options-export">
+                                <h4 id="options-export-header">Export Options</h4>
+                                <div style={{ paddingRight: 10 }}>
+                                    <Select
+                                        isMulti
+                                        options={IrridianceOptions}>
+                                    </Select>
+                                </div>
+                            </div>
+                            <div className="options-graph">
+                                <h4 id="options-graph-header">Graph Options</h4>
+                                <div style={{ paddingRight: 10 }}>
+                                    <Select
+                                        isMulti
+                                        options={IrridianceOptions}>
+                                    </Select>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <Select
+                        options={IrridianceOptions}>
+                    </Select>
+                    <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
+                    <h1>Iusto ipsum accusamus vero recusandae! </h1>
+                    <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
+                    <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                    <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
+                    <h1>Iusto ipsum accusamus vero recusandae! </h1>
+                    <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
+                    <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                    <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
+                    <h1>Iusto ipsum accusamus vero recusandae! </h1>
+                    <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
+                    <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                    <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
+                    <h1>Iusto ipsum accusamus vero recusandae! </h1>
+                    <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
+                    <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                    <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
+                    <h1>Iusto ipsum accusamus vero recusandae! </h1>
+                    <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
+                    <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                    <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. </h1>
+                    <h1>Iusto ipsum accusamus vero recusandae! </h1>
+                    <h1>Aperiam, molestias autem dicta fugit alias neque eum deleniti cupiditate, </h1>
+                    <h1>minus unde culpa harum veniam nulla. Impedit.</h1>
+                </div>
             </SidebarLayout>
+
 
         </>
     )
