@@ -5,16 +5,15 @@ import pytz
 import csv
 
 from flask_pymongo import PyMongo
-from blueprints.blueprints_box_management import blueprints_box_management
 # my_date = datetime.datetime.now(pytz.timezone('US/New_York'))
 
 global counter
 counter = 0
 
-from database import db
-from database import app
+app = Flask(__name__)
 
-app.register_blueprint(blueprints_box_management)
+mongodb_client = PyMongo(app, uri="mongodb://localhost:27017/solar_dashboard_database")
+db = mongodb_client.db
 
 # db.test.insert_one({'title': "todo title", 'body': "todo body"})
 @app.route('/weather_many')
