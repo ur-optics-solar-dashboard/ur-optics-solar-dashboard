@@ -5,27 +5,84 @@ import pytz
 import csv
 
 from flask_pymongo import PyMongo
-
+from blueprints.blueprints_box_management import blueprints_box_management
 # my_date = datetime.datetime.now(pytz.timezone('US/New_York'))
-
-
 
 global counter
 counter = 0
 
-app = Flask(__name__)
+from database import db
+from database import app
 
-mongodb_client = PyMongo(app, uri="mongodb://localhost:27017/solar_dashboard_database")
-db = mongodb_client.db
+app.register_blueprint(blueprints_box_management)
+
 # db.test.insert_one({'title': "todo title", 'body': "todo body"})
-@app.route('/test_insert')
-def test_insert():
-    db.test.insert_one({'title': "todo title", 'body': "todo body"})
+@app.route('/weather_many')
+def weather_many():
+    db.weather.insert_many([{
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-18T00:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 12
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-18T04:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 11
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-18T08:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 11
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-18T12:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 12
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-18T16:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 16
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-18T20:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 15
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-19T00:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 13
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-19T04:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 12
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-19T08:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 11
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-19T12:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 12
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-19T16:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 17
+        }, {
+        "metadata": [{"sensorId": 5578}, {"type": "temperature"}],
+        "timestamp": datetime.datetime.strptime("2021-05-19T20:00:00.000Z", "%Y-%m-%dT%H:%M:%S.%fZ"),
+        "temp": 12
+        }])
+    
     return jsonify(message="success")
 
-@app.route("/test_find")
-def home():
-    test = db.test.find()
+@app.route('/test_time_insert')
+def test_time_insert():
+    # 157680000 second
+    # print(datetime.datetime.strptime("7/12/2021 21:05", '%m/%d/%Y %H:%M'))
+    db.test_time_series.insert_many([{"ts":datetime.datetime.strptime("7/12/2021 21:05", '%m/%d/%Y %H:%M'),"RECORD":2,"RZ_Global_Irr":148.3,"RZ_Direct_Irr":0,"RZ_Diffuse_Irr":148.3,"RZ_Pyrano_Temp_C":25.9,"RZ_Pyrhelio_Temp_C":24.3,"RZ_PRESS":1014,"RZ_Zenith_Ang":117.8642,"RZ_Azimuth_Ang":262.6575,"RZ_STAT":0,"RZ_HHMM":0,"Batt_V":13.51,"Panel_T":26.32},{"ts":datetime.datetime.strptime("7/12/2021 21:06", '%m/%d/%Y %H:%M'),"RECORD":3,"RZ_Global_Irr":181.9,"RZ_Direct_Irr":28.4,"RZ_Diffuse_Irr":181.9,"RZ_Pyrano_Temp_C":25.9,"RZ_Pyrhelio_Temp_C":24.3,"RZ_PRESS":1014,"RZ_Zenith_Ang":118.0516,"RZ_Azimuth_Ang":262.8085,"RZ_STAT":0,"RZ_HHMM":0,"Batt_V":13.52,"Panel_T":26.24}])
+    # db.solar1min5year.insert_one()
+    return jsonify(message="success")
+
+@app.route("/test_weather_find")
+def test_weather_find():
+    # https://stackoverflow.com/questions/61217428/mongodb-how-to-query-a-time-series-with-incomplete-data
+    test = db.weather.find()
     for t in test:
         print(t)
     return jsonify([t for t in test])

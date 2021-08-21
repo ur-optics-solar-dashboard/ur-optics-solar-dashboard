@@ -7,6 +7,8 @@
 * Based on: [NREL live](https://midcdmz.nrel.gov/apps/daily.pl?site=RAZON&live=1)
     and [NREL daily](https://midcdmz.nrel.gov/apps/daily.pl?site=RAZON&start=20170216&yr=2021&mo=6&dy=29>)
 
+* Box Node SDK, authentication methods: <https://github.com/box/box-node-sdk/blob/main/docs/authentication.md>
+
 ### React
 
 * use React Hooks/functional components
@@ -42,5 +44,8 @@
 ## Backend (TODO)
 
 ### [Box](https://developer.box.com/)
+
+> To collaborate a Service Account on existing content use the assigned email address to invite them as you would any other user.
+<https://developer.box.com/guides/getting-started/user-types/service-account/#folder-tree-and-collaboration>
 
 ### Python Flask MongoDB
