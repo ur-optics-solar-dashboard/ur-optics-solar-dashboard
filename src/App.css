@@ -32,22 +32,12 @@
   flex-direction: row;
 }
 
-.data-irradiance {
+.data-half-section {
   flex: 1;
   width: '50%';
 }
 
-.data-irradiance h6 {
-  color: #A3A3A3;
-  font-weight: var(--font-weight-3);
-}
-
-.data-meteorological {
-  flex: 1;
-  width: '50%';
-}
-
-.data-meteorological h6 {
+.data-half-section h6 {
   color: #A3A3A3;
   font-weight: var(--font-weight-3);
 }
@@ -58,24 +48,27 @@
   flex-direction: row;
 }
 
-.options-export {
+.options-half-section {
   flex: 1;
   width: '50%';
 }
 
-.options-export h4 {
+.options-half-section h4 {
   color: #A3A3A3;
   font-weight: var(--font-weight-2);
 }
 
-.options-graph {
+.options-export-wrapper {
+  padding-top: 40px;
+  display: flex;
+  flex-direction: row;
+}
+
+.options-export-half-section {
   flex: 1;
   width: '50%';
-}
-
-.options-graph h4 {
-  color: #A3A3A3;
-  font-weight: var(--font-weight-2);
+  padding-right: 20px;
+  align-content: center;
 }
 
 .App {

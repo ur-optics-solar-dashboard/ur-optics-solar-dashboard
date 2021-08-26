@@ -1,0 +1,16 @@
+
+
+:root {
+    /* top | right | bottom | left */
+    --sidebar-padding: 8px 8px 8px 48px;
+    --sidebar-header-footer-padding:  8px 8px 8px 32px;
+  }
+  
+.export-button {
+    background-color: #8F677F80;
+    border: #8F677F80;
+}
+
+.export-button button:hover {
+    background-color: #8F677F;
+}

@@ -22,6 +22,7 @@ import {
 import 'react-pro-sidebar/dist/css/styles.css';
 
 import SidebarLayout from '../components/SidebarLayout';
+import ExportButton from '../components/ExportButton';
 
 const IrridianceOptions = [
     { value: 'irradiance-global-horizontal', label: 'Global Horizontal', color: '#00B8D9' },
@@ -38,39 +39,70 @@ const Main = () => {
                     <section className="section-selection">
                         <h4 id="section-title-selection">Data Selection</h4>
                         <div className="data-wrapper">
-                            <div className="data-irradiance">
+                            <div className="data-half-section">
                                 <h6>Irradiance</h6>
+
                                 <div style={{ paddingRight: 10 }}>
                                     <Select
                                         isMulti
                                         options={IrridianceOptions}>
                                     </Select>
                                 </div>
+
                             </div>
-                            <div className="data-meteorological">
-                                <h6 id="data-meteorological-header">Meteorological</h6>
+                            <div className="data-half-section">
+                                <h6>Meteorological</h6>
+
                                 <div style={{ paddingRight: 10 }}>
                                     <Select
                                         isMulti
                                         options={IrridianceOptions}>
                                     </Select>
                                 </div>
+
                             </div>
                         </div>
                     </section>
+
+
                     <section className="section-options">
                         <div className="options-wrapper">
-                            <div className="options-export">
-                                <h4 id="options-export-header">Export Options</h4>
-                                <div style={{ paddingRight: 10 }}>
-                                    <Select
-                                        isMulti
-                                        options={IrridianceOptions}>
-                                    </Select>
+                            <div className="options-half-section">
+                                <h4>Export Options</h4>
+                                <div className="options-export-wrapper">
+                                    <div className="options-export-half-section">
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
+                                        onClick={() => {}}>
+                                            csv
+                                        </ExportButton>
+
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
+                                        onClick={() => {}}>
+                                            ASCII Text
+                                        </ExportButton>
+
+                                        <ExportButton backgroundColor="#8F677F" hoverColor="#8F677F80" textColor="#FFFFFF" selected={false}
+                                        marginTop={40}
+                                        onClick={() => {}}>
+                                            Export Files
+                                        </ExportButton>
+                                        
+                                    </div>
+                                    <div className="options-export-half-section">
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
+                                        onClick={() => {}}>
+                                            json
+                                        </ExportButton>
+
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
+                                        onClick={() => {}}>
+                                            ZIP Compressed
+                                        </ExportButton>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="options-graph">
-                                <h4 id="options-graph-header">Graph Options</h4>
+                            <div className="options-half-section">
+                                <h4>Graph Options</h4>
                                 <div style={{ paddingRight: 10 }}>
                                     <Select
                                         isMulti
@@ -80,6 +112,8 @@ const Main = () => {
                             </div>
                         </div>
                     </section>
+
+
                     <Select
                         options={IrridianceOptions}>
                     </Select>
