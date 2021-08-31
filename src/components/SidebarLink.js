@@ -19,10 +19,13 @@ const SidebarLink = props => {
         </div>
     )
 }
+SidebarLink.defaultProps = {
+    selected: false
+}
 
 SidebarLink.propTypes = {
     href: PropTypes.string,
-    selected: PropTypes.bool = false,
+    selected: PropTypes.bool,
 }
 
 export default SidebarLink

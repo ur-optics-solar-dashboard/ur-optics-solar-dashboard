@@ -1,0 +1,25 @@
+.date-selection-wrapper{
+    max-width: 400px;
+}
+
+.date-shift-wrapper{
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.date-shift-left{
+    
+}
+
+.date-shift-right{
+    
+}
+
+.date-shift-button{
+    background-color: transparent;
+    box-shadow: none;
+    border-color: transparent;
+    color: #003b71;
+    cursor: pointer;
+}

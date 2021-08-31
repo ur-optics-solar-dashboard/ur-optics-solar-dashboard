@@ -1,28 +1,16 @@
 
-import { Button } from 'react-bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Select from 'react-select';
 
 // import { colourOptions } from '../data';
 
 import '../App.css';
-import { Link } from 'react-router-dom';
-import * as FaIcons from "react-icons/fa"
-
-import {
-    ProSidebar,
-    Menu,
-    MenuItem,
-    SubMenu,
-    SidebarHeader,
-    SidebarFooter,
-    SidebarContent,
-} from "react-pro-sidebar";
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
 import SidebarLayout from '../components/SidebarLayout';
 import ExportButton from '../components/ExportButton';
+import { useState } from 'react';
+import DateSelection from '../components/DateSelection';
 
 const IrridianceOptions = [
     { value: 'irradiance-global-horizontal', label: 'Global Horizontal', color: '#00B8D9' },
@@ -31,6 +19,8 @@ const IrridianceOptions = [
 ];
 
 const Main = () => {
+    const [exportOptionsState, setExportOptionsState] = useState(0)
+
     return (
         <>
             <SidebarLayout width={290}>
@@ -71,31 +61,35 @@ const Main = () => {
                                 <h4>Export Options</h4>
                                 <div className="options-export-wrapper">
                                     <div className="options-export-half-section">
-                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
-                                        onClick={() => {}}>
+                                        {/* <button className="export-option-button">csv</button> */}
+
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 1}
+                                            onClick={() => { setExportOptionsState(1) }}>
                                             csv
                                         </ExportButton>
 
-                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
-                                        onClick={() => {}}>
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 2}
+                                            onClick={() => { setExportOptionsState(2) }}>
                                             ASCII Text
                                         </ExportButton>
 
                                         <ExportButton backgroundColor="#8F677F" hoverColor="#8F677F80" textColor="#FFFFFF" selected={false}
-                                        marginTop={40}
-                                        onClick={() => {}}>
+                                            marginTop={40}
+                                            onClick={() => {
+                                                //todo: export
+                                            }}>
                                             Export Files
                                         </ExportButton>
-                                        
+
                                     </div>
                                     <div className="options-export-half-section">
-                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
-                                        onClick={() => {}}>
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 3}
+                                            onClick={() => { setExportOptionsState(3) }}>
                                             json
                                         </ExportButton>
 
-                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={false}
-                                        onClick={() => {}}>
+                                        <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 4}
+                                            onClick={() => { setExportOptionsState(4) }}>
                                             ZIP Compressed
                                         </ExportButton>
                                     </div>
@@ -103,11 +97,8 @@ const Main = () => {
                             </div>
                             <div className="options-half-section">
                                 <h4>Graph Options</h4>
-                                <div style={{ paddingRight: 10 }}>
-                                    <Select
-                                        isMulti
-                                        options={IrridianceOptions}>
-                                    </Select>
+                                <div className="graph-options-wrapper" style={{ paddingRight: 10 }}>
+                                    <DateSelection/>
                                 </div>
                             </div>
                         </div>
