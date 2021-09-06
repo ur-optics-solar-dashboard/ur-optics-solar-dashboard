@@ -1,36 +1,19 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
+import { useContext } from "react";
 import { DataFormContext } from "../contexts/DataFormContext";
 import moment from "moment";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import { ranges } from "../DefaultConstants";
 import "./DateSelection.css";
-import arrowright from '../images/keyboard-right-arrow-button.svg';
-import useDateShift from "../hooks/useDateShift";
+import DateShifter from "./DateShifter";
 
 const DateSelection = (props) => {
   const { dateState, dateReference, handleDateCallback } =
     useContext(DataFormContext);
 
-    const [previousDay, nextDay, previousMonth, nextMonth, previousYear, nextYear] = useDateShift();
   return (
     <>
       <div className="date-selection-wrapper">
-          <div className="date-shift-wrapper">
-              <div className="date-shift-left">
-                <img src={arrowright} style={{ transform: "rotate(180deg)", marginBottom:2}} alt={"arrow left"} width={10} height={10} />
-                  <button className="date-shift-button" style={{paddingLeft:1, paddingRight:3}} onClick={previousYear}>Year</button>
-                  <button className="date-shift-button" style={{paddingRight:3}} onClick={previousMonth}>Month</button>
-                  <button className="date-shift-button" onClick={previousDay}>Day</button>
-              </div>
-              <div className="date-shift-right">
-                  <button className="date-shift-button" style={{paddingRight:3}} onClick={nextDay}>Day</button>
-                  <button className="date-shift-button" style={{paddingRight:3}} onClick={nextMonth}>Month</button>
-                  <button className="date-shift-button" style={{paddingRight:1}} onClick={nextYear}>Year</button>
-                  <img src={arrowright} style={{ marginBottom:2}} alt={"arrow left"} width={10} height={10} />
-
-              </div>
-          </div>
+        <DateShifter />
         <DateRangePicker
           // todo better predefined ranges that make sense for this product
           ref={dateReference}
@@ -55,6 +38,8 @@ const DateSelection = (props) => {
               borderRadius: 5,
               textAlign: "center",
               marginTop: 5,
+              marginLeft: 0,
+              marginRight: 0,
             }}
           >
             <i className="fa fa-calendar"></i>&nbsp;

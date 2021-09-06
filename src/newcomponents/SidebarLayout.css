@@ -3,4 +3,5 @@
     /* margin-left: var(--sidebar-width); change with Javascript along with sidebar width */
     transition: margin-left .5s; /* If you want a transition effect */
     padding: 20px;
+    min-height: 100vh;
   }

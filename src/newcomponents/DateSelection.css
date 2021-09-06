@@ -8,18 +8,14 @@
     justify-content: space-between;
 }
 
-.date-shift-left{
-    
-}
-
-.date-shift-right{
-    
-}
-
 .date-shift-button{
     background-color: transparent;
     box-shadow: none;
     border-color: transparent;
-    color: #003b71;
+    color: #8F677F;
     cursor: pointer;
+}
+
+.date-shift-button:hover {
+    background-color: #8F677F80;
 }

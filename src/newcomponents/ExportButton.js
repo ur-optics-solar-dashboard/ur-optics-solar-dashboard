@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 const ExportButton = props => {
-
+    // todo: change the exportbutton component name?
     const MouseOver = (event) => {
         if(props.selected){
             event.target.style.background = props.backgroundColor

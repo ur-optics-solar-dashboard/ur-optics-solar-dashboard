@@ -12,7 +12,9 @@ import solarIcon from '../images/solar-icon.svg';
  * @example
  * const width = 290
  * return (
- *   <Sidebar width={width}/>
+ *   <Sidebar width={width}>
+ *      {sidebar links}
+ *   <Sidebar>
  * )
  */
 const Sidebar = props => {
@@ -20,12 +22,10 @@ const Sidebar = props => {
         <div className="sidebar" style={{width: props.width}}>
             <header>
                 <img src={solarIcon} alt="icon" />
-                <h2>ur solar dashboard</h2>
+                <h2>UR Solar Dashboard</h2>
             </header>
             <div>
-                <SidebarLink href="/main" selected={true}>Data</SidebarLink>
-                <SidebarLink href="/main" selected={false}>Main</SidebarLink>
-                <SidebarLink href="/main" selected={false}>About</SidebarLink>
+                {props.children}
             </div>
             <footer>
                 <p>Created with love with <br /> Roclab</p>

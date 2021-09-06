@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom';
 
 /**
  * Component for showing links of the sidebar
@@ -15,7 +16,7 @@ import PropTypes from 'prop-types'
 const SidebarLink = props => {
     return (
         <div>
-            <a href={props.href} style={props.selected ? {backgroundColor:"#EDEDED"}: null}>{props.children}</a>
+            <Link to={props.to} style={(props.selected) ? {backgroundColor:"#EDEDED"}: null}>{props.children}</Link>
         </div>
     )
 }

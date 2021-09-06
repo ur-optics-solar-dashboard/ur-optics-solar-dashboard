@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Sidebar from './Sidebar'
 
 import './SidebarLayout.css'
+import SidebarLink from './SidebarLink'
+import { NavLink } from 'react-router-dom'
 
 /**
  * Component for the layout with the sidebar
@@ -12,14 +14,18 @@ import './SidebarLayout.css'
  * const width = 290
  * return (
  *   <SidebarLayout width={width}>
- *      {children}
+ *      {content}
  *   </SidebarLayout>
  * )
  */
 const SidebarLayout = props => {
     return (
         <>
-            <Sidebar width={props.width} />
+            <Sidebar width={props.width}>
+                <NavLink to="/dashboard" activeStyle={{backgroundColor:"#EDEDED"}}>Data</NavLink>
+                <NavLink to="/graph" activeStyle={{backgroundColor:"#EDEDED"}}>Graph</NavLink>
+                <NavLink to="/app" activeStyle={{backgroundColor:"#EDEDED"}}>About</NavLink>
+            </Sidebar>
             <main className="content" style={{ marginLeft: props.width }}>
                 {props.children}
             </main>
