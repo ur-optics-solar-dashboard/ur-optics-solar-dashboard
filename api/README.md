@@ -12,6 +12,10 @@ Flask/React Dashboard for researchers to access data from U of R's new RaZON+ ha
 
 * **[TBD]** hosting
 
+* app/ - where the main backend app is located
+
+* test_app.py - very basic app for testing purposes only
+
 ## Setup Development Environment
 
 * Clone the repository
