@@ -1,7 +1,6 @@
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 .content {
-    /* margin-left: var(--sidebar-width); change with Javascript along with sidebar width */
     transition: margin-left .5s; /* If you want a transition effect */
-    padding: 20px;
+    padding: 20px 20px 50px 20px; /* why do I need extra padding at the bottom to get rid of the gray background thing? */
     min-height: 100vh;
   }

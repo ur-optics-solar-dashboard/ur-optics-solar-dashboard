@@ -1,15 +1,16 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DataFormContext } from "../contexts/DataFormContext";
 import moment from "moment";
 import DateRangePicker from "react-bootstrap-daterangepicker";
 import { ranges } from "../DefaultConstants";
 import "./DateSelection.css";
 import DateShifter from "./DateShifter";
+import { GlobalContext } from "../contexts/GlobalContext";
 
 const DateSelection = (props) => {
   const { dateState, dateReference, handleDateCallback } =
-    useContext(DataFormContext);
-
+    useContext(GlobalContext);
+  
   return (
     <>
       <div className="date-selection-wrapper">

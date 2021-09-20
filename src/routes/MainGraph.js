@@ -13,15 +13,15 @@ import DataExportTools from '../newcomponents/DataExportTools';
 import Graph from '../newcomponents/Graph';
 import { GlobalContext } from '../contexts/GlobalContext';
 
-const Main = () => {
+const MainGraph = () => {
     const { showGraph } = useContext(GlobalContext);
     return (
         <>
             <SidebarLayout width={290}>
-                <DataExportTools />
+                <Graph />
             </SidebarLayout>
         </>
     )
 }
 
-export default Main
+export default MainGraph

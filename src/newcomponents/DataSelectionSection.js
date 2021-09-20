@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 
 import "./DataSelectionSection.css";
+import { GlobalContext } from '../contexts/GlobalContext';
 
 const IrridianceOptions = [
     { value: 'irradiance-global-horizontal', label: 'Global Horizontal', color: '#00B8D9' },
@@ -23,18 +24,29 @@ const MeteorologicalOptions = [
 ];
 
 const DataSelectionSection = props => {
+    const {setSelectedIrridianceOptions, setSelectedMeteorologicalOptions} = useContext(GlobalContext);
+    const handleIrridianceChange = (selectedOptions) => {
+        setSelectedIrridianceOptions(selectedOptions)
+    }
+    const handleMeteorologicalChange = (selectedOptions) => {
+        setSelectedMeteorologicalOptions(selectedOptions)
+    }
     return (
         <div className="data-wrapper">
             <div className="data-half-section">
                 <h6>Irradiance</h6>
                 <div style={{ paddingRight: 10 }}>
-                    <Select isMulti options={IrridianceOptions}/>
+                    <Select isMulti options={IrridianceOptions} 
+                    onChange={handleIrridianceChange}
+                    />
                 </div>
             </div>
             <div className="data-half-section">
                 <h6>Meteorological</h6>
                 <div style={{ paddingRight: 10 }}>
-                    <Select isMulti options={MeteorologicalOptions}/>
+                    <Select isMulti options={MeteorologicalOptions}
+                    onChange={handleMeteorologicalChange}
+                    />
                 </div>
             </div>
         </div>

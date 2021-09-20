@@ -13,6 +13,7 @@ import moment from 'moment';
 import 'moment-timezone';
 import Main from './routes/Main';
 import { GlobalContextProvider } from './contexts/GlobalContext';
+import MainGraph from './routes/MainGraph';
 
 moment.tz.setDefault("America/New_York");
 
@@ -31,6 +32,9 @@ ReactDOM.render(
           </Route>
           <Route path="/app">
             <App />
+          </Route>
+          <Route path="/dashboard/graph">
+            <MainGraph />
           </Route>
           <Route path="/dashboard">
             <Main />

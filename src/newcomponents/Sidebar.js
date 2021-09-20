@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import './Sidebar.css'
 import SidebarLink from './SidebarLink';
 import solarIcon from '../images/solar-icon.svg';
+import { NavLink } from 'react-bootstrap';
 
 /**
  * Component for the sidebar
@@ -20,15 +21,17 @@ import solarIcon from '../images/solar-icon.svg';
 const Sidebar = props => {
     return (
         <div className="sidebar" style={{width: props.width}}>
+            <NavLink to="/dashboard" style={{padding: "0"}}>
             <header>
                 <img src={solarIcon} alt="icon" />
                 <h2>UR Solar Dashboard</h2>
             </header>
+            </NavLink>
             <div>
                 {props.children}
             </div>
             <footer>
-                <p>Created with love with <br /> Roclab</p>
+                <p>Created with love with <br/> Roclab</p>
             </footer>
         </div>
     )

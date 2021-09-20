@@ -4,38 +4,43 @@ import { GlobalContext } from '../contexts/GlobalContext'
 import {
     LineChart, Line,
     CartesianGrid, XAxis, YAxis, Tooltip,
-    Label, Legend
+    Label, Legend, ResponsiveContainer
 } from 'recharts';
 import { DataFormContext } from '../contexts/DataFormContext';
 import { defaultGraphOptions, graphColors } from '../DefaultConstants';
 import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
+import { Link } from 'react-router-dom';
+
+import "./Graph.css";
 
 const Graph = props => {
 
     //todo reformat
-    const graphData = [];
-    const graphLines = [];
-    const irridianceGraphLines = [];
-    const meteorologicalGraphLines = [];
-    const { graphTitle, scrollRef } = useContext(DataFormContext);
+    const {getStartEnd, getDateLabel, dateReference, dateState, setDateState, handleDateCallback,
+        graphTitle, setGraphTitle,
+        dataForm, setDataFormState,
+        scrollRef,
+        graphData, setGraphData, graphLines, setGraphLines, irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
+        queryFetchString, setQueryFetchString,
+        getChartData } = useContext(GlobalContext);
 
     const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
     const [downloadSelection, setDownloadSelection] = useState(0);
     const [handleChartSubmit] = useDownloadChartSubmit({ downloadSelection, graphData });
     //todo reformat above
 
-    const {setShowGraph} = useContext(GlobalContext);
     return (
-        <div>
-            <p onClick={() => setShowGraph(false)}>Go back</p>
+        <div className="graph-content">
+            <Link to={"/dashboard"}><p>Go back</p></Link>
             <div id="lineChart">
-                <h3 style={{ paddingTop: 12 }}>{graphTitle}</h3>
-                <>
+                <h3 className={"graph-title"} style={{ paddingTop: 12 }}>{graphTitle}</h3>
+                <ResponsiveContainer width={'100%'} height={'100%'}>
                     <LineChart
                         data={graphData}
                         margin={{ top: 24, right: 128, left: 64, bottom: 108 }}
-                        width={1000} height={1000}
-                    >
+                        // width={1000} height={700}
+                        >
+
                         <defs>
                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
                                 <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
@@ -112,7 +117,7 @@ const Graph = props => {
                                 />
                             ))}
                     </LineChart>
-                </>
+                </ResponsiveContainer>
             </div>
         </div>
     )
