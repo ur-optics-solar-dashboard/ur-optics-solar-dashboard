@@ -1,6 +1,6 @@
 "TOA5","CR300Series","CR300","11562","CR310.Std.10.04","CPU:RaZON_CR310_Rochester.CR300","62320","DataOut"
 "TIMESTAMP","RECORD","RZ_Global_Irr","RZ_Direct_Irr","RZ_Diffuse_Irr","RZ_Pyrano_Temp_C","RZ_Pyrhelio_Temp_C","RZ_PRESS","RZ_Zenith_Ang","RZ_Azimuth_Ang","RZ_STAT","RZ_HHMM","Batt_V","Panel_T"
-"TS","RN","W/m²","W/m²","W/m²","Deg C","Deg C","","Degrees","Degrees","","","",""
+"TS","RN","W/mï¿½","W/mï¿½","W/mï¿½","Deg C","Deg C","","Degrees","Degrees","","","",""
 "","","Smp","Smp","Smp","Smp","Smp","Smp","Smp","Smp","Smp","Smp","Smp","Smp"
 "2021-07-12 21:05:00",2,148.3,0,148.3,25.9,24.3,1014,117.8642,262.6575,0,0,13.51,26.32
 "2021-07-12 21:06:00",3,181.9,28.4,181.9,25.9,24.3,1014,118.0516,262.8085,0,0,13.52,26.24

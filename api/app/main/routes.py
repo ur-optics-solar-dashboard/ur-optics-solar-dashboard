@@ -13,8 +13,8 @@ config = JWTAuth.from_settings_file(Path('api_keys','personal_test.json'))
 
 client = Client(config)
 
-input_folder_id = '143850119406'
-archive_folder_id = '143850224516'
+input_folder_id = '147239293471'
+# archive_folder_id = '147238525743'
 
 
 @bp.route('/box/update', methods=["POST"])
@@ -28,9 +28,8 @@ def box_update():
 
         header_keys = []
         units=[]
-        # print(file_csv)
 
-        for i,row in enumerate(file_csv.split("\r\n")):
+        for i,row in enumerate(file_csv.split("\n")):
             if(i==0):
                 continue
             elif(i==1):
