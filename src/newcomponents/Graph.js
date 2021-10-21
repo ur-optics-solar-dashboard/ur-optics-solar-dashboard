@@ -118,6 +118,7 @@ const Graph = props => {
                 </ResponsiveContainer>
             </div>
             <DownloadGraphOptions/>
+            <DownloadGraphOptions/>
         </div>
     )
 }

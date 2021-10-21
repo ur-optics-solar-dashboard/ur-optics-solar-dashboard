@@ -20,7 +20,6 @@ const MainGraph = () => {
         <>
             <SidebarLayout width={290}>
                 <Graph />
-                <DownloadGraphOptions/>
             </SidebarLayout>
         </>
     )
