@@ -12,16 +12,14 @@ import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { Link } from 'react-router-dom';
 
 import "./Graph.css";
+import DownloadGraphOptions from './DownloadGraphOptions';
+import { Form } from 'react-bootstrap';
 
 const Graph = props => {
 
     //todo reformat
-    const {getStartEnd, getDateLabel, dateReference, dateState, setDateState, handleDateCallback,
-        graphTitle, setGraphTitle,
-        dataForm, setDataFormState,
-        scrollRef,
-        graphData, setGraphData, graphLines, setGraphLines, irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines,
-        queryFetchString, setQueryFetchString,
+    const {graphTitle,
+        graphData, setGraphData, graphLines, irridianceGraphLines, meteorologicalGraphLines,
         getChartData } = useContext(GlobalContext);
 
     const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
@@ -119,6 +117,7 @@ const Graph = props => {
                     </LineChart>
                 </ResponsiveContainer>
             </div>
+            <DownloadGraphOptions/>
         </div>
     )
 }

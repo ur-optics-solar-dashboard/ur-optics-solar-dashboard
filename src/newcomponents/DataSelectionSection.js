@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
 
@@ -24,19 +24,25 @@ const MeteorologicalOptions = [
 ];
 
 const DataSelectionSection = props => {
-    const {setSelectedIrridianceOptions, setSelectedMeteorologicalOptions} = useContext(GlobalContext);
+    const {selectedIrridianceOptions, setSelectedIrridianceOptions, selectedMeteorologicalOptions, setSelectedMeteorologicalOptions} = useContext(GlobalContext);
+
     const handleIrridianceChange = (selectedOptions) => {
         setSelectedIrridianceOptions(selectedOptions)
     }
     const handleMeteorologicalChange = (selectedOptions) => {
         setSelectedMeteorologicalOptions(selectedOptions)
     }
+
+    useEffect(() => {
+        console.log("start irr",selectedIrridianceOptions)
+    }, [])
     return (
         <div className="data-wrapper">
             <div className="data-half-section">
                 <h6>Irradiance</h6>
                 <div style={{ paddingRight: 10 }}>
                     <Select isMulti options={IrridianceOptions} 
+                    defaultValue={selectedIrridianceOptions}
                     onChange={handleIrridianceChange}
                     />
                 </div>
@@ -45,6 +51,7 @@ const DataSelectionSection = props => {
                 <h6>Meteorological</h6>
                 <div style={{ paddingRight: 10 }}>
                     <Select isMulti options={MeteorologicalOptions}
+                    defaultValue={selectedMeteorologicalOptions}
                     onChange={handleMeteorologicalChange}
                     />
                 </div>

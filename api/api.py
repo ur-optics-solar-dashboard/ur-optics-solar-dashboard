@@ -1,5 +1,5 @@
 import time
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 import datetime
 import pytz
 import csv
@@ -216,3 +216,9 @@ def get_sample_graph_data():
         print(meteorologicalHeaderString)
 
     return {"return_data":graphList, "included_headers":includedHeaderStrings, "irridiance_headers":irridianceHeaderStrings,"meteorological_headers":meteorologicalHeaderString}
+
+@app.route('/get_csv')
+def get_csv():
+
+    # Send the file back to the client
+    return send_file("./CR300Series_DataOut.csv", as_attachment=True, attachment_filename="CR300Series_DataOut.csv")

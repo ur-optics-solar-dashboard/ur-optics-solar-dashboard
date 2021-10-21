@@ -12,6 +12,7 @@ import { useContext, useState } from 'react';
 import DataExportTools from '../newcomponents/DataExportTools';
 import Graph from '../newcomponents/Graph';
 import { GlobalContext } from '../contexts/GlobalContext';
+import DownloadGraphOptions from '../newcomponents/DownloadGraphOptions';
 
 const MainGraph = () => {
     const { showGraph } = useContext(GlobalContext);
@@ -19,6 +20,7 @@ const MainGraph = () => {
         <>
             <SidebarLayout width={290}>
                 <Graph />
+                <DownloadGraphOptions/>
             </SidebarLayout>
         </>
     )
