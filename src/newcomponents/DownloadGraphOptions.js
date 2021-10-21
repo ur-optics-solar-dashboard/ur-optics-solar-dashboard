@@ -40,7 +40,6 @@ const DownloadGraphOptions = props => {
             <label><input type="radio" name="group1" value={4} checked={downloadSelection === 4}/>svg</label>
             </fieldset> */}
 
-            <h3>Download Options</h3>
             <Form>
                 <Form.Check>
                     <Form.Check inline label="csv" name="group1" type='radio' id={`inline-radio-0`} value={0} onClick={() => {setDownloadSelection(0); console.log("hi")}} />
