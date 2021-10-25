@@ -1,14 +1,12 @@
+from os import access
 import time
 from flask import Flask, request, jsonify, send_file
 import datetime
-from flask.wrappers import Request
 import pytz
 import csv
-from urllib.parse import urlencode
-from urllib.request import urlopen
-import json
 from decouple import config
 import requests
+from boxsdk import OAuth2
 
 from flask_pymongo import PyMongo
 
@@ -27,6 +25,20 @@ db = mongodb_client.db
 #box api info
 box_client_id = config('BOX_CLIENT_ID')
 box_client_secret = config('BOX_CLIENT_SECRET')
+
+#box api
+def store_tokens(access_token, refresh_token):
+    print(access_token + ', ' + refresh_token) #TODO: don't do this
+
+box_oauth = OAuth2(
+    client_id=box_client_id,
+    client_secret=box_client_secret,
+    store_tokens=store_tokens
+)
+
+box_auth_url, box_csrf_token = box_oauth.get_authorization_url('http://localhost:5000/box_auth_redirect')
+
+print (box_auth_url)
 
 # db.test.insert_one({'title': "todo title", 'body': "todo body"})
 @app.route('/test_insert')
@@ -254,9 +266,25 @@ def box_auth():
             ('code', code)
         ]
 
+        print(box_client_id)
+        print(box_client_secret)
+
         boxrequest = requests.get(authentication_url, data=data)
         print (boxrequest.url)
         print (boxrequest.content)
         #access_token = json.loads(response)['access_token']
         #print (access_token)
         return 'check console'
+
+@app.route('/get_box_auth_url')
+def get_box_auth_url():
+    return box_auth_url
+
+@app.route('/box_auth_redirect')
+def box_auth_redirect():
+    if request.method == 'GET':
+        state = request.args.get('state') #should match box_csrf_token
+        code = request.args.get('code')
+    
+        return state + ', ' + box_csrf_token
+    return 'requires get'
