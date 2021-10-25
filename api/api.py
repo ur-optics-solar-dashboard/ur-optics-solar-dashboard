@@ -1,8 +1,14 @@
 import time
 from flask import Flask, request, jsonify, send_file
 import datetime
+from flask.wrappers import Request
 import pytz
 import csv
+from urllib.parse import urlencode
+from urllib.request import urlopen
+import json
+from decouple import config
+import requests
 
 from flask_pymongo import PyMongo
 
@@ -17,6 +23,11 @@ app = Flask(__name__)
 
 mongodb_client = PyMongo(app, uri="mongodb://localhost:27017/solar_dashboard_database")
 db = mongodb_client.db
+
+#box api info
+box_client_id = config('BOX_CLIENT_ID')
+box_client_secret = config('BOX_CLIENT_SECRET')
+
 # db.test.insert_one({'title': "todo title", 'body': "todo body"})
 @app.route('/test_insert')
 def test_insert():
@@ -222,3 +233,30 @@ def get_csv():
 
     # Send the file back to the client
     return send_file("./CR300Series_DataOut.csv", as_attachment=True, attachment_filename="CR300Series_DataOut.csv")
+
+#NOTE:
+#This function doesn't use the official box sdk
+#and to be honest this probably isn't the best way to do this
+#however, if we were to be unable to host a backend for
+#the app, this function would (theoretically) be way easier
+#to replace than anything more "proper".
+@app.route('/test_box_auth') #TODO: change this endpoint once its official
+def box_auth():
+    if request.method == 'GET':
+        code = request.args.get('code')
+
+        #https://developer.box.com/guides/authentication/oauth2/without-sdk/#4-exchange-code
+        authentication_url = "https://api.box.com/oauth2/token"
+        data = [
+            ('grant_type', 'authorization_code'),
+            ('client_id', box_client_id),
+            ('client_secret', box_client_secret),
+            ('code', code)
+        ]
+
+        boxrequest = requests.get(authentication_url, data=data)
+        print (boxrequest.url)
+        print (boxrequest.content)
+        #access_token = json.loads(response)['access_token']
+        #print (access_token)
+        return 'check console'

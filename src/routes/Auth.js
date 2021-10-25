@@ -20,7 +20,7 @@ const AuthButton = () => {
 
 const AuthCallbackResponse = (code) => {
     return (
-        <p>Callback: { code }</p>
+        <p>Callback: <a href={ "http://localhost:5000/test_box_auth?code=" + code }>{ code }</a></p> //TODO: VERY TEMPORARY!
     )
 }
 
