@@ -6,7 +6,7 @@ import pytz
 import csv
 from decouple import config
 import requests
-from boxsdk import OAuth2
+from boxsdk import Client, OAuth2
 
 from flask_pymongo import PyMongo
 
@@ -26,15 +26,21 @@ db = mongodb_client.db
 box_client_id = config('BOX_CLIENT_ID')
 box_client_secret = config('BOX_CLIENT_SECRET')
 
+#TODO: DON'T DO THIS
+box_access_token_temp = ''
+box_refresh_token_temp = ''
+
 #box api
-def store_tokens(access_token, refresh_token):
-    print(access_token + ', ' + refresh_token) #TODO: don't do this
+def store_tokens(access_token, refresh_token): #TODO: DON'T DO THIS
+    box_access_token_temp = access_token
+    box_refresh_token_temp = refresh_token
 
 box_oauth = OAuth2(
     client_id=box_client_id,
     client_secret=box_client_secret,
     store_tokens=store_tokens
 )
+box_client = Client(box_oauth)
 
 box_auth_url, box_csrf_token = box_oauth.get_authorization_url('http://localhost:5000/box_auth_redirect')
 
@@ -285,6 +291,16 @@ def box_auth_redirect():
     if request.method == 'GET':
         state = request.args.get('state') #should match box_csrf_token
         code = request.args.get('code')
-    
-        return state + ', ' + box_csrf_token
+
+        if (state != box_csrf_token): #error if csrf tokens dont match
+            return 'Tokens do not match'
+
+        return code
+
     return 'requires get'
+
+@app.route('/test_box_get_file')
+def box_get_file():
+    file_id = '877656096494'
+    file_content = box_client.file(file_id).content()
+    return file_content
