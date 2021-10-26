@@ -1,6 +1,6 @@
 from os import access
 import time
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, redirect
 import datetime
 import pytz
 import csv
@@ -278,7 +278,7 @@ def box_auth():
 
 @app.route('/get_box_auth_url')
 def get_box_auth_url():
-    return box_auth_url
+    return redirect(box_auth_url, code=302) #302 because auth link can change. I think that makes sense.
 
 @app.route('/box_auth_redirect')
 def box_auth_redirect():
