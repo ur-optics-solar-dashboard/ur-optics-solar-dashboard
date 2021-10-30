@@ -1,7 +1,7 @@
 from os import access
 import time
 from boxsdk.session.session import AuthorizedSession
-from flask import Flask, request, jsonify, send_file, redirect, session
+from flask import Flask, request, jsonify, send_file, redirect, session, flash
 import datetime
 import pytz
 import csv
@@ -250,68 +250,34 @@ def get_csv():
     # Send the file back to the client
     return send_file("./CR300Series_DataOut.csv", as_attachment=True, attachment_filename="CR300Series_DataOut.csv")
 
-#NOTE:
-#This function doesn't use the official box sdk
-#and to be honest this probably isn't the best way to do this
-#however, if we were to be unable to host a backend for
-#the app, this function would (theoretically) be way easier
-#to replace than anything more "proper".
-@app.route('/test_box_auth') #TODO: change this endpoint once its official
-def box_auth():
-    if request.method == 'GET':
-        code = request.args.get('code')
 
-        #https://developer.box.com/guides/authentication/oauth2/without-sdk/#4-exchange-code
-        authentication_url = "https://api.box.com/oauth2/token"
-        data = [
-            ('grant_type', 'authorization_code'),
-            ('client_id', box_client_id),
-            ('client_secret', box_client_secret),
-            ('code', code)
-        ]
-
-        print(box_client_id)
-        print(box_client_secret)
-
-        boxrequest = requests.get(authentication_url, data=data)
-        print (boxrequest.url)
-        print (boxrequest.content)
-        #access_token = json.loads(response)['access_token']
-        #print (access_token)
-        return 'check console'
+@app.route('/get_box_has_auth')
+def get_box_has_auth():
+    if session.get('access_token') is not None:
+        return 'true'
+    return 'false'
 
 @app.route('/get_box_auth_url')
 def get_box_auth_url():
     return redirect(box_auth_url, code=302) #302 because auth link can change. I think that makes sense.
 
-@app.route('/box_auth_redirect')
+@app.route('/box_auth_redirect', methods=['GET'])
 def box_auth_redirect():
-    if request.method == 'GET':
-        state = request.args.get('state') #should match box_csrf_token
-        code = request.args.get('code')
+    state = request.args.get('state') #should match box_csrf_token
+    code = request.args.get('code')
 
-        if (state != box_csrf_token): #error if csrf tokens dont match
-            return 'Tokens do not match'
-        access_token, refresh_token = box_oauth.authenticate(code)
+    if state != box_csrf_token: #error if csrf tokens dont match
+        return 'Tokens do not match'
+    access_token, refresh_token = box_oauth.authenticate(code)
 
-        return '<p><b>authenticated</b> ' + access_token + '</p><br><a href="/test_box_get_file">test download</a>'
+    return redirect('http://localhost:3000/', code=302)
 
-    return 'requires get'
-
-@app.route('/test_box_get_file')
+@app.route('/get_box_file', methods=['GET'])
 def box_get_file():
-    print ('SESSION: ' + session['access_token'] + ', ' + session['refresh_token'])
-    file_id = '877656096494'
+    file_id = request.args.get('id')
     file_url = 'https://api.box.com/2.0/files/' + file_id + '/content/'
-    r_headers = { 'Authorization': 'Bearer ' + session['access_token'], 'Content-Type': 'application/json' }
-
+    r_headers = { 'Authorization': 'Bearer ' + session['access_token'],
+                'Content-Type': 'application/json' }
+    
     r = requests.get(file_url, headers=r_headers)
     return str(r.content)
-
-    # file_content = box_client.file(file_id).content()
-    # return file_content
-
-    # return box_client.make_request(
-    #     'GET',
-    #     'https://api.box.com/2.0/files/' + file_id + '/content/'
-    # ).json()
