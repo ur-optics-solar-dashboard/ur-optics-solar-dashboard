@@ -1,12 +1,14 @@
 from os import access
 import time
-from flask import Flask, request, jsonify, send_file, redirect
+from boxsdk.session.session import AuthorizedSession
+from flask import Flask, request, jsonify, send_file, redirect, session
 import datetime
 import pytz
 import csv
 from decouple import config
 import requests
 from boxsdk import Client, OAuth2
+import secrets
 
 from flask_pymongo import PyMongo
 
@@ -18,6 +20,7 @@ global counter
 counter = 0
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 mongodb_client = PyMongo(app, uri="mongodb://localhost:27017/solar_dashboard_database")
 db = mongodb_client.db
@@ -26,25 +29,20 @@ db = mongodb_client.db
 box_client_id = config('BOX_CLIENT_ID')
 box_client_secret = config('BOX_CLIENT_SECRET')
 
-#TODO: DON'T DO THIS
-box_access_token_temp = ''
-box_refresh_token_temp = ''
-
 #box api
 def store_tokens(access_token, refresh_token): #TODO: DON'T DO THIS
-    box_access_token_temp = access_token
-    box_refresh_token_temp = refresh_token
+    session['access_token'] = access_token
+    session['refresh_token'] = refresh_token
 
 box_oauth = OAuth2(
     client_id=box_client_id,
     client_secret=box_client_secret,
     store_tokens=store_tokens
 )
+
 box_client = Client(box_oauth)
 
 box_auth_url, box_csrf_token = box_oauth.get_authorization_url('http://localhost:5000/box_auth_redirect')
-
-print (box_auth_url)
 
 # db.test.insert_one({'title': "todo title", 'body': "todo body"})
 @app.route('/test_insert')
@@ -294,13 +292,26 @@ def box_auth_redirect():
 
         if (state != box_csrf_token): #error if csrf tokens dont match
             return 'Tokens do not match'
+        access_token, refresh_token = box_oauth.authenticate(code)
 
-        return code
+        return '<p><b>authenticated</b> ' + access_token + '</p><br><a href="/test_box_get_file">test download</a>'
 
     return 'requires get'
 
 @app.route('/test_box_get_file')
 def box_get_file():
+    print ('SESSION: ' + session['access_token'] + ', ' + session['refresh_token'])
     file_id = '877656096494'
-    file_content = box_client.file(file_id).content()
-    return file_content
+    file_url = 'https://api.box.com/2.0/files/' + file_id + '/content/'
+    r_headers = { 'Authorization': 'Bearer ' + session['access_token'], 'Content-Type': 'application/json' }
+
+    r = requests.get(file_url, headers=r_headers)
+    return str(r.content)
+
+    # file_content = box_client.file(file_id).content()
+    # return file_content
+
+    # return box_client.make_request(
+    #     'GET',
+    #     'https://api.box.com/2.0/files/' + file_id + '/content/'
+    # ).json()
