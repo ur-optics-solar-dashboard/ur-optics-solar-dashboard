@@ -16,7 +16,6 @@ const Auth = () => {
     return (
         <>
         <SidebarLayout width={290}>
-            <AuthPrompt /> { /* for testing */ }
             <h1>Login</h1>
             <p>You must log in with your Box account in order to view and download sensor data.</p>
             <AuthButton></AuthButton>
