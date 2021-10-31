@@ -12,7 +12,7 @@ import { useContext, useState } from 'react';
 import DataExportTools from '../newcomponents/DataExportTools';
 import Graph from '../newcomponents/Graph';
 import { GlobalContext } from '../contexts/GlobalContext';
-import AuthPrompt from '../newcomponents/AuthPrompt';
+import { AuthPrompt } from '../newcomponents/AuthPrompt';
 
 const Main = () => {
     const { showGraph } = useContext(GlobalContext);

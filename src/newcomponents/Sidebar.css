@@ -42,7 +42,7 @@
   }
   
   /* The sidebar links */
-  .sidebar a {
+  .sidebar a:not(.sidebar-user-name) {
     padding: var(--sidebar-padding);
     text-decoration: none;
     font-weight: 500; /* slightly bold */

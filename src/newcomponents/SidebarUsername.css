@@ -1,0 +1,17 @@
+.sidebar-user-wrapper {
+    width: 290px;
+    margin-left: 0px;
+    margin-bottom: 24px;
+}
+.sidebar-user-name {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 12pt;
+    color: #A3A3A3;
+    overflow: hidden;
+    padding: 12px 8px 12px 8px;
+    margin-left: -8px;
+}
+.sidebar-user-name:hover {
+    color: #A3A3A3;
+}

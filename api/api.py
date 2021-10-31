@@ -281,3 +281,11 @@ def box_get_file():
     
     r = requests.get(file_url, headers=r_headers)
     return str(r.content)
+
+@app.route('/get_box_user_info')
+def box_get_user_info():
+    user_url = 'https://api.box.com/2.0/users/me'
+    r_headers = { 'Authorization': 'Bearer ' + session['access_token'],
+                'Content-Type': 'application/json' }
+    r = requests.get(user_url, headers=r_headers)
+    return r.json()

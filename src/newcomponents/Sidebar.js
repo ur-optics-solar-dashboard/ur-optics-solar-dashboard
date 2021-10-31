@@ -5,6 +5,7 @@ import './Sidebar.css'
 import SidebarLink from './SidebarLink';
 import solarIcon from '../images/solar-icon.svg';
 import { NavLink } from 'react-bootstrap';
+import SidebarUsername from './SidebarUsername';
 
 /**
  * Component for the sidebar
@@ -31,7 +32,8 @@ const Sidebar = props => {
                 {props.children}
             </div>
             <footer>
-                <p>Created with love with <br/> Roclab</p>
+                <SidebarUsername />
+                <p>Created with ❤️ by Roclab</p>
             </footer>
         </div>
     )

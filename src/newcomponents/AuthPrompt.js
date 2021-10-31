@@ -2,6 +2,14 @@ import './AuthPrompt.css';
 import { Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 
+const AuthButton = () => {
+    return (
+        <Button onClick={
+            () => { window.location.href = 'http://localhost:5000/get_box_auth_url'}
+        }>Login with Box</Button>
+    );
+}
+
 const AuthPrompt = () => {
 
     const [authStatus, setAuthStatus] = useState([]);
@@ -21,7 +29,7 @@ const AuthPrompt = () => {
             <>
                 <div className="auth-prompt-wrapper">
                     <p className="auth-prompt-text">You must log in with your Box account to view and download sensor data.</p>
-                    <Button onClick={ () => { window.location.href = 'http://localhost:5000/get_box_auth_url'} }>Login with Box</Button>
+                    <AuthButton />
                 </div>
             </>
         );
@@ -31,4 +39,4 @@ const AuthPrompt = () => {
     }
 }
 
-export default AuthPrompt;
+export { AuthPrompt, AuthButton };

@@ -13,7 +13,7 @@ import DataExportTools from '../newcomponents/DataExportTools';
 import Graph from '../newcomponents/Graph';
 import { GlobalContext } from '../contexts/GlobalContext';
 import DownloadGraphOptions from '../newcomponents/DownloadGraphOptions';
-import AuthPrompt from '../newcomponents/AuthPrompt';
+import { AuthPrompt } from '../newcomponents/AuthPrompt';
 
 const MainGraph = () => {
     const { showGraph } = useContext(GlobalContext);
