@@ -31,8 +31,8 @@ const SidebarUsername = () => {
     if (authStatus !== 'false') { //logged in, show profile info
         return (
             <>
-                <div class="sidebar-user-wrapper">
-                    <a class="sidebar-user-name" href="/auth">{ username }</a>
+                <div className="sidebar-user-wrapper">
+                    <a className="sidebar-user-name" href="/auth">{ username }</a>
                 </div>
             </>
         )
@@ -40,7 +40,7 @@ const SidebarUsername = () => {
     else { //prompt for login real quick
         return (
         <>
-            <div class="sidebar-user-wrapper">
+            <div className="sidebar-user-wrapper">
                 <AuthButton />
             </div>
         </>);
