@@ -3,7 +3,6 @@ import '../App.css';
 import 'react-pro-sidebar/dist/css/styles.css';
 
 import SidebarLayout from '../newcomponents/SidebarLayout';
-import AuthPrompt from '../newcomponents/AuthPrompt'
 import { Button } from 'react-bootstrap';
 
 const AuthButton = () => {
