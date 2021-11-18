@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 
 import boxAuthConfig from '../secrets/boxconfig.json';
 import axios from 'axios';
+import { setAuthToken } from '../Utils';
 
 let qs = require('qs');
 
@@ -45,7 +46,7 @@ const AuthRedirect = () => {
         .then(response => response.data.access_token);
 
         //store access token, only for session
-        sessionStorage.setItem('access_token', accessToken);
+        setAuthToken(accessToken);
         //redirect away
         window.location.href = "/";
     }
@@ -57,8 +58,7 @@ const AuthRedirect = () => {
                     <p>Invalid redirect, try again with the login button below.</p>
                     <br />
                     <AuthButton />
-                </>}
-            {/* <AuthRedirectSpinner /> */}
+                </> }
         </SidebarLayout>
         </>
     )

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 
 //TODO: this is so bad don't ever do this
 import boxAuthConfig from '../secrets/boxconfig.json';
+import { getAuthToken } from '../Utils';
 
 //box auth
 var authorizationUrl = boxAuthConfig.baseUrl + '?client_id=' + boxAuthConfig.clientID + '&response_type=code';
@@ -22,15 +23,23 @@ const AuthPrompt = () => {
 
     useEffect(() => {
         checkHasAuth();
+        window.addEventListener('keydown', (e)=>{
+            if (e.storageArea === sessionStorage) {
+            console.log('checked');
+            checkHasAuth();
+            }
+        });
     }, []);
 
-    const checkHasAuth = async () => { //check if the backend has an access_token
-        // const response = await fetch('/get_box_has_auth');
-        // const data = await response.text();
-        // setAuthStatus(data);
-        if (sessionStorage.getItem('access_token') == null) { setAuthStatus(false); }
-        else { setAuthStatus(true); }
+    const checkHasAuth = async () => { //check if the session has an access_token
+        setAuthStatus(getAuthToken() !== null);
     }
+
+    //if access_token is ever suspected to disappear, check again
+    // window.addEventListener('storage', function(e) {
+    //     console.log('checked');
+    //     checkHasAuth();
+    // });
 
     if (!authStatus) { //no access token, so prompt for sign in
         return (
