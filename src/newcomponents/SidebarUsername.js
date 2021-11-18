@@ -6,9 +6,7 @@ import { AuthButton } from './AuthPrompt';
 
 import { useState, useEffect } from 'react';
 
-import { getAuthToken, clearAuthToken } from '../Utils';
-
-import axios from 'axios';
+import { getAuthToken, getBoxUserInfo } from '../Utils';
 
 const SidebarUsername = () => {
 
@@ -20,7 +18,7 @@ const SidebarUsername = () => {
         getUserInfo();
     }, []);
 
-    const checkHasAuth = async () => {
+    const checkHasAuth = () => {
         setAuthStatus(getAuthToken() !== null);
     }
 
@@ -28,34 +26,37 @@ const SidebarUsername = () => {
         // const response = await fetch('/get_box_user_info');
         // const data = await response.json();
         // setUsername(data['name']);
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + getAuthToken(),
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true
-        }
-        let userdata = await axios.get(
-            'https://api.box.com/2.0/users/me',
-            { headers: headers }
-        )
-        .then(response => response.data)
-        .catch(function(error) {
-            if (error.response) {
-                if (error.response.status === 401) { //prompt for login again
-                    //clear out access_token
-                    clearAuthToken();
-                    console.log("sign in again")
-                }
-                else { //something else went wrong
-                    console.log(error.response.status);
-                }
-            }
-        });
+        // const headers = {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': 'Bearer ' + getAuthToken(),
+        //     'Access-Control-Allow-Origin': '*',
+        //     'Access-Control-Allow-Credentials': true
+        // }
+        // let userdata = await axios.get(
+        //     'https://api.box.com/2.0/users/me',
+        //     { headers: headers }
+        // )
+        // .then(response => response.data)
+        // .catch(function(error) {
+        //     if (error.response) {
+        //         if (error.response.status === 401) { //prompt for login again
+        //             //clear out access_token
+        //             clearAuthToken();
+        //             console.log("sign in again")
+        //         }
+        //         else { //something else went wrong
+        //             console.log(error.response.status);
+        //         }
+        //     }
+        // });
 
-        if (userdata !== undefined) {
-            console.log(userdata);
-            setUsername(userdata.name);
-        }
+        // if (userdata !== undefined) {
+        //     console.log(userdata);
+        //     setUsername(userdata.name);
+        // }
+
+        let userinfo = await getBoxUserInfo();
+        if (userinfo !== null) { setUsername(userinfo.name); }
 
     }
 

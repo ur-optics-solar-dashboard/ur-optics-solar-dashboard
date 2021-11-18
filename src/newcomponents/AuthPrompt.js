@@ -23,10 +23,9 @@ const AuthPrompt = () => {
 
     useEffect(() => {
         checkHasAuth();
-        window.addEventListener('keydown', (e)=>{
+        window.addEventListener('storage', (e)=>{
             if (e.storageArea === sessionStorage) {
-            console.log('checked');
-            checkHasAuth();
+                checkHasAuth();
             }
         });
     }, []);
@@ -34,12 +33,6 @@ const AuthPrompt = () => {
     const checkHasAuth = async () => { //check if the session has an access_token
         setAuthStatus(getAuthToken() !== null);
     }
-
-    //if access_token is ever suspected to disappear, check again
-    // window.addEventListener('storage', function(e) {
-    //     console.log('checked');
-    //     checkHasAuth();
-    // });
 
     if (!authStatus) { //no access token, so prompt for sign in
         return (

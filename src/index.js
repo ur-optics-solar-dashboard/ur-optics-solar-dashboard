@@ -14,7 +14,7 @@ import 'moment-timezone';
 import Main from './routes/Main';
 import { GlobalContextProvider } from './contexts/GlobalContext';
 import MainGraph from './routes/MainGraph';
-import AuthRedirectHandler from './routes/AuthRedirectHandler';
+import AuthRedirectHandler from './routes/AuthManager';
 
 moment.tz.setDefault("America/New_York");
 
@@ -40,7 +40,7 @@ ReactDOM.render(
           <Route path="/dashboard">
             <Main />
           </Route>
-          <Route path="/auth_redirect">
+          <Route path="/auth">
             <AuthRedirectHandler />
           </Route>
           <Route exact path="/">

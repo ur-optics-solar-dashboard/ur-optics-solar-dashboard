@@ -10,16 +10,19 @@ import { useState, useEffect } from 'react';
 
 import boxAuthConfig from '../secrets/boxconfig.json';
 import axios from 'axios';
-import { setAuthToken } from '../Utils';
+import { getAuthToken, getBoxUserInfo, setAuthToken } from '../Utils';
+import AuthUserInfo from '../newcomponents/AuthUserInfo';
 
 let qs = require('qs');
 
 const AuthRedirect = () => {
 
     const [hasCode, setHasCode] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
 
     useEffect(() => {
         tradeCode();
+        getUserInfo();
     }, []);
 
     const tradeCode = async () => {
@@ -51,14 +54,30 @@ const AuthRedirect = () => {
         window.location.href = "/";
     }
 
+    const getUserInfo = async () => {
+        let userinfo = await getBoxUserInfo();
+        console.log(userinfo);
+        if (userinfo !== null) { setUserInfo(userinfo); }
+    }
+
     return (
         <>
         <SidebarLayout width={290}>
-            { (hasCode) ? <AuthRedirectSpinner /> : <>
-                    <p>Invalid redirect, try again with the login button below.</p>
-                    <br />
-                    <AuthButton />
-                </> }
+            { /* this is so ugly. */}
+            { (hasCode) ? <AuthRedirectSpinner /> :
+                (getAuthToken() !== null) ? 
+                    <AuthUserInfo
+                        name={userInfo.name}
+                        email={userInfo.email}
+                        space_used={userInfo.space_used}
+                        space_total={userInfo.space_total}
+                        /> :
+                            <>
+                                <p>Invalid redirect, try again with the login button below.</p>
+                                <br />
+                                <AuthButton />
+                            </>
+            }
         </SidebarLayout>
         </>
     )
