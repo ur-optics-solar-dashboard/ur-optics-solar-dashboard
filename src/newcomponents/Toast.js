@@ -22,13 +22,21 @@ const Toast = () => {
     const [toastList, setToastList] = useState([]);
 
     useEffect(() => {
-        window.addEventListener('toast', (e) => {
+
+        const handleToast = (e) => {
             setToastList([...toastList, { message: e.detail.message, category: e.detail.category, id: uuidv4() }]);
-        });
+        }
+
+        window.addEventListener('toast', handleToast);
+
+        return () => {
+            window.removeEventListener('toast', handleToast);
+        }
+
     }, [toastList]);
 
     return (
-        <ul class="toast-container">
+        <ul className="toast-container">
             {toastList.map((item) => (
                 // <Alert key={item.id} variant={item.category} dismissible onClose={this.setState({show:false})}>{item.message}</Alert>
                 <ToastAlert key={item.id} message={item.message} category={item.category} />
