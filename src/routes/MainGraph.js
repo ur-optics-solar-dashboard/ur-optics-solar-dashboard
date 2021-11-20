@@ -14,6 +14,7 @@ import Graph from '../newcomponents/Graph';
 import { GlobalContext } from '../contexts/GlobalContext';
 import DownloadGraphOptions from '../newcomponents/DownloadGraphOptions';
 import { AuthPrompt } from '../newcomponents/AuthPrompt';
+import Toast from '../newcomponents/Toast';
 
 const MainGraph = () => {
     const { showGraph } = useContext(GlobalContext);
@@ -22,6 +23,7 @@ const MainGraph = () => {
             <SidebarLayout width={290}>
                 <AuthPrompt />
                 <Graph />
+                <Toast />
             </SidebarLayout>
         </>
     )

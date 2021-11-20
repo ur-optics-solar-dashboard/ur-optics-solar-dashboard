@@ -13,6 +13,8 @@ import axios from 'axios';
 import { getAuthToken, getBoxUserInfo, setAuthToken } from '../Utils';
 import AuthUserInfo from '../newcomponents/AuthUserInfo';
 
+import Toast from '../newcomponents/Toast';
+
 let qs = require('qs');
 
 const AuthRedirect = () => {
@@ -78,6 +80,7 @@ const AuthRedirect = () => {
                                 <AuthButton />
                             </>
             }
+            <Toast />
         </SidebarLayout>
         </>
     )

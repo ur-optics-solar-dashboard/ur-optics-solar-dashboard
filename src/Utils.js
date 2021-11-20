@@ -30,12 +30,14 @@ export const getBoxUserInfo = async () => {
     .catch((error) => {
         if (error.response !== undefined) {
             if (error.response.status === 401) { //prompt for login again
-                console.log('re-auth needed');
                 clearAuthToken();
+            }
+            else {
+                makeToast('Error ' + error.response.status, 'danger');
             }
         }
         else { //something else went wrong
-            console.log('a mysterious error occurred.');
+            makeToast('An unknown error has occurred.', 'danger');
             console.log(error);
         }
     });
@@ -47,13 +49,17 @@ export const getBoxUserInfo = async () => {
             space_used: userdata.space_used,
             space_total: userdata.space_amount
         }
-        console.log(output);
         return output;
     }
     return null;
 
-    // console.log(userdata);
+}
 
-    // return userdata; //might be undefined
-
+export const makeToast = (message, category) => {
+    window.dispatchEvent(new CustomEvent('toast', {
+        detail: {
+            message: message,
+            category: category
+        }
+    }));
 }

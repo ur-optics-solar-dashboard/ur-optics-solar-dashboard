@@ -23,11 +23,20 @@ const AuthPrompt = () => {
 
     useEffect(() => {
         checkHasAuth();
-        window.addEventListener('storage', (e)=>{
+
+        //recheck if session storage changes
+        const handleStorageUpdate = (e) => {
             if (e.storageArea === sessionStorage) {
                 checkHasAuth();
             }
-        });
+        }
+
+        //bind and unbind listener
+        window.addEventListener('storage', handleStorageUpdate);
+        return () => {
+            window.removeEventListener('storage', handleStorageUpdate);
+        };
+
     }, []);
 
     const checkHasAuth = async () => { //check if the session has an access_token
