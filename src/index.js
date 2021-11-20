@@ -15,6 +15,7 @@ import Main from './routes/Main';
 import { GlobalContextProvider } from './contexts/GlobalContext';
 import MainGraph from './routes/MainGraph';
 import AuthRedirectHandler from './routes/AuthManager';
+import BoxTest from './routes/BoxTest';
 
 moment.tz.setDefault("America/New_York");
 
@@ -42,6 +43,9 @@ ReactDOM.render(
           </Route>
           <Route path="/auth">
             <AuthRedirectHandler />
+          </Route>
+          <Route path="/boxtest"> { /* temporary */}
+            <BoxTest />
           </Route>
           <Route exact path="/">
           {loggedIn ? <Redirect to="/dashboard" /> : <App />}
