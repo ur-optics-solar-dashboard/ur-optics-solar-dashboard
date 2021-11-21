@@ -2,14 +2,12 @@ import '../App.css';
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
-import SidebarLayout from '../newcomponents/SidebarLayout';
-
 import { useState, useEffect, useRef } from 'react';
 import { calculateTime, getBoxAllCSVs, getBoxFile, parseCSV } from '../Utils';
 
-import { Table, Badge } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 
-const FilePreviewTest = (props) => {
+const CSVTable = (props) => {
     return (
         <Table striped hover>
             <thead>
@@ -31,8 +29,8 @@ const FilePreviewTest = (props) => {
                 </tr>
             </thead>
             <tbody>
-                {props.data.map((item) => (
-                    <tr>
+                {props.data.map((item, index) => (
+                    <tr key={index}>
                         <td>{item.index}</td>
                         <td>{item.dt}</td>
                         <td>{item.globalHorizontal}</td>
@@ -65,7 +63,7 @@ const BoxTest = () => {
         const buildTestPage = async () => {
             let ids = await getCSVIds();
 
-            for (let i = 0; i < 1 /*normally ids.length*/; i++) {
+            for (let i = 0; i < ids.length; i++) {
                 let file = await getBoxFile(ids[i]);
                 let csvRows = parseCSV(file);
 
@@ -99,8 +97,9 @@ const BoxTest = () => {
                 }
 
                 csvData.current.push(outdata);
-                setDataUpdated(true);
             }
+            
+            setDataUpdated(true);
         }
 
         buildTestPage();
@@ -118,10 +117,10 @@ const BoxTest = () => {
         <>
             <ul>
                 {csvData.current.map((item) => (
-                    <li>
+                    <div key={item.id}>
                         <h1>{item.id}</h1>
-                        <FilePreviewTest data={item.data} />
-                    </li>
+                        <CSVTable data={item.data} />
+                    </div>
                 ))}
             </ul>
         </>

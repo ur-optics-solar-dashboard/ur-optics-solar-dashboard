@@ -1,19 +1,16 @@
 import React, { useContext, useState } from 'react'
-import PropTypes from 'prop-types'
 import { GlobalContext } from '../contexts/GlobalContext'
 import {
     LineChart, Line,
     CartesianGrid, XAxis, YAxis, Tooltip,
     Label, Legend, ResponsiveContainer
 } from 'recharts';
-import { DataFormContext } from '../contexts/DataFormContext';
 import { defaultGraphOptions, graphColors } from '../DefaultConstants';
 import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { Link } from 'react-router-dom';
 
 import "./Graph.css";
 import DownloadGraphOptions from './DownloadGraphOptions';
-import { Form } from 'react-bootstrap';
 
 const Graph = props => {
 

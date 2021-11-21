@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import Select from 'react-select'
 
 import "./DataSelectionSection.css";
@@ -35,7 +34,7 @@ const DataSelectionSection = props => {
 
     useEffect(() => {
         console.log("start irr",selectedIrridianceOptions)
-    }, [])
+    }, [selectedIrridianceOptions])
     return (
         <div className="data-wrapper">
             <div className="data-half-section">

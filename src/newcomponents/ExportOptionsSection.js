@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import ExportButton from './ExportButton'
 
 import "./ExportOptionsSection.css"

@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import './Sidebar.css'
-import SidebarLink from './SidebarLink';
 import solarIcon from '../images/solar-icon.svg';
 import roclabIcon from '../images/roclab.png';
 import { NavLink } from 'react-bootstrap';

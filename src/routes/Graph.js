@@ -160,7 +160,7 @@ const Graph = () => {
   /** componentDidMount, only on mount do we parse the url for query */
   useEffect(() => {
     parseQuerySetForm();
-  }, []);
+  });
 
   return (
     <div className="App">
