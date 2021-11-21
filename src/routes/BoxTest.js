@@ -4,7 +4,7 @@ import 'react-pro-sidebar/dist/css/styles.css';
 
 import SidebarLayout from '../newcomponents/SidebarLayout';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { calculateTime, getBoxAllCSVs, getBoxFile, parseCSV } from '../Utils';
 
 import { Table, Badge } from 'react-bootstrap';
@@ -14,6 +14,7 @@ const FilePreviewTest = (props) => {
         <Table striped hover>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Date/Time</th>
                     <th>Global Horizontal</th>
                     <th>Direct Normal</th>
@@ -32,6 +33,7 @@ const FilePreviewTest = (props) => {
             <tbody>
                 {props.data.map((item) => (
                     <tr>
+                        <td>{item.index}</td>
                         <td>{item.dt}</td>
                         <td>{item.globalHorizontal}</td>
                         <td>{item.directNormal}</td>
@@ -54,7 +56,9 @@ const FilePreviewTest = (props) => {
 
 const BoxTest = () => {
 
-    const [csvData, setCSVData] = useState([]);
+    // const [csvData, setCSVData] = useState([]);
+    const [dataUpdated, setDataUpdated] = useState(false);
+    const csvData = useRef([]);
 
     useEffect(() => {
 
@@ -69,14 +73,16 @@ const BoxTest = () => {
                     id: ids[i],
                     data: []
                 }
-                for (let j = 0; j < csvRows.length; j++) {
+                for (let j = 0; j < csvRows.length - 1; j++) {
                     let dt = calculateTime(
                         parseInt(csvRows[j]['Year']),
                         parseInt(csvRows[j]['DOY']),
                         parseInt(csvRows[j]['MST'])
                         )
-                        .format('MMMM Do YYYY, h:mm:ssa');
-                    outdata.data.push({dt: dt,
+                        .format('MM/DD/YYYY h:mm a');
+                    outdata.data.push({
+                        index: j + 1,
+                        dt: dt,
                         globalHorizontal: csvRows[j]['Global Horizontal [W/m^2]'],
                         directNormal: csvRows[j]['Direct Normal [W/m^2]'],
                         diffuseHorizontal: csvRows[j]['Diffuse Horizontal [W/m^2]'],
@@ -92,16 +98,16 @@ const BoxTest = () => {
                     });
                 }
 
-                setCSVData([...csvData, outdata]);
-
+                csvData.current.push(outdata);
+                setDataUpdated(true);
             }
         }
 
         buildTestPage();
-    }, [csvData]);
+
+    }, [dataUpdated]);
 
     const getCSVIds = async () => {
-        console.log('doing getCSVs');
         let ids = await getBoxAllCSVs();
 
         if (ids !== undefined) { return ids; }
@@ -111,7 +117,7 @@ const BoxTest = () => {
     return (
         <>
             <ul>
-                {csvData.map((item) => (
+                {csvData.current.map((item) => (
                     <li>
                         <h1>{item.id}</h1>
                         <FilePreviewTest data={item.data} />
