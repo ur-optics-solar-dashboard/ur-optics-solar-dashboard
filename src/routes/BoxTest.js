@@ -2,7 +2,7 @@ import '../App.css';
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { calculateTime, getBoxAllCSVs, getBoxFile, parseCSV } from '../Utils';
 
 import { Table } from 'react-bootstrap';
@@ -54,14 +54,15 @@ const CSVTable = (props) => {
 
 const BoxTest = () => {
 
-    // const [csvData, setCSVData] = useState([]);
-    const [dataUpdated, setDataUpdated] = useState(false);
-    const csvData = useRef([]);
+    const [csvData, setCSVData] = useState([]);
 
     useEffect(() => {
 
         const buildTestPage = async () => {
+
             let ids = await getCSVIds();
+
+            let dataStore = [];
 
             for (let i = 0; i < ids.length; i++) {
                 let file = await getBoxFile(ids[i]);
@@ -96,15 +97,16 @@ const BoxTest = () => {
                     });
                 }
 
-                csvData.current.push(outdata);
+                dataStore.push(outdata);
             }
-            
-            setDataUpdated(true);
+
+            setCSVData(dataStore);
         }
 
         buildTestPage();
+        // setDataUpdated(true);
 
-    }, [dataUpdated]);
+    }, []);
 
     const getCSVIds = async () => {
         let ids = await getBoxAllCSVs();
@@ -116,7 +118,7 @@ const BoxTest = () => {
     return (
         <>
             <ul>
-                {csvData.current.map((item) => (
+                {csvData.map((item) => (
                     <div key={item.id}>
                         <h1>{item.id}</h1>
                         <CSVTable data={item.data} />
