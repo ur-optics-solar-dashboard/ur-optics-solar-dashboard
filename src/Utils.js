@@ -57,6 +57,8 @@ export const getBoxUserInfo = async () => {
         }
         return output;
     }
+
+    clearAuthToken(); //most likely the auth token expired
     return null;
 
 }
@@ -88,6 +90,7 @@ export const getBoxFile = async (fileid) => {
     .catch((error) => handleBoxError(error));
 
     if (file !== undefined) { return file; }
+    clearAuthToken(); //the problem is probably that the auth token expired
     return null;
 }
 
@@ -113,14 +116,11 @@ export const parseCSV = (csv) => {
         let rowCells = rows[i].split(',');
 
         let outRow = {};
-        for (let j = 0; j < rowCells.length; j++) {
+        for (let j = 1; j < rowCells.length; j++) {
             outRow[headers[j]] = rowCells[j];
         }
         out.push(outRow);
     }
-
-    console.log('CSV PARSE: ');
-    console.log(out);
 
     return out;
 }
