@@ -1,5 +1,7 @@
 import axios from 'axios';
+import moment from 'moment';
 
+//BOX API HELPERS
 export const setAuthToken = (token) => {
     sessionStorage.setItem('access_token', token);
     window.dispatchEvent(new Event('storage'));
@@ -35,7 +37,7 @@ const handleBoxError = (error) => {
     else {
         makeToast('An unknown error occurred when accessing Box', 'danger');
     }
-    console.log(error);
+    console.error(error);
 }
 
 export const getBoxUserInfo = async () => {
@@ -67,8 +69,6 @@ export const getBoxAllCSVs = async () => {
     .then(response => response.data)
     .catch((error) => handleBoxError(error));
 
-    console.log(folderInfo);
-
     if (folderInfo !== undefined) {
         let output = [];
         for (let i = 0; i < folderInfo.entries.length; i++) {
@@ -77,7 +77,18 @@ export const getBoxAllCSVs = async () => {
         return output;
     }
     return null;
+}
 
+export const getBoxFile = async (fileid) => {
+    let file = await axios.get(
+        'https://api.box.com/2.0/files/' + fileid + '/content/',
+        { headers: buildBoxRequestHeaders() }
+    )
+    .then(response => response.data)
+    .catch((error) => handleBoxError(error));
+
+    if (file !== undefined) { return file; }
+    return null;
 }
 
 export const makeToast = (message, category) => {
@@ -87,4 +98,40 @@ export const makeToast = (message, category) => {
             category: category
         }
     }));
+}
+
+//CSV HELPERS
+export const parseCSV = (csv) => {
+    if (csv === undefined) { return null; }
+    let rows = csv.split('\n');
+    let hRow = rows[0];
+    let headers = hRow.split(',');
+
+    let out = [];
+
+    for (let i = 1; i < rows.length; i++) { //scan all rows
+        let rowCells = rows[i].split(',');
+
+        let outRow = {};
+        for (let j = 0; j < rowCells.length; j++) {
+            outRow[headers[j]] = rowCells[j];
+        }
+        out.push(outRow);
+    }
+
+    console.log('CSV PARSE: ');
+    console.log(out);
+
+    return out;
+}
+
+const mstToHM = (mst) => {
+    let hour = Math.floor(mst / 100);
+    let minute = mst % 100;
+    return {hour, minute};
+}
+
+export const calculateTime = (year, doy, mst) => {
+    let time = mstToHM(mst);
+    return moment().year(year).dayOfYear(doy).hour(time.hour).minute(time.minute);
 }
