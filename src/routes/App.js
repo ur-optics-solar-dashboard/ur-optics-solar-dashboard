@@ -49,7 +49,7 @@ const App = () => {
 
         <section className="App-main-section" id="App-main-data">
           <DataSelection
-            //todo useContext to pass these props stuff down?
+            // useContext to pass these props stuff down?
             handleSubmit={handleSubmit} handleReset={handleReset}
             initialShowSelection={initialShowSelectionTrue}
             showModal={showModal} setShowModalState={setShowModalState} />

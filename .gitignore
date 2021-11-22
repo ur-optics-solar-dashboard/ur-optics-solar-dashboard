@@ -6,6 +6,7 @@ testing.py
 
 # secrets
 api_keys/
+src/secrets/*.json
 
 # dependencies
 /node_modules

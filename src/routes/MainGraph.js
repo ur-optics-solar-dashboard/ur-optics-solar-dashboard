@@ -13,13 +13,17 @@ import DataExportTools from '../newcomponents/DataExportTools';
 import Graph from '../newcomponents/Graph';
 import { GlobalContext } from '../contexts/GlobalContext';
 import DownloadGraphOptions from '../newcomponents/DownloadGraphOptions';
+import { AuthPrompt } from '../newcomponents/AuthPrompt';
+import Toast from '../newcomponents/Toast';
 
 const MainGraph = () => {
     const { showGraph } = useContext(GlobalContext);
     return (
         <>
             <SidebarLayout width={290}>
+                <AuthPrompt />
                 <Graph />
+                <Toast />
             </SidebarLayout>
         </>
     )
