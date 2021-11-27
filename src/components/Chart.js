@@ -20,7 +20,7 @@ import { Button, Form, Collapse, Row, Col, OverlayTrigger, Tooltip as BSTooltip 
 
 import { defaultGraphOptions, graphColors } from '../DefaultConstants';
 import { DataFormContext } from '../contexts/DataFormContext';
-import { useDownloadChartSubmit } from '../Hooks/useDownloadChartSubmit';
+import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 
 /** @typedef StateSetter */
 /**

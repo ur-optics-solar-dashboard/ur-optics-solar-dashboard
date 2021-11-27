@@ -1,13 +1,13 @@
 
 import {useContext} from 'react'
-import { DataFormContext } from '../contexts/DataFormContext'
+import { GlobalContext } from '../contexts/GlobalContext'
 /**
  * Provide handler functions to shift the datePicker by a full day, month, or year
  * @returns {[previousDay: function, nextDay: function, previousMonth: function, nextMonth: function, previousYear: function, nextYear: function]} array
  */
 const useDateShift = () => {
 
-    const {dateState, handleDateCallback} = useContext(DataFormContext)
+    const {dateState, handleDateCallback} = useContext(GlobalContext)
     
     /***/
      const previousDay = () => {

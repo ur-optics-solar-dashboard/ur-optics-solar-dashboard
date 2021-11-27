@@ -1,5 +1,5 @@
-import Header from '../Components/Header';
-import LiveMeasurements from '../Components/LiveMeasurements';
+import Header from '../components/Header';
+import LiveMeasurements from '../components/LiveMeasurements';
 
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'

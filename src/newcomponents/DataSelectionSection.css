@@ -1,0 +1,14 @@
+.data-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+  
+.data-half-section {
+    flex: 1;
+    width: '50%';
+}
+
+.data-half-section h6 {
+    color: #A3A3A3;
+    font-weight: var(--font-weight-3);
+}

@@ -1,0 +1,62 @@
+
+
+:root {
+    /* top | right | bottom | left */
+    --sidebar-padding: 8px 8px 8px 48px;
+    --sidebar-header-footer-padding:  8px 8px 8px 32px;
+  }
+  
+.sidebar {
+    height: 100%; /* 100% Full-height */
+    /* width: var(--sidebar-width); width changed within javascript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #F5F5F5; /* gray */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 32px;
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  }
+  
+  /* sidebar header */
+  .sidebar header {
+    padding: var(--sidebar-header-footer-padding); /* sidebar header has less left margin */
+    display: flex;
+    cursor: pointer;
+  }
+  
+  /* sidebar header text */
+  .sidebar header h2 {
+      font-weight: lighter;
+      color: #8F677F;
+      padding: 12px 0px 8px 12px;
+  }
+  
+  /* sidebar footer */
+  .sidebar footer {
+    position: absolute;
+    bottom: 0;  /* footer is at the bottom */
+    padding: var(--sidebar-header-footer-padding);
+    color: #ABB5BE;
+  }
+  
+  /* The sidebar links */
+  .sidebar a:not(.sidebar-user-name) {
+    padding: var(--sidebar-padding);
+    text-decoration: none;
+    font-weight: 500; /* slightly bold */
+    font-size: 25px;
+    color: #A3A3A3;
+    display: block;
+    transition: 0.3s; /* 0.3 second transition effect to slide in the sidebar */
+  }
+  
+  /* When you mouse over the navigation links, change the background color */
+  .sidebar a:hover {
+    background-color: #EDEDED;
+  }
+
+  .roclab-logo {
+    height: 22px;
+  }
