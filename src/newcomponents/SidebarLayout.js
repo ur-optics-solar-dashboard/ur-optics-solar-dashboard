@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Sidebar from './Sidebar'
 
 import './SidebarLayout.css'
-import SidebarLink from './SidebarLink'
 import { NavLink } from 'react-router-dom'
 
 /**
