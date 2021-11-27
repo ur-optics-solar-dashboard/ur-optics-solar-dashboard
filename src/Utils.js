@@ -133,5 +133,5 @@ const mstToHM = (mst) => {
 
 export const calculateTime = (year, doy, mst) => {
     let time = mstToHM(mst);
-    return moment().year(year).dayOfYear(doy).hour(time.hour).minute(time.minute);
+    return moment(new Date()).year(year).dayOfYear(doy).hour(time.hour).minute(time.minute);
 }
