@@ -1,4 +1,4 @@
-import React, { useState, useContext,useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 
 import '../App.css';
 
@@ -9,7 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { GlobalContext } from '../contexts/GlobalContext';
-import ExportButton from './ExportButton';
 
 /**
  * Download graph options
@@ -20,7 +19,7 @@ import ExportButton from './ExportButton';
  *   <DownloadGraphOptions/>
  * )
  */
-const DownloadGraphOptions = props => {
+const DownloadGraphOptions = () => {
     const {graphData} = useContext(GlobalContext);
 
     const [downloadSelection, setDownloadSelection] = useState(0);

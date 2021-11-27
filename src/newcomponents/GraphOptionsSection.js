@@ -1,12 +1,11 @@
 import React, { useContext } from "react";
-import PropTypes from "prop-types";
 import ExportButton from "./ExportButton";
 import DateSelection from "./DateSelection";
 import { GlobalContext } from "../contexts/GlobalContext";
 import { Link } from "react-router-dom";
 
-const GraphOptionsSection = (props) => {
-  const {selectedIrridianceOptions, selectedMeteorologicalOptions, getChartData, dataForm, dateState} = useContext(GlobalContext);
+const GraphOptionsSection = () => {
+  const {selectedIrridianceOptions, getChartData, dateState} = useContext(GlobalContext);
   return (
     <div
       className="graph-options-wrapper"

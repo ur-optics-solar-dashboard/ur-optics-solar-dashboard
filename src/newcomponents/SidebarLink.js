@@ -25,7 +25,7 @@ SidebarLink.defaultProps = {
 }
 
 SidebarLink.propTypes = {
-    href: PropTypes.string,
+    // href: PropTypes.string,
     selected: PropTypes.bool,
 }
 

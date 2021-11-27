@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import Select from 'react-select'
 
 import "./DataSelectionSection.css";
@@ -23,7 +22,7 @@ const MeteorologicalOptions = [
     {"value": "meteorological-logger-temp", label: "Logger Temp", color: ""},
 ];
 
-const DataSelectionSection = props => {
+const DataSelectionSection = () => {
     const {selectedIrridianceOptions, setSelectedIrridianceOptions, selectedMeteorologicalOptions, setSelectedMeteorologicalOptions} = useContext(GlobalContext);
 
     const handleIrridianceChange = (selectedOptions) => {
@@ -35,7 +34,7 @@ const DataSelectionSection = props => {
 
     useEffect(() => {
         console.log("start irr",selectedIrridianceOptions)
-    }, [])
+    }, [selectedIrridianceOptions])
     return (
         <div className="data-wrapper">
             <div className="data-half-section">

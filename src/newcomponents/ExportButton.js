@@ -69,7 +69,7 @@ ExportButton.propTypes = {
     paddingBottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    // height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     onClick: PropTypes.func
 

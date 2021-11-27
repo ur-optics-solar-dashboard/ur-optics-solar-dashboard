@@ -1,29 +1,24 @@
 import React, { useContext, useState } from 'react'
-import PropTypes from 'prop-types'
 import { GlobalContext } from '../contexts/GlobalContext'
 import {
     LineChart, Line,
     CartesianGrid, XAxis, YAxis, Tooltip,
     Label, Legend, ResponsiveContainer
 } from 'recharts';
-import { DataFormContext } from '../contexts/DataFormContext';
 import { defaultGraphOptions, graphColors } from '../DefaultConstants';
 import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { Link } from 'react-router-dom';
 
 import "./Graph.css";
 import DownloadGraphOptions from './DownloadGraphOptions';
-import { Form } from 'react-bootstrap';
 
 const Graph = props => {
 
     //todo reformat
-    const {graphTitle,
-        graphData, setGraphData, graphLines, irridianceGraphLines, meteorologicalGraphLines,
-        getChartData } = useContext(GlobalContext);
+    const {graphTitle, graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines} = useContext(GlobalContext);
 
-    const [graphOptions, setGraphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
-    const [downloadSelection, setDownloadSelection] = useState(0);
+    const [graphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
+    const [downloadSelection] = useState(0);
     const [handleChartSubmit] = useDownloadChartSubmit({ downloadSelection, graphData });
     //todo reformat above
 
