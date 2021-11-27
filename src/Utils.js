@@ -94,6 +94,48 @@ export const getBoxFile = async (fileid) => {
     return null;
 }
 
+export const getBoxFileFromDate = async(dateString) => {
+    const date = moment(dateString, 'YYYY-MM-DD');
+    
+    //TODO: on real data it may be possible to go off file last modified date
+    let csvIds = await getBoxAllCSVs();
+
+    for (let i = 0; i < csvIds.length; i++) {
+        let file = await getBoxFile(csvIds[i]);
+        let csv = parseCSV(file);
+        
+        console.log('doy: ' + date.dayOfYear());
+        console.log('YEAR & DOY: ' + csv[0]['Year'] + ', ' + csv[0]['DOY']);
+
+        //check date
+        if (csv[0]['Year'] !== date.year().toString()
+            || csv[0]['DOY'] !== date.dayOfYear().toString()) { continue; }
+
+        //its the correct date
+        return file;
+    }
+
+    return null;
+
+}
+
+export const getExactData = async (start, end, queryArray) => {
+    //TODO: interpolate between start and end date
+    
+    //TODO: this is a very temp proof of concept
+    let startDateFile = await getBoxFileFromDate(start);
+    if (startDateFile === null) {
+        makeToast('A file for ' + start + ' could not be found', 'info');
+        return null;
+    }
+    else {
+        console.log('START DATE FILE: ');
+        console.log(startDateFile);
+        console.log('QUERY OPTIONS: ');
+        console.log(queryArray);
+    }
+}
+
 export const makeToast = (message, category) => {
     window.dispatchEvent(new CustomEvent('toast', {
         detail: {

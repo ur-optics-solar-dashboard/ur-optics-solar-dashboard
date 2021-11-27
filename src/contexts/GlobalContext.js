@@ -4,6 +4,7 @@ import React from "react"
 import { useState } from "react";
 import { defaultDataForm, ranges } from "../DefaultConstants";
 import useGraph from "../hooks/useGraph";
+import { getExactData } from "../Utils";
 
 export const GlobalContext = React.createContext();
 
@@ -117,25 +118,27 @@ export const GlobalContextProvider = ({ children }) => {
     const endFormatted = moment(end).format("YYYY-MM-DD");
 
     if (query_fetch_array.length !== 0) {
-      fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
-        .then(function (response) {
+      // fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
+      //   .then(function (response) {
           
-          setQueryFetchString(`start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
+      //     setQueryFetchString(`start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
 
-          return response.json();
-        })
-        .then(function (myJson) {
-          console.log("loading data...");
+      //     return response.json();
+      //   })
+      //   .then(function (myJson) {
+      //     console.log("loading data...");
 
-          setGraphTitle(dateState.label);
+      //     setGraphTitle(dateState.label);
 
-          setGraphData(myJson["return_data"]);
+      //     setGraphData(myJson["return_data"]);
 
-          setGraphLines(myJson["included_headers"]);
+      //     setGraphLines(myJson["included_headers"]);
 
-          setIrridianceGraphLines(myJson["irridiance_headers"]);
-          setMeteorologicalGraphLines(myJson["meteorological_headers"]);
-        });
+      //     setIrridianceGraphLines(myJson["irridiance_headers"]);
+      //     setMeteorologicalGraphLines(myJson["meteorological_headers"]);
+      //   });
+
+      let returnData = getExactData(startFormatted, endFormatted, query_fetch_array);
 
     } else {
       console.log("No Data Selected");
