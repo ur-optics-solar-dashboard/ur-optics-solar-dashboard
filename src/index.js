@@ -16,10 +16,9 @@ import { GlobalContextProvider } from './contexts/GlobalContext';
 import MainGraph from './routes/MainGraph';
 import AuthRedirectHandler from './routes/AuthManager';
 import BoxTest from './routes/BoxTest';
+import About from './routes/About';
 
 moment.tz.setDefault("America/New_York");
-
-const loggedIn = true // todo handle login with box
 
 ReactDOM.render(
   <GlobalContextProvider>
@@ -44,11 +43,15 @@ ReactDOM.render(
           <Route path="/auth">
             <AuthRedirectHandler />
           </Route>
+          <Route path="/about">
+            <About />
+          </Route>
           <Route path="/boxtest"> { /* temporary */}
             <BoxTest />
           </Route>
           <Route exact path="/">
-          {loggedIn ? <Redirect to="/dashboard" /> : <App />}
+          {/* {loggedIn ? <Redirect to="/dashboard" /> : <App />} */}
+            <Redirect to="/dashboard" />
           </Route>
         </Switch>
       </Router>

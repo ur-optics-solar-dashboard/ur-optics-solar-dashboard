@@ -23,7 +23,9 @@
   .sidebar header {
     padding: var(--sidebar-header-footer-padding); /* sidebar header has less left margin */
     display: flex;
-    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
   }
   
   /* sidebar header text */

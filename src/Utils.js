@@ -112,7 +112,20 @@ export const getBoxFileFromDate = async(dateString) => {
             || csv[0]['DOY'] !== date.dayOfYear().toString()) { continue; }
 
         //its the correct date
-        return file;
+        // return csv;
+
+        let formatted = [];
+        for (let j = 0; j < csv.length; j++) {
+            let pointTime = calculateTime(
+                parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
+                parseInt(csv[j]['MST']));
+            formatted.push({
+                'date': pointTime.format('YYYY-MM-DD'),
+                'datetime': pointTime.format('hh:mm A'),
+                'Direct Normal [W/m^2]': parseFloat(csv[j]['Direct Normal [W/m^2]']) //temp!
+            });
+        }
+        return formatted;
     }
 
     return null;
@@ -129,10 +142,7 @@ export const getExactData = async (start, end, queryArray) => {
         return null;
     }
     else {
-        console.log('START DATE FILE: ');
-        console.log(startDateFile);
-        console.log('QUERY OPTIONS: ');
-        console.log(queryArray);
+        return startDateFile; //temp!
     }
 }
 

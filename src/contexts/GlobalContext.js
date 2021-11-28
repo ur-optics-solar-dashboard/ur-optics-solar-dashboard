@@ -138,7 +138,16 @@ export const GlobalContextProvider = ({ children }) => {
       //     setMeteorologicalGraphLines(myJson["meteorological_headers"]);
       //   });
 
-      let returnData = getExactData(startFormatted, endFormatted, query_fetch_array);
+      getExactData(startFormatted, endFormatted, query_fetch_array)
+      .then(response => {
+        console.log('loading data');
+        setGraphTitle('TEMP TITLE');
+        console.log(response);
+        setGraphData(response);
+        //TODO: setGraphLines
+        //TODO: setIrridianceGraphLines
+        //TODO: setMeteorologicalGraphLines
+      })
 
     } else {
       console.log("No Data Selected");

@@ -8,7 +8,7 @@ import GraphOptionsSection from './GraphOptionsSection';
 const DataExportTools = () => {
     return (
         <div className="main-content">
-            <h2 id="main-title">Data Export Tool</h2>
+            <h2 id="main-title">Dashboard</h2>
             <section className="section-selection">
                 <h4 id="section-title-selection">Data Selection</h4>
                 <DataSelectionSection/>
