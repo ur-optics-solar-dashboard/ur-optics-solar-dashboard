@@ -1,37 +1,51 @@
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState, useContext } from "react";
 
-import Header from '../Components/Header';
-import DataSelection from '../Components/DataSelection';
-import Chart from '../Components/Chart';
+import Header from "../components/Header";
+import DataSelection from "../components/DataSelection";
+import Chart from "../components/Chart";
 
-import {
-  useLocation
-} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 //hooks
-import { useSelectionForm } from '../Hooks/useSelectionForm';
-import moment from 'moment';
-import useGraph from '../Hooks/useGraph';
+import { useSelectionForm } from "../hooks/useSelectionForm";
+import moment from "moment";
+import useGraph from "../hooks/useGraph";
 
 // default values
-import { defaultDataForm, initialShowSelectionFalse } from '../DefaultConstants';
+import {
+  defaultDataForm,
+  initialShowSelectionFalse,
+} from "../DefaultConstants";
 
-import { DataFormContext } from '../contexts/DataFormContext';
+import { DataFormContext } from "../contexts/DataFormContext";
 
 /**
  * Graph Page component @ /graph
  */
 const Graph = () => {
-
   //todo: handle interval ourselves because having users chose is a bit unreliable (can cause too many points to be rendered)
 
   let location = useLocation();
   let query = new URLSearchParams(location.search);
 
-  const { dataForm, setDataFormState, dateState, setGraphTitle, handleDateCallback } = useContext(DataFormContext);
+  const {
+    dataForm,
+    setDataFormState,
+    dateState,
+    setGraphTitle,
+    handleDateCallback,
+  } = useContext(DataFormContext);
 
-  const [graphData, setGraphData, graphLines, setGraphLines,
-    irridianceGraphLines, setIrridianceGraphLines, meteorologicalGraphLines, setMeteorologicalGraphLines] = useGraph();
+  const [
+    graphData,
+    setGraphData,
+    graphLines,
+    setGraphLines,
+    irridianceGraphLines,
+    setIrridianceGraphLines,
+    meteorologicalGraphLines,
+    setMeteorologicalGraphLines,
+  ] = useGraph();
 
   /** Backend and Frontend use the same queries to get the same data currently, so if there is a query in the frontend, we use the same query in the backend */
   const [queryFetchString, setQueryFetchString] = useState(null);
@@ -44,7 +58,8 @@ const Graph = () => {
     console.log("fetching data...");
     let query_fetch_array = [];
     for (const field in dataForm) {
-      if (dataForm[field] === true) {
+      if (true) {
+      // if (dataForm[field] === true) {
         query_fetch_array.push(field + "=true");
       }
     }
@@ -53,11 +68,22 @@ const Graph = () => {
     const endFormatted = moment(end).format("YYYY-MM-DD");
 
     if (query_fetch_array.length !== 0) {
-      fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
+      fetch(
+        `/graph?start=${startFormatted}&end=${moment(endFormatted).format(
+          "YYYY-MM-DD"
+        )}&${query_fetch_array.join("&")}`
+      )
         .then(function (response) {
-          
-          setQueryFetchString(`start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
-          setCopyLinkText(`${window.location.origin.toString()}/graph?start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
+          setQueryFetchString(
+            `start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join(
+              "&"
+            )}`
+          );
+          setCopyLinkText(
+            `${window.location.origin.toString()}/graph?start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join(
+              "&"
+            )}`
+          );
 
           return response.json();
         })
@@ -73,29 +99,28 @@ const Graph = () => {
           setIrridianceGraphLines(myJson["irridiance_headers"]);
           setMeteorologicalGraphLines(myJson["meteorological_headers"]);
         });
-
     } else {
       console.log("No Data Selected");
       setGraphTitle("No Data Selected");
     }
-  }
+  };
 
-  const [handleSubmit, handleReset,
-    showModal, setShowModalState] = useSelectionForm({ getChartData: getChartData });
+  const [handleSubmit, handleReset, showModal, setShowModalState] =
+    useSelectionForm({ getChartData: getChartData });
 
   /**
-   * parse query from the URL and replace localstorage values, 
+   * parse query from the URL and replace localstorage values,
    * then call backend api with getChartData
    */
   function parseQuerySetForm() {
-    let change = false // make sure that there are valid query parameters
+    let change = false; // make sure that there are valid query parameters
     const newQueryObj = JSON.parse(JSON.stringify(dataForm)); // quick copy
 
     for (const field in defaultDataForm) {
       const field_value = query.get(field);
       if (field_value !== null) {
-        change = true
-        newQueryObj[field] = (field_value === "true")
+        change = true;
+        newQueryObj[field] = field_value === "true";
       }
     }
 
@@ -107,25 +132,26 @@ const Graph = () => {
     var end = moment(query.get("end"), "YYYY-MM-DD");
 
     if (start.isValid() && end.isValid()) {
-      handleDateCallback(start, end, 'Custom Range');
+      handleDateCallback(start, end, "Custom Range");
     } else {
-      start = dateState.start
-      end = dateState.end
+      start = dateState.start;
+      end = dateState.end;
     }
 
     getChartData({ dataForm: newQueryObj, start: start, end: end });
-
   }
 
   /**
    * Create a link from the current graph query
    * @example
    * returns http://localhost:3000/graph?irradiance-global-horizontal=true&start=2021-01-01&end=2021-12-31
-   * 
+   *
    * @returns {string} link
    */
   function createQuery() {
-    return `${window.location.origin.toString()}/graph?${queryFetchString===null ? "" : queryFetchString}`
+    return `${window.location.origin.toString()}/graph?${
+      queryFetchString === null ? "" : queryFetchString
+    }`;
   }
 
   /** What the copied link to the current data is */
@@ -152,27 +178,34 @@ const Graph = () => {
       <main className="App-main">
         <section className="App-main-section" id="App-main-data">
           <DataSelection
-            handleSubmit={handleSubmit} handleReset={handleReset}
+            handleSubmit={handleSubmit}
+            handleReset={handleReset}
             initialShowSelection={initialShowSelectionFalse}
-            showModal={showModal} setShowModalState={setShowModalState} />
+            showModal={showModal}
+            setShowModalState={setShowModalState}
+          />
         </section>
         <div style={{ paddingBottom: "100px" }}></div>
-        <section id="App-main-graph" style={{ width: "100%" }} >
+        <section id="App-main-graph" style={{ width: "100%" }}>
           <Chart
-            graphData={graphData} graphLines={graphLines}
-            irridianceGraphLines={irridianceGraphLines} meteorologicalGraphLines={meteorologicalGraphLines}
-            createQuery={createQuery} copyLinkText={copyLinkText} setCopyLinkText={setCopyLinkText} />
+            graphData={graphData}
+            graphLines={graphLines}
+            irridianceGraphLines={irridianceGraphLines}
+            meteorologicalGraphLines={meteorologicalGraphLines}
+            createQuery={createQuery}
+            copyLinkText={copyLinkText}
+            setCopyLinkText={setCopyLinkText}
+          />
         </section>
-        <div style={{ paddingBottom: "32px" }} ></div>
+        <div style={{ paddingBottom: "32px" }}></div>
       </main>
 
       <hr />
 
       {/* empty div footer */}
-      <div style={{ paddingBottom: "64px" }} ></div>
-
+      <div style={{ paddingBottom: "64px" }}></div>
     </div>
-  )
-}
+  );
+};
 
-export default Graph
+export default Graph;

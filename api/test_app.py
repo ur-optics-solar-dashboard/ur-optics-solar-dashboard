@@ -1,8 +1,14 @@
+from os import access
 import time
-from flask import Flask, request, jsonify
+from boxsdk.session.session import AuthorizedSession
+from flask import Flask, request, jsonify, send_file, redirect, session, flash
 import datetime
 import pytz
 import csv
+from decouple import config
+import requests
+from boxsdk import Client, OAuth2
+import secrets
 
 from flask_pymongo import PyMongo
 # my_date = datetime.datetime.now(pytz.timezone('US/New_York'))
@@ -11,9 +17,29 @@ global counter
 counter = 0
 
 app = Flask(__name__)
+app.secret_key = secrets.token_hex(16)
 
 mongodb_client = PyMongo(app, uri="mongodb://localhost:27017/solar_dashboard_database")
 db = mongodb_client.db
+
+#box api info
+box_client_id = config('BOX_CLIENT_ID')
+box_client_secret = config('BOX_CLIENT_SECRET')
+
+#box api
+def store_tokens(access_token, refresh_token): #TODO: DON'T DO THIS
+    session['access_token'] = access_token
+    session['refresh_token'] = refresh_token
+
+box_oauth = OAuth2(
+    client_id=box_client_id,
+    client_secret=box_client_secret,
+    store_tokens=store_tokens
+)
+
+box_client = Client(box_oauth)
+
+box_auth_url, box_csrf_token = box_oauth.get_authorization_url('http://localhost:5000/box_auth_redirect')
 
 # db.test.insert_one({'title': "todo title", 'body': "todo body"})
 @app.route('/weather_many')
@@ -272,3 +298,49 @@ def get_sample_graph_data():
         print(meteorologicalHeaderString)
 
     return {"return_data":graphList, "included_headers":includedHeaderStrings, "irridiance_headers":irridianceHeaderStrings,"meteorological_headers":meteorologicalHeaderString}
+
+@app.route('/get_csv')
+def get_csv():
+
+    # Send the file back to the client
+    return send_file("./CR300Series_DataOut.csv", as_attachment=True, attachment_filename="CR300Series_DataOut.csv")
+
+
+@app.route('/get_box_has_auth')
+def get_box_has_auth():
+    if session.get('access_token') is not None:
+        return 'true'
+    return 'false'
+
+@app.route('/get_box_auth_url')
+def get_box_auth_url():
+    return redirect(box_auth_url, code=302) #302 because auth link can change. I think that makes sense.
+
+@app.route('/box_auth_redirect', methods=['GET'])
+def box_auth_redirect():
+    state = request.args.get('state') #should match box_csrf_token
+    code = request.args.get('code')
+
+    if state != box_csrf_token: #error if csrf tokens dont match
+        return 'Tokens do not match'
+    access_token, refresh_token = box_oauth.authenticate(code)
+
+    return redirect('http://localhost:3000/', code=302)
+
+@app.route('/get_box_file', methods=['GET'])
+def box_get_file():
+    file_id = request.args.get('id')
+    file_url = 'https://api.box.com/2.0/files/' + file_id + '/content/'
+    r_headers = { 'Authorization': 'Bearer ' + session['access_token'],
+                'Content-Type': 'application/json' }
+    
+    r = requests.get(file_url, headers=r_headers)
+    return str(r.content)
+
+@app.route('/get_box_user_info')
+def box_get_user_info():
+    user_url = 'https://api.box.com/2.0/users/me'
+    r_headers = { 'Authorization': 'Bearer ' + session['access_token'],
+                'Content-Type': 'application/json' }
+    r = requests.get(user_url, headers=r_headers)
+    return r.json()

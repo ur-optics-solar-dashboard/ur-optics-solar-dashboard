@@ -36,7 +36,7 @@ Flask/React Dashboard for researchers to access data from U of R's new RaZON+ ha
 
 * Setup [python](https://www.python.org/downloads/) virtual environment
 
-  * ```python3 -m virtualenv venv```
+  * ```python3 -m venv venv```
 
   * ```source venv/bin/activate``` or ```venv\Scripts\activate```
 
