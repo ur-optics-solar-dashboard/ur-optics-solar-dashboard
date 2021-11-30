@@ -125,7 +125,7 @@ export const getBoxFileFromDate = async(dateString, queryArray) => {
             point['datetime'] = pointTime.format('hh:mm A');
             
             queryArray.forEach(q => {
-                point[q] = csv[j][q];
+                point[q] = parseFloat(csv[j][q]);
             });
 
             formatted.push(point);

@@ -13,7 +13,7 @@ const ExportOptionsSection = () => {
 
                 <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 1}
                     onClick={() => { setExportOptionsState(1) }}>
-                    csv
+                    CSV
                 </ExportButton>
 
                 <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 2}
@@ -34,7 +34,7 @@ const ExportOptionsSection = () => {
             <div className="options-export-half-section">
                 <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 3}
                     onClick={() => { setExportOptionsState(3) }}>
-                    json
+                    JSON
                 </ExportButton>
 
                 <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 4}
