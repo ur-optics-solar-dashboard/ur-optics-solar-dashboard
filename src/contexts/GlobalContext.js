@@ -146,34 +146,38 @@ export const GlobalContextProvider = ({ children }) => {
       //     setMeteorologicalGraphLines(myJson["meteorological_headers"]);
       //   });
 
+      setGraphTitle('Loading data...'); //TODO: add a spinner
       getExactData(startFormatted, endFormatted, queryArray)
       .then(response => {
-        console.log('loading data');
-        setGraphTitle(startFormatted + ' to ' + endFormatted);
-        console.log(response);
-        setGraphData(response);
+        if (response !== null) {
+          setGraphTitle(startFormatted + ' to ' + endFormatted);
+          console.log(response);
+          setGraphData(response);
 
-        //TODO: setGraphLines
-        setGraphLines(queryArray);
+          //TODO: setGraphLines
+          setGraphLines(queryArray);
 
-        //setIrridianceGraphLines
-        let irridianceLinesList = [];
-        selectedIrridianceOptions.forEach(irr => {
-          irridianceLinesList.push(irr.label);
-        });
-        setIrridianceGraphLines(irridianceLinesList);
+          //setIrridianceGraphLines
+          let irridianceLinesList = [];
+          selectedIrridianceOptions.forEach(irr => {
+            irridianceLinesList.push(irr.label);
+          });
+          setIrridianceGraphLines(irridianceLinesList);
 
-        //setMeteorologicalGraphLines
-        let meteorologicalLinesList = [];
-        selectedMeteorologicalOptions.forEach(met => {
-          meteorologicalLinesList.push(met.label);
-        });
-        setMeteorologicalGraphLines(meteorologicalLinesList);
+          //setMeteorologicalGraphLines
+          let meteorologicalLinesList = [];
+          selectedMeteorologicalOptions.forEach(met => {
+            meteorologicalLinesList.push(met.label);
+          });
+          setMeteorologicalGraphLines(meteorologicalLinesList);
+        }
+        else { //response is null, no data :(
+          setGraphTitle('Data not found')
+        }
       })
 
     } else {
-      console.log("No Data Selected");
-      setGraphTitle("No Data Selected");
+      setGraphTitle('No data selected');
     }
   }
 

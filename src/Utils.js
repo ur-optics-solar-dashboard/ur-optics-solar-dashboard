@@ -100,6 +100,8 @@ export const getBoxFileFromDate = async(dateString, queryArray) => {
     //TODO: on real data it may be possible to go off file last modified date
     let csvIds = await getBoxAllCSVs();
 
+    if (csvIds === null) { return null; }
+
     for (let i = 0; i < csvIds.length; i++) {
         let file = await getBoxFile(csvIds[i]);
         let csv = parseCSV(file);
@@ -141,7 +143,7 @@ export const getExactData = async (start, end, queryArray) => {
     //TODO: this is a very temp proof of concept
     let startDateFile = await getBoxFileFromDate(start, queryArray);
     if (startDateFile === null) {
-        makeToast('A file for ' + start + ' could not be found', 'info');
+        makeToast('Data for ' + start + ' could not be found', 'info');
         return null;
     }
     else {

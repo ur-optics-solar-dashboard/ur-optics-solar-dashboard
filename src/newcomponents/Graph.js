@@ -8,6 +8,7 @@ import {
 import { defaultGraphOptions, graphColors } from '../DefaultConstants';
 import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 import "./Graph.css";
 import DownloadGraphOptions from './DownloadGraphOptions';
@@ -24,7 +25,9 @@ const Graph = props => {
 
     return (
         <div className="graph-content">
-            <Link to={"/dashboard"}><p>Go back</p></Link>
+            <Link to={"/dashboard"}>
+                <Button>Return to Dashboard</Button>
+            </Link>
             <div id="lineChart">
                 <h3 className={"graph-title"} style={{ paddingTop: 12 }}>{graphTitle}</h3>
                 <ResponsiveContainer width={'100%'} height={'100%'}>
@@ -105,6 +108,7 @@ const Graph = props => {
                                     stroke={graphColors[graphLines[line_name]]}
                                     strokeWidth={graphOptions["line-thickness"]}
                                     fillOpacity={1}
+                                    allowDataOverflow={false}
                                     // fill="url(#colorUv)"
                                     dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
                                 />
