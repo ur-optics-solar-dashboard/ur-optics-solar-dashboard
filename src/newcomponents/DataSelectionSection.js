@@ -5,21 +5,21 @@ import "./DataSelectionSection.css";
 import { GlobalContext } from '../contexts/GlobalContext';
 
 const IrridianceOptions = [
-    { value: 'irradiance-global-horizontal', label: 'Global Horizontal', color: '#00B8D9' },
-    { value: 'irradiance-direct-normal', label: 'Direct Normal', color: '#0052CC' },
-    { value: 'irradiance-diffuse-horizontal', label: 'Diffuse Horizontal', color: '#5243AA' },
+    { value: 'irradiance-global-horizontal', label: 'Global Horizontal [W/m^2]', color: '#00B8D9' },
+    { value: 'irradiance-direct-normal', label: 'Direct Normal [W/m^2]', color: '#0052CC' },
+    { value: 'irradiance-diffuse-horizontal', label: 'Diffuse Horizontal [W/m^2]', color: '#5243AA' },
 ];
 
 const MeteorologicalOptions = [
-    {"value": "meteorological-pr1-temperature", label: "PR1 Temperature", color: ""},
-    {"value": "meteorological-ph1-temperature", label: "PH1 Temperature", color: ""},
-    {"value": "meteorological-pressure", label: "Pressure", color: ""},
-    {"value": "meteorological-zenith-angle", label: "Zenith Angle", color: ""},
-    {"value": "meteorological-azimuth-angle", label: "Azimuth Angle", color: ""},
+    {"value": "meteorological-pr1-temperature", label: "PR1 Temperature [deg C]", color: ""},
+    {"value": "meteorological-ph1-temperature", label: "PH1 Temperature [deg C]", color: ""},
+    {"value": "meteorological-pressure", label: "Pressure [mBar]", color: ""},
+    {"value": "meteorological-zenith-angle", label: "Zenith Angle [degrees]", color: ""},
+    {"value": "meteorological-azimuth-angle", label: "Azimuth Angle [degrees]", color: ""},
     {"value": "meteorological-razon-status", label: "RaZON Status", color: ""},
-    {"value": "meteorological-razon-time", label: "RaZON Time", color: ""},
-    {"value": "meteorological-logger-battery", label: "Logger Battery", color: ""},
-    {"value": "meteorological-logger-temp", label: "Logger Temp", color: ""},
+    {"value": "meteorological-razon-time", label: "RaZON Time [hhmm]", color: ""},
+    {"value": "meteorological-logger-battery", label: "Logger Battery [VDC]", color: ""},
+    {"value": "meteorological-logger-temp", label: "Logger Temp [deg C]", color: ""},
 ];
 
 const DataSelectionSection = () => {

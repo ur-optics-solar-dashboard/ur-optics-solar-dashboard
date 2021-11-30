@@ -12,7 +12,7 @@ const GraphOptionsSection = () => {
       style={{ paddingLeft: 10, paddingRight: 10 }}
     >
       <DateSelection />
-      {/* <Link to={"/dashboard/graph"}> */}
+      <Link to={"/dashboard/graph"}>
       <ExportButton backgroundColor="#8F677F" hoverColor="#8F677F80" textColor="#FFFFFF" selected={false} marginTop={97} width="50%"
       onClick={() => {
         console.log(selectedIrridianceOptions);
@@ -22,7 +22,7 @@ const GraphOptionsSection = () => {
       >
         View Graph
       </ExportButton>
-      {/* </Link> */}
+      </Link>
     </div>
   );
 };

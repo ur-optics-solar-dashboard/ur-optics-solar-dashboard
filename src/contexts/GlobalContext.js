@@ -101,23 +101,31 @@ export const GlobalContextProvider = ({ children }) => {
     console.log("fetching data...");
     console.log("selectedIrridianceOptions",selectedIrridianceOptions);
 
-    let query_fetch_array = [];
-    for (const obj of selectedIrridianceOptions) {
-      console.log(obj)
-      query_fetch_array.push(obj.value + "=true");
-    }
+    // let query_fetch_array = [];
+    // for (const obj of selectedIrridianceOptions) {
+    //   console.log(obj)
+    //   query_fetch_array.push(obj.value + "=true");
+    // }
     
-    for (const obj of selectedMeteorologicalOptions) {
-      console.log(obj)
-      query_fetch_array.push(obj.value + "=true");
+    // for (const obj of selectedMeteorologicalOptions) {
+    //   console.log(obj)
+    //   query_fetch_array.push(obj.value + "=true");
 
-    }
-    console.log(query_fetch_array);
+    // }
+    //build query fetch array
+    let queryArray = [];
+    selectedIrridianceOptions.forEach(irr => {
+      queryArray.push(irr.label);
+    });
+    selectedMeteorologicalOptions.forEach(met => {
+      queryArray.push(met.label);
+    });
+    console.log(queryArray);
 
     const startFormatted = moment(start).format("YYYY-MM-DD");
     const endFormatted = moment(end).format("YYYY-MM-DD");
 
-    if (query_fetch_array.length !== 0) {
+    if (queryArray.length > 0) {
       // fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
       //   .then(function (response) {
           
@@ -138,15 +146,29 @@ export const GlobalContextProvider = ({ children }) => {
       //     setMeteorologicalGraphLines(myJson["meteorological_headers"]);
       //   });
 
-      getExactData(startFormatted, endFormatted, query_fetch_array)
+      getExactData(startFormatted, endFormatted, queryArray)
       .then(response => {
         console.log('loading data');
-        setGraphTitle('TEMP TITLE');
+        setGraphTitle(startFormatted + ' to ' + endFormatted);
         console.log(response);
         setGraphData(response);
+
         //TODO: setGraphLines
-        //TODO: setIrridianceGraphLines
-        //TODO: setMeteorologicalGraphLines
+        setGraphLines(queryArray);
+
+        //setIrridianceGraphLines
+        let irridianceLinesList = [];
+        selectedIrridianceOptions.forEach(irr => {
+          irridianceLinesList.push(irr.label);
+        });
+        setIrridianceGraphLines(irridianceLinesList);
+
+        //setMeteorologicalGraphLines
+        let meteorologicalLinesList = [];
+        selectedMeteorologicalOptions.forEach(met => {
+          meteorologicalLinesList.push(met.label);
+        });
+        setMeteorologicalGraphLines(meteorologicalLinesList);
       })
 
     } else {

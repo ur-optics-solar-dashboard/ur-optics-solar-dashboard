@@ -94,7 +94,7 @@ export const getBoxFile = async (fileid) => {
     return null;
 }
 
-export const getBoxFileFromDate = async(dateString) => {
+export const getBoxFileFromDate = async(dateString, queryArray) => {
     const date = moment(dateString, 'YYYY-MM-DD');
     
     //TODO: on real data it may be possible to go off file last modified date
@@ -112,18 +112,21 @@ export const getBoxFileFromDate = async(dateString) => {
             || csv[0]['DOY'] !== date.dayOfYear().toString()) { continue; }
 
         //its the correct date
-        // return csv;
-
         let formatted = [];
         for (let j = 0; j < csv.length; j++) {
             let pointTime = calculateTime(
                 parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
                 parseInt(csv[j]['MST']));
-            formatted.push({
-                'date': pointTime.format('YYYY-MM-DD'),
-                'datetime': pointTime.format('hh:mm A'),
-                'Direct Normal [W/m^2]': parseFloat(csv[j]['Direct Normal [W/m^2]']) //temp!
+
+            let point = {};
+            point['date'] = pointTime.format('YYYY-MM-DD');
+            point['datetime'] = pointTime.format('hh:mm A');
+            
+            queryArray.forEach(q => {
+                point[q] = csv[j][q];
             });
+
+            formatted.push(point);
         }
         return formatted;
     }
@@ -136,7 +139,7 @@ export const getExactData = async (start, end, queryArray) => {
     //TODO: interpolate between start and end date
     
     //TODO: this is a very temp proof of concept
-    let startDateFile = await getBoxFileFromDate(start);
+    let startDateFile = await getBoxFileFromDate(start, queryArray);
     if (startDateFile === null) {
         makeToast('A file for ' + start + ' could not be found', 'info');
         return null;
