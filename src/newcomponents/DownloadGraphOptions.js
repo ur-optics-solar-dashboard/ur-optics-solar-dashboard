@@ -39,8 +39,8 @@ const DownloadGraphOptions = () => {
             <label><input type="radio" name="group1" value={4} checked={downloadSelection === 4}/>svg</label>
             </fieldset> */}
 
+            <h2>Graph Download Options</h2>
             <Form>
-                <FormLabel>Graph Download Options</FormLabel>
                 <Form.Check>
                     <Form.Check inline label="CSV" name="group1" type='radio' id={`inline-radio-0`} value={0} onClick={() => {setDownloadSelection(0); console.log("hi")}} />
                     <Form.Check inline label="ZIP Compressed" name="group1" type='radio' id={`inline-radio-1`} value={1} onChange={() => setDownloadSelection(1)} />

@@ -5,43 +5,77 @@ import "./DataSelectionSection.css";
 import { GlobalContext } from '../contexts/GlobalContext';
 
 const IrridianceOptions = [
-    { value: 'irradiance-global-horizontal', label: 'Global Horizontal [W/m^2]', color: '#00B8D9' },
-    { value: 'irradiance-direct-normal', label: 'Direct Normal [W/m^2]', color: '#0052CC' },
-    { value: 'irradiance-diffuse-horizontal', label: 'Diffuse Horizontal [W/m^2]', color: '#5243AA' },
+    { value: 'global_horizontal', label: 'Global Horizontal [W/m^2]', color: '#00B8D9' },
+    { value: 'direct_normal', label: 'Direct Normal [W/m^2]', color: '#0052CC' },
+    { value: 'diffuse_horizontal', label: 'Diffuse Horizontal [W/m^2]', color: '#5243AA' },
 ];
 
 const MeteorologicalOptions = [
-    {"value": "meteorological-pr1-temperature", label: "PR1 Temperature [deg C]", color: ""},
-    {"value": "meteorological-ph1-temperature", label: "PH1 Temperature [deg C]", color: ""},
-    {"value": "meteorological-pressure", label: "Pressure [mBar]", color: ""},
-    {"value": "meteorological-zenith-angle", label: "Zenith Angle [degrees]", color: ""},
-    {"value": "meteorological-azimuth-angle", label: "Azimuth Angle [degrees]", color: ""},
-    {"value": "meteorological-razon-status", label: "RaZON Status", color: ""},
-    {"value": "meteorological-razon-time", label: "RaZON Time [hhmm]", color: ""},
-    {"value": "meteorological-logger-battery", label: "Logger Battery [VDC]", color: ""},
-    {"value": "meteorological-logger-temp", label: "Logger Temp [deg C]", color: ""},
+    {"value": "pr1_temperature", label: "PR1 Temperature [deg C]", color: ""},
+    {"value": "ph1_temperature", label: "PH1 Temperature [deg C]", color: ""},
+    {"value": "pressure", label: "Pressure [mBar]", color: ""},
+    {"value": "zenith_angle", label: "Zenith Angle [degrees]", color: ""},
+    {"value": "azimuth_angle", label: "Azimuth Angle [degrees]", color: ""},
+    {"value": "razon_status", label: "RaZON Status", color: ""},
+    {"value": "razon_time", label: "RaZON Time [hhmm]", color: ""},
+    {"value": "logger_battery", label: "Logger Battery [VDC]", color: ""},
+    {"value": "logger_temp", label: "Logger Temp [deg C]", color: ""},
 ];
 
 const DataSelectionSection = () => {
     const {selectedIrridianceOptions, setSelectedIrridianceOptions, selectedMeteorologicalOptions, setSelectedMeteorologicalOptions} = useContext(GlobalContext);
 
     const handleIrridianceChange = (selectedOptions) => {
-        setSelectedIrridianceOptions(selectedOptions)
+        setSelectedIrridianceOptions(selectedOptions);
+        let storeOptionsList = [];
+        selectedOptions.forEach(o => {
+            storeOptionsList.push(o.value);
+        });
+        localStorage.setItem('irrOptions', JSON.stringify(storeOptionsList));
     }
     const handleMeteorologicalChange = (selectedOptions) => {
-        setSelectedMeteorologicalOptions(selectedOptions)
+        setSelectedMeteorologicalOptions(selectedOptions);
+        let storeOptionsList = [];
+        selectedOptions.forEach(o => {
+            storeOptionsList.push(o.value);
+        });
+        localStorage.setItem('metOptions', JSON.stringify(storeOptionsList));
     }
 
     useEffect(() => {
-        console.log("start irr",selectedIrridianceOptions)
-    }, [selectedIrridianceOptions])
+        let irrOptions = JSON.parse(localStorage.getItem('irrOptions'));
+        let metOptions = JSON.parse(localStorage.getItem('metOptions'));
+
+        //calculate selected options
+        let fullIrrOptions = [];
+        irrOptions.forEach(o => {
+            for (let i = 0; i < IrridianceOptions.length; i++) {
+                if (IrridianceOptions[i].value === o) {
+                    fullIrrOptions.push(IrridianceOptions[i]);
+                }
+            }
+        });
+
+        let fullMetOptions = [];
+        metOptions.forEach(o => {
+            for (let i = 0; i < MeteorologicalOptions.length; i++) {
+                if (MeteorologicalOptions[i].value === o) {
+                    fullMetOptions.push(MeteorologicalOptions[i]);
+                }
+            }
+        });
+
+        setSelectedIrridianceOptions(fullIrrOptions);
+        setSelectedMeteorologicalOptions(fullMetOptions);
+    }, [setSelectedIrridianceOptions, setSelectedMeteorologicalOptions]);
+
     return (
         <div className="data-wrapper">
             <div className="data-half-section">
                 <h6>Irradiance</h6>
                 <div style={{ paddingRight: 10 }}>
                     <Select isMulti options={IrridianceOptions} 
-                    defaultValue={selectedIrridianceOptions}
+                    value={selectedIrridianceOptions}
                     onChange={handleIrridianceChange}
                     />
                 </div>
@@ -50,7 +84,7 @@ const DataSelectionSection = () => {
                 <h6>Meteorological</h6>
                 <div style={{ paddingRight: 10 }}>
                     <Select isMulti options={MeteorologicalOptions}
-                    defaultValue={selectedMeteorologicalOptions}
+                    value={selectedMeteorologicalOptions}
                     onChange={handleMeteorologicalChange}
                     />
                 </div>
