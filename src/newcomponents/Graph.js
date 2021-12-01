@@ -37,16 +37,6 @@ const Graph = props => {
                         // width={1000} height={700}
                         >
 
-                        <defs>
-                            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                            </linearGradient>
-                            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                            </linearGradient>
-                        </defs>
                         {/* TODO: Xaxis formatter, based on day, month, etc */}
                         <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={graphOptions["font-size"] > 24 ? 359 : 179}
                             style={{ fontSize: graphOptions["font-size"] }}
@@ -79,7 +69,8 @@ const Graph = props => {
 
                         {graphOptions["legend"] ?
                             <Legend dy={10}
-                                wrapperStyle={{ position: 'relative', marginTop: '16px' }}
+                                height={32}
+                                wrapperStyle={{ position: 'relative', marginTop: '2px' }}
                             />
                             : null}
 
@@ -90,10 +81,9 @@ const Graph = props => {
                                     type="monotone"
                                     key={`left-${line_name}`}
                                     dataKey={line_name}
-                                    stroke={graphColors[graphLines[line_name]]}
+                                    stroke={graphColors[index]}
                                     strokeWidth={graphOptions["line-thickness"]}
                                     fillOpacity={1}
-                                    // fill="url(#colorUv)"
                                     dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
                                 />
                             ))}
@@ -105,11 +95,10 @@ const Graph = props => {
                                     type="linear"
                                     key={`right-${line_name}`}
                                     dataKey={line_name}
-                                    stroke={graphColors[graphLines[line_name]]}
+                                    stroke={graphColors[index + irridianceGraphLines.length]}
                                     strokeWidth={graphOptions["line-thickness"]}
                                     fillOpacity={1}
                                     allowDataOverflow={false}
-                                    // fill="url(#colorUv)"
                                     dot={graphOptions["dot"] ? { strokeWidth: 1, r: 1 } : false}
                                 />
                             ))}

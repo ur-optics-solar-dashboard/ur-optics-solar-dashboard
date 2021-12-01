@@ -32,7 +32,7 @@ export const defaultGraphOptions = {
     "dot": false,
 }
 
-export const graphColors = ["#003B71", "red", "green", "purple", "orange", "pink", "black", "brown", "gray", "blue", "lightgreen", "lightorange"];
+export const graphColors = ["#2196f3", "#f44336", "#4caf50", "#9c27b0", "#ff9800", "#e91e63", "#795548", "#3f51b5", "#ffc107", "#607d8b", "#cddc39", "#00bcd4"];
 
 export const ranges = {
     Today: [moment().toDate(), moment().toDate()],
