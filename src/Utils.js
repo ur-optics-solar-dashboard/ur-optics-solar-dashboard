@@ -1,6 +1,9 @@
 import axios from 'axios';
 import moment from 'moment';
 
+//VARS
+let dateIds = [];
+
 //BOX API HELPERS
 export const setAuthToken = (token) => {
     sessionStorage.setItem('access_token', token);
@@ -94,9 +97,7 @@ export const getBoxFile = async (fileid) => {
     return null;
 }
 
-export const getBoxFileFromDate = async(dateString, queryArray) => {
-    const date = moment(dateString, 'YYYY-MM-DD');
-    
+export const getBoxFileFromDate = async(date, queryArray) => {
     //TODO: on real data it may be possible to go off file last modified date
     let csvIds = await getBoxAllCSVs();
 
@@ -137,18 +138,63 @@ export const getBoxFileFromDate = async(dateString, queryArray) => {
 
 }
 
-export const getExactData = async (start, end, queryArray) => {
-    //TODO: interpolate between start and end date
+const loadDateIds = () => {
+    if (localStorage.getItem('cache_dateIds') !== undefined) { //it exists
+        dateIds = JSON.parse(localStorage.getItem('cache_dateIds'));
+    }
+}
+
+const cacheDateIds = async () => {
+    let newDateIds = [];
+
+    let csvIds = await getBoxAllCSVs();
+    if (csvIds === null) { return; }
+
+    for (let i = 0; i < csvIds.length; i++) {
+        let file = await getBoxFile(csvIds[i]);
+        let csv = parseCSV(file);
+        
+        //build moment date
+        let fileDate = moment()
+            .year(parseInt(csv[0]['Year']))
+            .dayOfYear(parseInt(csv[0]['DOY']));
+        //add to list
+        newDateIds.push({
+            'date': fileDate.format('YYYY-MM-DD'),
+            'id': csvIds[i]
+        });
+    }
     
+    //update cache and current
+    localStorage.setItem('cache_dateIds', JSON.stringify(newDateIds));
+    dateIds = newDateIds;
+}
+
+export const getExactData = async (startStr, endStr, queryArray) => {
+    let start = moment(startStr, 'YYYY-MM-DD');
+    let end = moment(endStr, 'YYYY-MM-DD');
+
+    console.time('load_files');
+    //interpolate between start and end date
+    let current = start.clone();
+    while (current.isSameOrBefore(end)) {
+        let currentFile = await getBoxFileFromDate(current, queryArray);
+        if (currentFile === null) {
+            makeToast('Data for ' + current.format('YYYY-MM-DD') + ' could not be found', 'info');
+        }
+        current.add(1, 'day');
+    }
+    console.timeEnd('load_files');
+
     //TODO: this is a very temp proof of concept
-    let startDateFile = await getBoxFileFromDate(start, queryArray);
-    if (startDateFile === null) {
-        makeToast('Data for ' + start + ' could not be found', 'info');
-        return null;
-    }
-    else {
-        return startDateFile; //temp!
-    }
+    // let startDateFile = await getBoxFileFromDate(startStr, queryArray);
+    // if (startDateFile === null) {
+    //     makeToast('Data for ' + startStr + ' could not be found', 'info');
+    //     return null;
+    // }
+    // else {
+    //     return startDateFile; //temp!
+    // }
 }
 
 export const makeToast = (message, category) => {
