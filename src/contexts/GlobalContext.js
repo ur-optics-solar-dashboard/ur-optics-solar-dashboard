@@ -101,17 +101,6 @@ export const GlobalContextProvider = ({ children }) => {
     console.log("fetching data...");
     console.log("selectedIrridianceOptions",selectedIrridianceOptions);
 
-    // let query_fetch_array = [];
-    // for (const obj of selectedIrridianceOptions) {
-    //   console.log(obj)
-    //   query_fetch_array.push(obj.value + "=true");
-    // }
-    
-    // for (const obj of selectedMeteorologicalOptions) {
-    //   console.log(obj)
-    //   query_fetch_array.push(obj.value + "=true");
-
-    // }
     //build query fetch array
     let queryArray = [];
     selectedIrridianceOptions.forEach(irr => {
@@ -126,26 +115,6 @@ export const GlobalContextProvider = ({ children }) => {
     const endFormatted = moment(end).format("YYYY-MM-DD");
 
     if (queryArray.length > 0) {
-      // fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
-      //   .then(function (response) {
-          
-      //     setQueryFetchString(`start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
-
-      //     return response.json();
-      //   })
-      //   .then(function (myJson) {
-      //     console.log("loading data...");
-
-      //     setGraphTitle(dateState.label);
-
-      //     setGraphData(myJson["return_data"]);
-
-      //     setGraphLines(myJson["included_headers"]);
-
-      //     setIrridianceGraphLines(myJson["irridiance_headers"]);
-      //     setMeteorologicalGraphLines(myJson["meteorological_headers"]);
-      //   });
-
       setGraphTitle('Loading data...'); //TODO: add a spinner
       getExactData(startFormatted, endFormatted, queryArray)
       .then(response => {

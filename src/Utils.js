@@ -3,6 +3,7 @@ import moment from 'moment';
 
 //VARS
 let dateIds = [];
+let sessionRecache = false;
 
 //BOX API HELPERS
 export const setAuthToken = (token) => {
@@ -97,54 +98,91 @@ export const getBoxFile = async (fileid) => {
     return null;
 }
 
-export const getBoxFileFromDate = async(date, queryArray) => {
-    //TODO: on real data it may be possible to go off file last modified date
-    let csvIds = await getBoxAllCSVs();
-
-    if (csvIds === null) { return null; }
-
-    for (let i = 0; i < csvIds.length; i++) {
-        let file = await getBoxFile(csvIds[i]);
-        let csv = parseCSV(file);
-        
-        console.log('doy: ' + date.dayOfYear());
-        console.log('YEAR & DOY: ' + csv[0]['Year'] + ', ' + csv[0]['DOY']);
-
-        //check date
-        if (csv[0]['Year'] !== date.year().toString()
-            || csv[0]['DOY'] !== date.dayOfYear().toString()) { continue; }
-
-        //its the correct date
-        let formatted = [];
-        for (let j = 0; j < csv.length; j++) {
-            let pointTime = calculateTime(
-                parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
-                parseInt(csv[j]['MST']));
-
-            let point = {};
-            point['date'] = pointTime.format('YYYY-MM-DD');
-            point['datetime'] = pointTime.format('hh:mm A');
-            
-            queryArray.forEach(q => {
-                point[q] = parseFloat(csv[j][q]);
-            });
-
-            formatted.push(point);
+const searchCacheForDate = (date) => {
+    let datestr = date.format('YYYY-MM-DD');
+    for (let i = 0; i < dateIds.length; i++) {
+        if (dateIds[i]['date'] === datestr) {
+            console.log(dateIds[i]['date'] + ' is ' + datestr + ' (' + dateIds[i]['id'] + ')');
+            return dateIds[i]['id'];
         }
-        return formatted;
+        else {
+            console.log(dateIds[i]['date'] + ' is not ' + datestr);
+        }
+    }
+    return null;
+}
+
+const searchCacheForId = (id) => {
+    for (let i = 0; i < dateIds.length; i++) {
+        if (dateIds[i]['id'] === id) {
+            return dateIds[i]['id'];
+        }
+    }
+    return null;
+}
+
+export const getBoxDataFromDate = async(date, queryArray) => {
+    if (dateIds === null || dateIds.length === 0) {
+        loadDateIds();
+        if (dateIds === null) { //that load didn't work
+            makeToast('Box file metadata cache must be rebuilt. This may take a while, but will speed up future queries.', 'warning');
+            sessionRecache = true;
+            await recacheDateIds();
+        }
+    }
+    console.log(dateIds);
+
+    //seach for the date, and try one more time to find it if we didn't just recache
+    let foundDate = searchCacheForDate(date);
+    if (foundDate === null && sessionRecache) {
+        console.log('couldn\'t find date');
+        return null;
+    }
+    else {
+        console.log('recent recache performed: ' + sessionRecache);
+        await cacheMissingDateIds();
+        foundDate = searchCacheForDate(date);
+        console.log('found date: ');
+        console.log(foundDate);
+        if (foundDate === null) { console.log('still not found'); return null; }
     }
 
-    return null;
+    console.log('getting file ' + foundDate)
+    let file = await getBoxFile(foundDate);
+    if (file === undefined || file === null) { return null; }
+
+    let csv = parseCSV(file);
+
+    //safe to assume the date is correct
+    let formatted = [];
+    for (let j = 0; j < csv.length; j++) {
+        let pointTime = calculateTime(
+            parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
+            parseInt(csv[j]['MST']));
+        
+        let point = {};
+        point['date'] = pointTime.format('YYYY-MM-DD');
+        point['datetime'] = pointTime.format('hh:mm A');
+
+        queryArray.forEach(q => {
+            point[q] = parseFloat(csv[j][q]);
+        });
+        formatted.push(point);
+    }
+    console.log('formatted: ');
+    console.log(formatted);
+    return formatted;
 
 }
 
 const loadDateIds = () => {
+    console.log('loading date ids');
     if (localStorage.getItem('cache_dateIds') !== undefined) { //it exists
         dateIds = JSON.parse(localStorage.getItem('cache_dateIds'));
     }
 }
 
-const cacheDateIds = async () => {
+const recacheDateIds = async () => {
     let newDateIds = [];
 
     let csvIds = await getBoxAllCSVs();
@@ -168,6 +206,42 @@ const cacheDateIds = async () => {
     //update cache and current
     localStorage.setItem('cache_dateIds', JSON.stringify(newDateIds));
     dateIds = newDateIds;
+    sessionRecache = true;
+}
+
+//note: try not to use this for batches of IDs since it requires so much parsing and stringifying
+const cacheMissingDateIds = async () => {
+
+    if (dateIds === null || dateIds.length === 0) {
+        await recacheDateIds();
+        return;
+    }
+
+    let csvIds = await getBoxAllCSVs();
+    if (csvIds === null) { return; }
+
+    for (let i = 0; i < csvIds.length; i++) { //foreach was being weird with the async
+        let id = csvIds[i];
+        if (searchCacheForId(id) === null) {
+            console.log('New ID: ' + id);
+            let file = await getBoxFile(id);
+            if (file === null) { continue; }
+            let csv = parseCSV(file);
+
+            //build moment date
+            let fileDate = moment()
+                .year(parseInt(csv[0]['Year']))
+                .dayOfYear(parseInt(csv[0]['DOY']));
+            //add to list
+            dateIds.push({
+                'date': fileDate.format('YYYY-MM-DD'),
+                'id': id
+            });
+        }
+    }
+
+    localStorage.setItem('cache_dateIds', JSON.stringify(dateIds));
+    sessionRecache = true;
 }
 
 export const getExactData = async (startStr, endStr, queryArray) => {
@@ -176,25 +250,23 @@ export const getExactData = async (startStr, endStr, queryArray) => {
 
     console.time('load_files');
     //interpolate between start and end date
+
+    let totalData = [];
+
     let current = start.clone();
     while (current.isSameOrBefore(end)) {
-        let currentFile = await getBoxFileFromDate(current, queryArray);
-        if (currentFile === null) {
+        console.log('loading ' + current.format('YYYY-MM-DD'));
+        let currentData = await getBoxDataFromDate(current, queryArray);
+        if (currentData === null) {
             makeToast('Data for ' + current.format('YYYY-MM-DD') + ' could not be found', 'info');
+        }
+        else {
+            totalData.push(...currentData); //add all to current data
         }
         current.add(1, 'day');
     }
     console.timeEnd('load_files');
-
-    //TODO: this is a very temp proof of concept
-    // let startDateFile = await getBoxFileFromDate(startStr, queryArray);
-    // if (startDateFile === null) {
-    //     makeToast('Data for ' + startStr + ' could not be found', 'info');
-    //     return null;
-    // }
-    // else {
-    //     return startDateFile; //temp!
-    // }
+    return totalData;
 }
 
 export const makeToast = (message, category) => {
