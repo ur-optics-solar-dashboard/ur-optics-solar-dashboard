@@ -111,7 +111,7 @@ const BoxTest = () => {
     const getCSVIds = async () => {
         let ids = await getBoxAllCSVs();
 
-        if (ids !== undefined) { return ids; }
+        if (ids !== null) { return ids; }
         return null;
     }
 

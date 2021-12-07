@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 import '../App.css';
 
 //todo change to only import individual components
-import { Button, Form, FormLabel } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 

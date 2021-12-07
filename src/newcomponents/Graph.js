@@ -6,7 +6,7 @@ import {
     Label, Legend, ResponsiveContainer
 } from 'recharts';
 import { defaultGraphOptions, graphColors } from '../DefaultConstants';
-import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
+// import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
@@ -16,11 +16,11 @@ import DownloadGraphOptions from './DownloadGraphOptions';
 const Graph = props => {
 
     //todo reformat
-    const {graphTitle, graphData, graphLines, irridianceGraphLines, meteorologicalGraphLines} = useContext(GlobalContext);
+    const {graphTitle, graphData, irridianceGraphLines, meteorologicalGraphLines} = useContext(GlobalContext);
 
     const [graphOptions] = useState(JSON.parse(localStorage.getItem("graphOptions")) || defaultGraphOptions);
-    const [downloadSelection] = useState(0);
-    const [handleChartSubmit] = useDownloadChartSubmit({ downloadSelection, graphData });
+    // const [downloadSelection] = useState(0);
+    // const [handleChartSubmit] = useDownloadChartSubmit({ downloadSelection, graphData });
     //todo reformat above
 
     return (
