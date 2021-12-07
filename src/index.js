@@ -23,7 +23,7 @@ const loggedIn = true // todo handle login with box
 ReactDOM.render(
   <GlobalContextProvider>
     <DataFormProvider>
-      <Router>
+      <Router basename={"/optics/solar/monitoring-station"}>
         <Switch>
           <Route path="/graph">
             <Graph />
