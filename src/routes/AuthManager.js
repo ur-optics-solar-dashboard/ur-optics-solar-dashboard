@@ -53,7 +53,8 @@ const AuthRedirect = () => {
         //store access token, only for session
         setAuthToken(accessToken);
         //redirect away
-        window.location.href = "/";
+        // TODO: maybe use a public env variable instead
+        window.location.href = "/optics/solar/monitoring-station/";
     }
 
     const getUserInfo = async () => {

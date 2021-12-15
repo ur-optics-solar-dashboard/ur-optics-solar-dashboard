@@ -63,7 +63,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
   "devDependencies": {
     "esdoc": "^1.1.0",
     "esdoc-jsx-plugin": "^1.0.0",
