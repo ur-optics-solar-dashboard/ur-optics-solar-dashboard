@@ -20,11 +20,13 @@ const ToastAlert = (props) => {
 const Toast = () => {
 
     const [toastList, setToastList] = useState([]);
+    const [toastCount, setToastCount] = useState(0);
 
     useEffect(() => {
 
         const handleToast = (e) => {
             setToastList([...toastList, { message: e.detail.message, category: e.detail.category, id: uuidv4() }]);
+            setToastCount(toastCount + 1);
         }
 
         window.addEventListener('toast', handleToast);
@@ -33,14 +35,17 @@ const Toast = () => {
             window.removeEventListener('toast', handleToast);
         }
 
-    }, [toastList]);
+    }, [toastList, toastCount]);
 
     return (
         <ul className="toast-container">
-            {toastList.map((item) => (
-                // <Alert key={item.id} variant={item.category} dismissible onClose={this.setState({show:false})}>{item.message}</Alert>
+            {toastList.slice(0, 4).map((item) => (
                 <ToastAlert key={item.id} message={item.message} category={item.category} />
             ))}
+            { (toastCount > 4) ? //prevent huge amounts of toasts
+                <ToastAlert key={-1} message={"+" + (toastCount - 4) + " more messages"} category="warning" />
+                : <></>
+            }
         </ul>
     );
 }
