@@ -202,11 +202,18 @@ const recacheDateIds = async () => {
             'id': csvIds[i]
         });
     }
-    
-    //update cache and current
-    localStorage.setItem('cache_dateIds', JSON.stringify(newDateIds));
-    dateIds = newDateIds;
+
     sessionRecache = true;
+
+    //update cache and current
+    try {
+        localStorage.setItem('cache_dateIds', JSON.stringify(newDateIds));
+    }
+    catch (e) { //it is best to assume all exceptions are quota exceeded
+        makeToast('Couldn\'t cache file information from Box (' + e.name + ')', 'warning');
+        return;
+    }
+    dateIds = newDateIds;
 }
 
 //note: try not to use this for batches of IDs since it requires so much parsing and stringifying
@@ -240,8 +247,16 @@ const cacheMissingDateIds = async () => {
         }
     }
 
-    localStorage.setItem('cache_dateIds', JSON.stringify(dateIds));
     sessionRecache = true;
+
+    try {
+        localStorage.setItem('cache_dateIds', JSON.stringify(dateIds));
+    }
+    catch (e) { //it is best to assume all exceptions are quota exceeded
+        makeToast('Failed to cache file information from Box, localStorage is likely full (' + e.name + ')', 'warning');
+        sessionRecache = true;
+        return;
+    }
 }
 
 export const getExactData = async (startStr, endStr, queryArray) => {
@@ -253,18 +268,35 @@ export const getExactData = async (startStr, endStr, queryArray) => {
 
     let totalData = [];
 
+    let dataToasts = [];
+    let dataToastsCt = 0;
+
     let current = start.clone();
     while (current.isSameOrBefore(end)) {
         console.log('loading ' + current.format('YYYY-MM-DD'));
         let currentData = await getBoxDataFromDate(current, queryArray);
         if (currentData === null) {
-            makeToast('Data for ' + current.format('YYYY-MM-DD') + ' could not be found', 'info');
+            if (dataToasts.length < 5) { //no point in pushing a ton of these
+                dataToasts.push('Data for ' + current.format('YYYY-MM-DD') + ' could not be found');
+            }
+            dataToastsCt++;
         }
         else {
             totalData.push(...currentData); //add all to current data
         }
         current.add(1, 'day');
     }
+
+    //display warnings for missing data (or combine if theres a lot)
+    if (dataToasts.length < 4) {
+        dataToasts.forEach(e => {
+            makeToast(e, 'warning');
+        });
+    }
+    else {
+        makeToast('Data for ' + dataToastsCt + ' days could not be found.', 'warning');
+    }
+
     console.timeEnd('load_files');
     return totalData;
 }

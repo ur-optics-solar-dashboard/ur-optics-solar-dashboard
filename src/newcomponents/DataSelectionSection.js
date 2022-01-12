@@ -48,22 +48,26 @@ const DataSelectionSection = () => {
 
         //calculate selected options
         let fullIrrOptions = [];
-        irrOptions.forEach(o => {
-            for (let i = 0; i < IrridianceOptions.length; i++) {
-                if (IrridianceOptions[i].value === o) {
-                    fullIrrOptions.push(IrridianceOptions[i]);
+        if (irrOptions !== null) {
+            irrOptions.forEach(o => {
+                for (let i = 0; i < IrridianceOptions.length; i++) {
+                    if (IrridianceOptions[i].value === o) {
+                        fullIrrOptions.push(IrridianceOptions[i]);
+                    }
                 }
-            }
-        });
+            });
+        }
 
         let fullMetOptions = [];
-        metOptions.forEach(o => {
-            for (let i = 0; i < MeteorologicalOptions.length; i++) {
-                if (MeteorologicalOptions[i].value === o) {
-                    fullMetOptions.push(MeteorologicalOptions[i]);
+        if (metOptions !== null) {
+            metOptions.forEach(o => {
+                for (let i = 0; i < MeteorologicalOptions.length; i++) {
+                    if (MeteorologicalOptions[i].value === o) {
+                        fullMetOptions.push(MeteorologicalOptions[i]);
+                    }
                 }
-            }
-        });
+            });
+        }
 
         setSelectedIrridianceOptions(fullIrrOptions);
         setSelectedMeteorologicalOptions(fullMetOptions);

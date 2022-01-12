@@ -37,13 +37,17 @@ const Toast = () => {
 
     }, [toastList, toastCount]);
 
+    let sliceMin = toastList.length - 6;
+    let sliceMax = toastList.length;
+    if (sliceMin < 0) { sliceMin = 0; }
+
     return (
         <ul className="toast-container">
-            {toastList.slice(0, 4).map((item) => (
+            {toastList.slice(sliceMin, sliceMax).map((item) => (
                 <ToastAlert key={item.id} message={item.message} category={item.category} />
             ))}
-            { (toastCount > 4) ? //prevent huge amounts of toasts
-                <ToastAlert key={-1} message={"+" + (toastCount - 4) + " more messages"} category="warning" />
+            { (toastCount > 5) ? //prevent huge amounts of toasts
+                <ToastAlert key={-1} message={"+" + (toastCount - 5) + " more messages"} category="warning" />
                 : <></>
             }
         </ul>
