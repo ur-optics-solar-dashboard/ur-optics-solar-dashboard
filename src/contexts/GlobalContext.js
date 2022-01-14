@@ -4,6 +4,7 @@ import React from "react"
 import { useState } from "react";
 import { defaultDataForm, ranges } from "../DefaultConstants";
 import useGraph from "../hooks/useGraph";
+import { getExactData } from "../Utils";
 
 export const GlobalContext = React.createContext();
 
@@ -100,46 +101,52 @@ export const GlobalContextProvider = ({ children }) => {
     console.log("fetching data...");
     console.log("selectedIrridianceOptions",selectedIrridianceOptions);
 
-    let query_fetch_array = [];
-    for (const obj of selectedIrridianceOptions) {
-      console.log(obj)
-      query_fetch_array.push(obj.value + "=true");
-    }
-    
-    for (const obj of selectedMeteorologicalOptions) {
-      console.log(obj)
-      query_fetch_array.push(obj.value + "=true");
-
-    }
-    console.log(query_fetch_array);
+    //build query fetch array
+    let queryArray = [];
+    selectedIrridianceOptions.forEach(irr => {
+      queryArray.push(irr.label);
+    });
+    selectedMeteorologicalOptions.forEach(met => {
+      queryArray.push(met.label);
+    });
+    console.log(queryArray);
 
     const startFormatted = moment(start).format("YYYY-MM-DD");
     const endFormatted = moment(end).format("YYYY-MM-DD");
 
-    if (query_fetch_array.length !== 0) {
-      fetch(`/graph?start=${startFormatted}&end=${moment(endFormatted).format("YYYY-MM-DD")}&${query_fetch_array.join("&")}`)
-        .then(function (response) {
-          
-          setQueryFetchString(`start=${startFormatted}&end=${endFormatted}&${query_fetch_array.join("&")}`);
+    if (queryArray.length > 0) {
+      setGraphTitle('Loading data...'); //TODO: add a spinner
+      getExactData(startFormatted, endFormatted, queryArray)
+      .then(response => {
+        if (response !== null) {
+          setGraphTitle(startFormatted + ' to ' + endFormatted);
+          console.log(response);
+          setGraphData(response);
 
-          return response.json();
-        })
-        .then(function (myJson) {
-          console.log("loading data...");
+          //TODO: setGraphLines
+          setGraphLines(queryArray);
 
-          setGraphTitle(dateState.label);
+          //setIrridianceGraphLines
+          let irridianceLinesList = [];
+          selectedIrridianceOptions.forEach(irr => {
+            irridianceLinesList.push(irr.label);
+          });
+          setIrridianceGraphLines(irridianceLinesList);
 
-          setGraphData(myJson["return_data"]);
-
-          setGraphLines(myJson["included_headers"]);
-
-          setIrridianceGraphLines(myJson["irridiance_headers"]);
-          setMeteorologicalGraphLines(myJson["meteorological_headers"]);
-        });
+          //setMeteorologicalGraphLines
+          let meteorologicalLinesList = [];
+          selectedMeteorologicalOptions.forEach(met => {
+            meteorologicalLinesList.push(met.label);
+          });
+          setMeteorologicalGraphLines(meteorologicalLinesList);
+        }
+        else { //response is null, no data :(
+          setGraphTitle('Data not found')
+        }
+      })
 
     } else {
-      console.log("No Data Selected");
-      setGraphTitle("No Data Selected");
+      setGraphTitle('No data selected');
     }
   }
 

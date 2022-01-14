@@ -16,9 +16,9 @@ const GraphOptionsSection = () => {
       <ExportButton backgroundColor="#8F677F" hoverColor="#8F677F80" textColor="#FFFFFF" selected={false} marginTop={97} width="50%"
       onClick={() => {
         console.log(selectedIrridianceOptions);
-        getChartData({start: dateState.start, end: dateState.end})
-        }}
-      // use export button for the styling
+        getChartData({start: dateState.start, end: dateState.end});
+        }
+      }
       >
         View Graph
       </ExportButton>

@@ -5,9 +5,7 @@ const AuthRedirectSpinner = () => {
     return (
         <>
             <div className="auth-redirect-spinner-container">
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
+                <Spinner animation="border" role="status" />
                 <br />
                 <p>Completing Box authentication.</p>
                 <p>You will be redirected shortly.</p>

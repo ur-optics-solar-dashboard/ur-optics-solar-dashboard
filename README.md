@@ -30,22 +30,17 @@ Flask/React Dashboard for researchers to access data from U of R's new RaZON+ ha
 
   * ```npm start```
 
-* Navigate to api direction
-
-  * ```cd api```
-
-* Setup [python](https://www.python.org/downloads/) virtual environment
-
-  * ```python3 -m venv venv```
-
-  * ```source venv/bin/activate``` or ```venv\Scripts\activate```
-
-* Install dependencies
-
-  * ```pip3 install -r requirements.txt```
-
-* Run the Flask app
-
-  * ```flask run```
-
 * See the application at ```http://localhost:3000/```
+
+## Secrets
+
+* A `boxconfig.json` file is required to use the app, and should be located in `src/secrets`. `baseUrl` and `authenticationUrl` will probably always be the same.
+
+```
+{
+  "baseUrl": "https://account.box.com/api/oauth2/authorize",
+  "authenticationUrl": "https://api.box.com/oauth2/token",
+  "clientID": "CLIENT ID GOES HERE",
+  "clientSecret": "CLIENT SECRET GOES HERE"
+}
+```
