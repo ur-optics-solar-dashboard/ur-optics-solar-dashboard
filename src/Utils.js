@@ -102,11 +102,7 @@ const searchCacheForDate = (date) => {
     let datestr = date.format('YYYY-MM-DD');
     for (let i = 0; i < dateIds.length; i++) {
         if (dateIds[i]['date'] === datestr) {
-            console.log(dateIds[i]['date'] + ' is ' + datestr + ' (' + dateIds[i]['id'] + ')');
             return dateIds[i]['id'];
-        }
-        else {
-            console.log(dateIds[i]['date'] + ' is not ' + datestr);
         }
     }
     return null;
@@ -121,7 +117,11 @@ const searchCacheForId = (id) => {
     return null;
 }
 
-export const getBoxDataFromDate = async(date, queryArray) => {
+export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
+
+    if (aggregate) { console.log("AGGREGATED"); }
+    else { console.log("FULL"); }
+
     if (dateIds === null || dateIds.length === 0) {
         loadDateIds();
         if (dateIds === null) { //that load didn't work
@@ -130,12 +130,10 @@ export const getBoxDataFromDate = async(date, queryArray) => {
             await recacheDateIds();
         }
     }
-    console.log(dateIds);
 
     //seach for the date, and try one more time to find it if we didn't just recache
     let foundDate = searchCacheForDate(date);
     if (foundDate === null && sessionRecache) {
-        console.log('couldn\'t find date');
         return null;
     }
     else {
@@ -153,25 +151,45 @@ export const getBoxDataFromDate = async(date, queryArray) => {
 
     let csv = parseCSV(file);
 
-    //safe to assume the date is correct
-    let formatted = [];
+    //formatted will be used for full data, aggregated will be used for aggregated
+    let fullData = [];
+    let aggData = [];
+
+    let lastDay = -1;
     for (let j = 0; j < csv.length; j++) {
         let pointTime = calculateTime(
             parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
             parseInt(csv[j]['MST']));
         
-        let point = {};
-        point['date'] = pointTime.format('YYYY-MM-DD');
-        point['datetime'] = pointTime.format('hh:mm A');
+        //ensure that aggregated data is separated by day
+        if (lastDay !== parseInt(csv[j]['DOY'])) {
+            let agPoint = {};
+            agPoint['date'] = pointTime.format('YYYY-MM-DD');
+            queryArray.forEach(q => { //start with blank values
+                agPoint[q] = 0.0;
+            })
+            aggData.push(agPoint);
+            lastDay = parseInt(csv[j]['DOY']);
+        }
 
-        queryArray.forEach(q => {
-            point[q] = parseFloat(csv[j][q]);
-        });
-        formatted.push(point);
+        if (!aggregate) {
+            let point = {};
+            point['date'] = pointTime.format('YYYY-MM-DD');
+            point['datetime'] = pointTime.format('hh:mm A');
+            queryArray.forEach(q => { point[q] = parseFloat(csv[j][q]); });
+            fullData.push(point);
+        }
+        else {
+            queryArray.forEach(q => {
+                aggData[aggData.length - 1][q] += parseFloat(csv[j][q]);
+            });
+        }
     }
-    console.log('formatted: ');
-    console.log(formatted);
-    return formatted;
+    console.log('full: ');
+    console.log(fullData);
+    console.log('aggregated: ');
+    console.log(aggData);
+    return fullData;
 
 }
 
@@ -259,12 +277,11 @@ const cacheMissingDateIds = async () => {
     }
 }
 
-export const getExactData = async (startStr, endStr, queryArray) => {
+export const getExactData = async (startStr, endStr, queryArray, aggregate) => {
     let start = moment(startStr, 'YYYY-MM-DD');
     let end = moment(endStr, 'YYYY-MM-DD');
 
     console.time('load_files');
-    //interpolate between start and end date
 
     let totalData = [];
 
@@ -272,9 +289,10 @@ export const getExactData = async (startStr, endStr, queryArray) => {
     let dataToastsCt = 0;
 
     let current = start.clone();
+
+    //interpolate between start and end date
     while (current.isSameOrBefore(end)) {
-        console.log('loading ' + current.format('YYYY-MM-DD'));
-        let currentData = await getBoxDataFromDate(current, queryArray);
+        let currentData = await getBoxDataFromDate(current, queryArray, aggregate);
         if (currentData === null) {
             if (dataToasts.length < 5) { //no point in pushing a ton of these
                 dataToasts.push('Data for ' + current.format('YYYY-MM-DD') + ' could not be found');

@@ -97,7 +97,7 @@ export const GlobalContextProvider = ({ children }) => {
    * Fetch chart data from backend and handle chart states
    * @param {{dataForm: object, start: moment, end: moment}} params
    */
-  const getChartData = ({ start, end }) => {
+  const getChartData = ({ start, end, aggregate }) => {
     console.log("fetching data...");
     console.log("selectedIrridianceOptions",selectedIrridianceOptions);
 
@@ -116,7 +116,7 @@ export const GlobalContextProvider = ({ children }) => {
 
     if (queryArray.length > 0) {
       setGraphTitle('Loading data...'); //TODO: add a spinner
-      getExactData(startFormatted, endFormatted, queryArray)
+      getExactData(startFormatted, endFormatted, queryArray, aggregate)
       .then(response => {
         if (response !== null) {
           setGraphTitle(startFormatted + ' to ' + endFormatted);

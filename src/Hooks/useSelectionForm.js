@@ -71,7 +71,7 @@ export const useSelectionForm = ({ getChartData }) => {
                             history.push("/graph");   
                         }else{
                             // if we are already at graph, then we have to call getChartData() again to get the data from the backend
-                            getChartData({dataForm: dataForm, start: dateState.start, end: dateState.end});
+                            getChartData({dataForm: dataForm, start: dateState.start, end: dateState.end, aggregated: true});
                             scrollRef.current.scrollIntoView();
                         }
                     }

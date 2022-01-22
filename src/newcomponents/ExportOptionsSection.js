@@ -11,19 +11,17 @@ const ExportOptionsSection = () => {
         <div className="options-export-wrapper">
             <div className="options-export-half-section">
 
-                <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 1}
+                <ExportButton selected={exportOptionsState === 1}
                     onClick={() => { setExportOptionsState(1) }}>
                     CSV
                 </ExportButton>
 
-                <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 2}
-                    onClick={() => { setExportOptionsState(2) }}>
+                <ExportButton selected={exportOptionsState === 2}
+                    onClick={() => { setExportOptionsState(2); }}>
                     ASCII Text
                 </ExportButton>
 
-                <ExportButton backgroundColor="#8F677F" hoverColor="#8F677F80" textColor="#FFFFFF" selected={false}
-                    // use export button for the styling
-                    marginTop={40}
+                <ExportButton variant='submit' selected={false}
                     onClick={() => {
                         //todo: export
                     }}>
@@ -32,12 +30,12 @@ const ExportOptionsSection = () => {
 
             </div>
             <div className="options-export-half-section">
-                <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 3}
+                <ExportButton selected={exportOptionsState === 3}
                     onClick={() => { setExportOptionsState(3) }}>
                     JSON
                 </ExportButton>
 
-                <ExportButton backgroundColor="#8F677F80" hoverColor="#8F677F" textColor="#FFFFFF" selected={exportOptionsState === 4}
+                <ExportButton selected={exportOptionsState === 4}
                     onClick={() => { setExportOptionsState(4) }}>
                     ZIP Compressed
                 </ExportButton>
