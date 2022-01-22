@@ -1,4 +1,7 @@
 import React, { useState, useContext } from 'react'
+import ExportButton from './ExportButton'
+import './ExportOptionsSection.css'
+import "./DataExportTools.css";
 
 import '../App.css';
 
@@ -39,8 +42,8 @@ const DownloadGraphOptions = () => {
             <label><input type="radio" name="group1" value={4} checked={downloadSelection === 4}/>svg</label>
             </fieldset> */}
 
-            <h2>Graph Download Options</h2>
-            <Form>
+            {/* <h2>Graph Download Options</h2> */}
+            {/* <Form>
                 <Form.Check>
                     <Form.Check inline label="CSV" name="group1" type='radio' id={`inline-radio-0`} value={0} onClick={() => {setDownloadSelection(0); console.log("hi")}} />
                     <Form.Check inline label="ZIP Compressed" name="group1" type='radio' id={`inline-radio-1`} value={1} onChange={() => setDownloadSelection(1)} />
@@ -53,7 +56,45 @@ const DownloadGraphOptions = () => {
                 <Button variant="primary" style={{ margin: "20px 0px 10px 50px" }} onClick={handleChartSubmit}>
                     Download Data
                 </Button>
-            </Form>
+            </Form> */}
+
+            <div className="graph-options-wrapper" style={{width: "50%"}}>
+                <h4>Graph Download Options</h4>
+                <div className="options-export-wrapper">
+                    <div className="options-export-half-section">
+                        <ExportButton selected={downloadSelection === 0}
+                            onClick={() => { setDownloadSelection(0); }}>
+                            CSV
+                        </ExportButton>
+                        <ExportButton selected={downloadSelection === 1}
+                            onClick={() => { setDownloadSelection(1); }}>
+                            ZIP Compressed
+                        </ExportButton>
+                        <ExportButton selected={downloadSelection === 5}
+                            onClick={() => { setDownloadSelection(5); }}>
+                            JSON
+                        </ExportButton>
+                        <ExportButton selected={false} variant={"submit"}
+                            onClick={handleChartSubmit}>
+                            Download Graph
+                        </ExportButton>
+                    </div>
+                    <div className="options-export-half-section">
+                        <ExportButton selected={downloadSelection === 2}
+                            onClick={() => { setDownloadSelection(2); }}>
+                            PNG
+                        </ExportButton>
+                        <ExportButton selected={downloadSelection === 3}
+                            onClick={() => { setDownloadSelection(3); }}>
+                            JPEG
+                        </ExportButton>
+                        <ExportButton selected={downloadSelection === 4}
+                            onClick={() => { setDownloadSelection(4); }}>
+                            SVG
+                        </ExportButton>
+                    </div>
+                </div>
+            </div>
 
         </div>
     )
