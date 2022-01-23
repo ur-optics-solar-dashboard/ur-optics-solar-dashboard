@@ -119,9 +119,6 @@ const searchCacheForId = (id) => {
 
 export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
 
-    if (aggregate) { console.log("AGGREGATED"); }
-    else { console.log("FULL"); }
-
     if (dateIds === null || dateIds.length === 0) {
         loadDateIds();
         if (dateIds === null) { //that load didn't work
@@ -157,20 +154,15 @@ export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
 
     let lastDay = -1;
     for (let j = 0; j < csv.length; j++) {
-        let pointTime = calculateTime(
-            parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
-            parseInt(csv[j]['MST']));
-        
-        //ensure that aggregated data is separated by day
-        if (lastDay !== parseInt(csv[j]['DOY'])) {
-            let agPoint = {};
-            agPoint['date'] = pointTime.format('YYYY-MM-DD');
-            queryArray.forEach(q => { //start with blank values
-                agPoint[q] = 0.0;
-            })
-            aggData.push(agPoint);
-            lastDay = parseInt(csv[j]['DOY']);
-        }
+
+        let year = parseInt(csv[j]['Year']);
+        let doy = parseInt(csv[j]['DOY']);
+        let mst = parseInt(csv[j]['MST']);
+
+        if (isNaN(year) || isNaN(doy) || isNaN(mst)) //skip NaN days
+            continue;
+
+        let pointTime = calculateTime(year, doy, mst);
 
         if (!aggregate) {
             let point = {};
@@ -180,15 +172,24 @@ export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
             fullData.push(point);
         }
         else {
+            //ensure that aggregated data is separated by day
+            if (lastDay !== doy) {
+                console.log("new day: " + doy);
+                let agPoint = {};
+                agPoint['date'] = pointTime.format('YYYY-MM-DD');
+                agPoint['datetime'] = '12:00 AM';
+                queryArray.forEach(q => { //start with blank values
+                    agPoint[q] = 0.0;
+                })
+                aggData.push(agPoint);
+                lastDay = doy;
+            }
+
             queryArray.forEach(q => {
                 aggData[aggData.length - 1][q] += parseFloat(csv[j][q]);
             });
         }
     }
-    console.log('full: ');
-    console.log(fullData);
-    console.log('aggregated: ');
-    console.log(aggData);
     return fullData;
 
 }
