@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
 
 const GraphOptionsSection = () => {
-  const {getChartData, dateState} = useContext(GlobalContext);
+  const { getChartData, dateState } = useContext(GlobalContext);
   const [aggOptionsState, setAggOptionsState] = useState(0);
 
   return (

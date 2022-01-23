@@ -40,6 +40,7 @@ const handleBoxError = (error) => {
     }
     else {
         makeToast('An unknown error occurred when accessing Box', 'danger');
+        clearAuthToken(); //something probably broke with the login
     }
     console.error(error);
 }
@@ -360,4 +361,31 @@ const mstToHM = (mst) => {
 export const calculateTime = (year, doy, mst) => {
     let time = mstToHM(mst);
     return moment(new Date()).year(year).dayOfYear(doy).hour(time.hour).minute(time.minute);
+}
+
+//TODO: convert back to old time format
+export const objectToCSV = (rows) => {
+    let out = '';
+
+    //parse headers
+    let keys = Object.keys(rows[0]);
+    for (let i = 0; i < keys.length; i++) {
+        out += keys[i];
+        if (i < keys.length - 1)
+            out += ',';
+    }
+    out += '\n';
+
+    //fill in data for each row
+    for (let i = 0; i < rows.length; i++) {
+        for (let j = 0; j < keys.length; j++) {
+            out += rows[i][keys[j]];
+            if (j < keys.length - 1)
+                out += ',';
+        }
+        out += '\n';
+    }
+
+    return out;
+
 }
