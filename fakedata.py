@@ -27,20 +27,6 @@ def generateFake(year, doy):
 def main():
     fake = ',Year,DOY,MST,Global Horizontal [W/m^2],Direct Normal [W/m^2],Diffuse Horizontal [W/m^2],PR1 Temperature [deg C],PH1 Temperature [deg C],Pressure [mBar],Zenith Angle [degrees],Azimuth Angle [degrees],RaZON Status,RaZON Time [hhmm],Logger Battery [VDC],Logger Temp [deg C]\n'
     
-    # mst = 0
-    # doy = 0
-    # for i in range(14400):
-    #     #increment mst and doy
-    #     if mst == 2359:
-    #         doy += 1
-    #         mst = 0
-    #     else:
-    #         if str(mst).endswith('59'): #gross but i don't care
-    #             mst += 41
-    #         else:
-    #             mst += 1
-    #     fake += generateFakeLine(2021, doy, mst) + '\n'
-    
     print ('Enter year: ')
     year = int(input())
     print('Enter DOY: ')

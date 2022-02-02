@@ -5,11 +5,6 @@ import "./DataExportTools.css";
 
 import '../App.css';
 
-//todo change to only import individual components
-import { Button, Form } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css'
-
-
 import { useDownloadChartSubmit } from '../hooks/useDownloadChartSubmit';
 import { GlobalContext } from '../contexts/GlobalContext';
 

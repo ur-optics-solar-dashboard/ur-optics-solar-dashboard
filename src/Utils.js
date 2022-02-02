@@ -39,7 +39,7 @@ const handleBoxError = (error) => {
         }
     }
     else {
-        makeToast('An unknown error occurred when accessing Box', 'danger');
+        makeToast('An unknown error occurred when accessing Box. Your session may have expired.', 'danger');
         clearAuthToken(); //something probably broke with the login
     }
     console.error(error);
@@ -191,6 +191,8 @@ export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
             });
         }
     }
+
+    if (aggregate) { fullData = aggData; }
     return fullData;
 
 }

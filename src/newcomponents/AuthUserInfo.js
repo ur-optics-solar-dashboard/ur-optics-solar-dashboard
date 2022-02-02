@@ -10,7 +10,7 @@ const AuthUserInfo = (props) => {
 
     return (
         <>
-            <Alert variant="success">You are authenticated with Box</Alert>
+            <Alert variant="success">You are authenticated with Box.</Alert>
             <h1>{props.name}</h1>
             <h6>{props.email}</h6>
             <br />
@@ -19,6 +19,9 @@ const AuthUserInfo = (props) => {
             <br />
             <br />
             <Button variant="primary" onClick={ logout }>Logout</Button>
+            <br />
+            <br />
+            <p>In some cases, Box authentication may expire. If data retrieval is not working, logout and sign in with Box again.</p>
         </>
     )
 }
