@@ -302,7 +302,9 @@ export const getExactData = async (startStr, endStr, queryArray, aggregate) => {
             dataToastsCt++;
         }
         else {
+            console.log('pushed for ' + current.format('YYYY-MM-DD'));
             totalData.push(...currentData); //add all to current data
+            console.log('total data size: ' + totalData.length);
         }
         current.add(1, 'day');
     }

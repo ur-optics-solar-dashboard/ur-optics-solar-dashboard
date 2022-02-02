@@ -120,6 +120,7 @@ export const GlobalContextProvider = ({ children }) => {
       .then(response => {
         if (response !== null) {
           setGraphTitle(startFormatted + ' to ' + endFormatted);
+          console.log('Total data: ');
           console.log(response);
           setGraphData(response);
 
