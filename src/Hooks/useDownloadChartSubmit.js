@@ -1,6 +1,7 @@
 import domtoimage from 'dom-to-image';
 import { objectToCSV } from '../Utils';
-import FileSaver from 'file-saver';
+import FileSaver, { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 
 /**
  * @param  {{downloadSelection: number, graphData: string}} props
@@ -11,6 +12,18 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
     const downloadGraphCSV = (graphData) => {
         let blob = new Blob([objectToCSV(graphData)], { type: 'text/csv;charset=utf-8'});
         FileSaver.saveAs(blob, 'graph_data.csv');
+    }
+
+    const downloadGraphZip = (graphData) => {
+        let blob = new Blob([objectToCSV(graphData)], { type: 'text/csv;charset=utf-8'});
+        let zip = new JSZip();
+        
+        let csvFolder = zip.folder('graph_data');
+        csvFolder.file('graph_data.csv', blob);
+
+        zip.generateAsync({type: 'blob'}).then(function(content) {
+            saveAs(content, 'graph_data.zip');
+        });
     }
 
     /**
@@ -43,8 +56,8 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
      * @param  {object} graphData graph object
      */
     const downloadGraphJson = (graphData) => {
-        var blob = new Blob([JSON.stringify(graphData)], { type: "application/json;charset=utf-8" });
-        FileSaver.saveAs(blob, "graph_data.json")
+        let blob = new Blob([JSON.stringify(graphData)], { type: "application/json;charset=utf-8" });
+        FileSaver.saveAs(blob, 'graph_data.json');
     }
 
     /**
@@ -64,12 +77,11 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
      */
     const handleChartSubmit = (event) => {
         switch (downloadSelection) {
-            case 0:
+            case 0: //csv
                 downloadGraphCSV(graphData);
                 break;
-            case 1:
-                //todo
-                alert('TODO');
+            case 1: //zip
+                downloadGraphZip(graphData);
                 break;
             case 2: // png
                 downloadLineChartPNG('lineChart', "white");

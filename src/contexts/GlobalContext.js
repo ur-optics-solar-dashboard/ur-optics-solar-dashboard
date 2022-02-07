@@ -116,7 +116,7 @@ export const GlobalContextProvider = ({ children }) => {
 
     if (queryArray.length > 0) {
       setGraphTitle('Loading data...'); //TODO: add a spinner
-      getExactData(startFormatted, endFormatted, queryArray, aggregate)
+      getExactData(startFormatted, endFormatted, queryArray, aggregate, setGraphTitle)
       .then(response => {
         if (response !== null) {
           setGraphTitle(startFormatted + ' to ' + endFormatted);

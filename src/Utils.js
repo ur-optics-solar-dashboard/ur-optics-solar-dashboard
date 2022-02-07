@@ -281,7 +281,7 @@ const cacheMissingDateIds = async () => {
     }
 }
 
-export const getExactData = async (startStr, endStr, queryArray, aggregate) => {
+export const getExactData = async (startStr, endStr, queryArray, aggregate, setGraphTitleFunction) => {
     let start = moment(startStr, 'YYYY-MM-DD');
     let end = moment(endStr, 'YYYY-MM-DD');
 
@@ -294,8 +294,15 @@ export const getExactData = async (startStr, endStr, queryArray, aggregate) => {
 
     let current = start.clone();
 
+    let totalDays = end.diff(start, 'days') + 1;
+
     //interpolate between start and end date
+    let i = 0;
     while (current.isSameOrBefore(end)) {
+        i++;
+
+        setGraphTitleFunction('Loading data... (day ' + i + '/' + totalDays + ')');
+        
         let currentData = await getBoxDataFromDate(current, queryArray, aggregate);
         if (currentData === null) {
             if (dataToasts.length < 5) { //no point in pushing a ton of these

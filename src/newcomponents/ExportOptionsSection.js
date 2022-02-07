@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { GlobalContext } from '../contexts/GlobalContext';
+import { useExportOptionsSubmit } from '../hooks/useExportOptionsSubmit';
 import ExportButton from './ExportButton'
 
 import "./ExportOptionsSection.css"
 
 const ExportOptionsSection = () => {
+
+    const { graphData } = useContext(GlobalContext);
     
     // only select a single option for now (users probably wouldn't need any more)
     const [exportOptionsState, setExportOptionsState] = useState(0);
+    const [handleExportOptionsSubmit] = useExportOptionsSubmit({exportOptionsState, data: graphData});
 
     return (
         <div className="options-export-wrapper">
@@ -23,9 +28,7 @@ const ExportOptionsSection = () => {
                 </ExportButton>
 
                 <ExportButton variant='submit' selected={false}
-                    onClick={() => {
-                        //todo: export
-                    }}>
+                    onClick={handleExportOptionsSubmit}>
                     Export Files
                 </ExportButton>
 
