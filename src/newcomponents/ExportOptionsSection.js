@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { GlobalContext } from '../contexts/GlobalContext';
 import { useExportOptionsSubmit } from '../hooks/useExportOptionsSubmit';
 import { makeToast } from '../Utils';
 import ExportButton from './ExportButton'
+import ExportGridText from './ExportGridText';
 
 import "./ExportOptionsSection.css"
 
@@ -13,6 +14,8 @@ const ExportOptionsSection = () => {
     // only select a single option for now (users probably wouldn't need any more)
     const [exportOptionsState, setExportOptionsState] = useState(0);
     const [handleExportOptionsSubmit] = useExportOptionsSubmit({exportOptions: exportOptionsState});
+
+    const [statusLabelText, setStatusLabelText] = useState('');
 
     return (
         <div className="options-export-wrapper">
@@ -35,8 +38,10 @@ const ExportOptionsSection = () => {
                             start: dateState.start,
                             end: dateState.end,
                             aggregate: false,
+                            setStatusTextFunction: setStatusLabelText,
                             callback: (data) => {
                                 makeToast('Export complete, data will be available for download shortly.', 'success');
+                                setStatusLabelText('');
                                 handleExportOptionsSubmit(data);
                             }
                         });
@@ -55,6 +60,8 @@ const ExportOptionsSection = () => {
                     onClick={() => { setExportOptionsState(4) }}>
                     ZIP Compressed
                 </ExportButton>
+
+                <ExportGridText text={statusLabelText}></ExportGridText>
             </div>
         </div>
     )

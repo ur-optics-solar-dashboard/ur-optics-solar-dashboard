@@ -93,7 +93,7 @@ export const GlobalContextProvider = ({ children }) => {
     /** the query part of the request (after ?), which should be the same as the one used for the backend api */
     const [queryFetchString, setQueryFetchString] = useState("");
 
-  const getPlainData = ({start, end, aggregate, callback}) => {
+  const getPlainData = ({start, end, aggregate, setStatusTextFunction, callback}) => {
     let queryArray = [];
     selectedIrridianceOptions.forEach(irr => { queryArray.push(irr.label); });
     selectedMeteorologicalOptions.forEach(met => { queryArray.push(met.label); });
@@ -102,7 +102,7 @@ export const GlobalContextProvider = ({ children }) => {
     const endFormatted = moment(end).format('YYYY-MM-DD');
 
     if (queryArray.length > 0) {
-      getExactData(startFormatted, endFormatted, queryArray, aggregate, console.log)
+      getExactData(startFormatted, endFormatted, queryArray, aggregate, setStatusTextFunction)
       .then(response => {
         console.log('response');
         console.log(response);
