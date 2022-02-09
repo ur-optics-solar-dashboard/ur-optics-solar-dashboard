@@ -374,13 +374,33 @@ export const calculateTime = (year, doy, mst) => {
     return moment(new Date()).year(year).dayOfYear(doy).hour(time.hour).minute(time.minute);
 }
 
-//TODO: convert back to old time format
-export const objectToCSV = (rows) => {
-    let out = '';
+const HMToMst = (hour, minute) => {
+    let mst = (hour * 100) + minute;
+    return mst;
+}
 
-    //parse headers
+const dateToYearDOY = (dateString) => {
+    let date = moment(dateString, 'YYYY-MM-DD');
+    let year = date.year();
+    let doy = date.dayOfYear();
+    console.log(dateString + ', ' + year + ', ' + doy);
+    return [ year, doy ];
+}
+
+const datetimeToMst = (datetimeString) => {
+    let datetime = moment(datetimeString, 'hh:mm a');
+    let hour = datetime.hour();
+    let minute = datetime.minute();
+    return HMToMst(hour, minute);
+}
+
+export const objectToCSV = (rows) => {
+    
+    let out = ',Year,DOY,MST,';
+
+    //parse headers (skip date & datetime)
     let keys = Object.keys(rows[0]);
-    for (let i = 0; i < keys.length; i++) {
+    for (let i = 2; i < keys.length; i++) {
         out += keys[i];
         if (i < keys.length - 1)
             out += ',';
@@ -389,7 +409,11 @@ export const objectToCSV = (rows) => {
 
     //fill in data for each row
     for (let i = 0; i < rows.length; i++) {
-        for (let j = 0; j < keys.length; j++) {
+        let yearDOY = dateToYearDOY(rows[i][keys[0]]);
+        let mst = datetimeToMst(rows[i][keys[1]]);
+
+        out += '0,' + yearDOY[0] + ',' + yearDOY[1] + ',' + mst + ',';
+        for (let j = 2; j < keys.length; j++) {
             out += rows[i][keys[j]];
             if (j < keys.length - 1)
                 out += ',';
