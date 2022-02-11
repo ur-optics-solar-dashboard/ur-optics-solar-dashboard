@@ -23,7 +23,7 @@ moment.tz.setDefault("America/New_York");
 ReactDOM.render(
   <GlobalContextProvider>
     <DataFormProvider>
-      <Router>
+      <Router basename={"/optics/solar/monitoring-station"}>
         <Switch>
           <Route path="/graph">
             <Graph />
