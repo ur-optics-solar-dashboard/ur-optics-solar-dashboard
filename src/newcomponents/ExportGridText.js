@@ -14,7 +14,7 @@ const ExportGridText = props => {
         <p
             className='export-grid-text'
         >
-            {props.text}
+            {text}
         </p>
     );
 }

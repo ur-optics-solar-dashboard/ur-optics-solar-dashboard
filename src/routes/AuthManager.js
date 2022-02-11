@@ -58,7 +58,6 @@ const AuthRedirect = () => {
 
     const getUserInfo = async () => {
         let userinfo = await getBoxUserInfo();
-        console.log(userinfo);
         if (userinfo !== null) { setUserInfo(userinfo); }
     }
 
@@ -75,7 +74,7 @@ const AuthRedirect = () => {
                         space_total={userInfo.space_total}
                         /> :
                             <>
-                                <p>Invalid redirect, try again with the login button below.</p>
+                                <p>You are not authenticated with Box, please log in.</p>
                                 <br />
                                 <AuthButton />
                             </>

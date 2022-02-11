@@ -38,11 +38,11 @@ const Graph = props => {
                         >
 
                         {/* TODO: Xaxis formatter, based on day, month, etc */}
-                        <XAxis dataKey="datetime" xAxisId={0} tickCount={1} minTickGap={359} interval={graphOptions["font-size"] > 24 ? 359 : 179}
+                        <XAxis dataKey="datetime" xAxisId={1} tickCount={2} minTickGap={359} //interval={graphOptions["font-size"] > 24 ? 359 : 179}
                             style={{ fontSize: graphOptions["font-size"] }}
                             height={36} />
 
-                        <XAxis dataKey="date" xAxisId={1} tickCount={1} interval={1439}
+                        <XAxis dataKey="date" xAxisId={0} tickCount={2} //interval={1439}
                             style={{ fontSize: graphOptions["font-size"] }} >
                             <Label dy={20} value="America/New_York" offset={0} position="insideBottom" style={{ fontSize: graphOptions["font-size"] }} />
                         </XAxis>

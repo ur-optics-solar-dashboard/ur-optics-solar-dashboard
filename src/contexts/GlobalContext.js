@@ -4,7 +4,7 @@ import React from "react"
 import { useState } from "react";
 import { defaultDataForm, ranges } from "../DefaultConstants";
 import useGraph from "../hooks/useGraph";
-import { getExactData, makeToast } from "../Utils";
+import { getExactData } from "../Utils";
 
 export const GlobalContext = React.createContext();
 
@@ -104,8 +104,6 @@ export const GlobalContextProvider = ({ children }) => {
     if (queryArray.length > 0) {
       getExactData(startFormatted, endFormatted, queryArray, aggregate, setStatusTextFunction)
       .then(response => {
-        console.log('response');
-        console.log(response);
         callback(response);
       })
     }
@@ -118,8 +116,6 @@ export const GlobalContextProvider = ({ children }) => {
    * @param {{dataForm: object, start: moment, end: moment}} params
    */
   const getChartData = ({ start, end, aggregate }) => {
-    console.log("fetching data...");
-    console.log("selectedIrridianceOptions",selectedIrridianceOptions);
 
     //build query fetch array
     let queryArray = [];
@@ -129,7 +125,6 @@ export const GlobalContextProvider = ({ children }) => {
     selectedMeteorologicalOptions.forEach(met => {
       queryArray.push(met.label);
     });
-    console.log(queryArray);
 
     const startFormatted = moment(start).format("YYYY-MM-DD");
     const endFormatted = moment(end).format("YYYY-MM-DD");
@@ -140,8 +135,6 @@ export const GlobalContextProvider = ({ children }) => {
       .then(response => {
         if (response !== null) {
           setGraphTitle(startFormatted + ' to ' + endFormatted);
-          console.log('Total data: ');
-          console.log(response);
           setGraphData(response);
 
           //TODO: setGraphLines

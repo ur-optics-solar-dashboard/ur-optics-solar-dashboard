@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { GlobalContext } from '../contexts/GlobalContext';
 import { useExportOptionsSubmit } from '../hooks/useExportOptionsSubmit';
 import { makeToast } from '../Utils';

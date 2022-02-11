@@ -55,7 +55,6 @@ const Graph = () => {
    * @param {{dataForm: object, start: moment, end: moment}} params
    */
   const getChartData = ({ dataForm, start, end }) => {
-    console.log("fetching data...");
     let query_fetch_array = [];
     for (const field in dataForm) {
       if (true) {
@@ -88,8 +87,6 @@ const Graph = () => {
           return response.json();
         })
         .then(function (myJson) {
-          console.log("loading data...");
-
           setGraphTitle(dateState.label);
 
           setGraphData(myJson["return_data"]);
@@ -100,7 +97,6 @@ const Graph = () => {
           setMeteorologicalGraphLines(myJson["meteorological_headers"]);
         });
     } else {
-      console.log("No Data Selected");
       setGraphTitle("No Data Selected");
     }
   };

@@ -5,7 +5,6 @@ import JSZip from 'jszip';
 export const useExportOptionsSubmit = ({exportOptions}) => {
 
     const downloadCSV = (data) => {
-        console.log('downloading csv');
         let blob = new Blob([objectToCSV(data)], { type: 'text/csv;charset=utf-8'});
         FileSaver.saveAs(blob, 'data.csv');
     }
@@ -15,13 +14,11 @@ export const useExportOptionsSubmit = ({exportOptions}) => {
     }
 
     const downloadJSON = (data) => {
-        console.log('downloading json');
         let blob = new Blob([JSON.stringify(data)], { type: "application/json;charset=utf-8"});
         FileSaver.saveAs(blob, 'data.json');
     }
 
     const downloadZip = (data) => {
-        console.log('downloading zip');
         let blob = new Blob([objectToCSV(data)], { type: 'text/csv;charset=utf-8'});
         let zip = new JSZip();
 
@@ -34,10 +31,6 @@ export const useExportOptionsSubmit = ({exportOptions}) => {
     }
 
     const handleExportOptionsSubmit = (data) => {
-        console.log('got data: ');
-        console.log(data);
-        console.log('got export option:');
-        console.log(exportOptions);
         //have to pull data
         switch (exportOptions) {
             case 1: //csv

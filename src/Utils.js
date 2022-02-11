@@ -131,19 +131,15 @@ export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
 
     //seach for the date, and try one more time to find it if we didn't just recache
     let foundDate = searchCacheForDate(date);
-    if (foundDate === null && sessionRecache) {
+    if (foundDate === null && sessionRecache && dateIds.length < 1020) {
         return null;
     }
     else {
-        console.log('recent recache performed: ' + sessionRecache);
         await cacheMissingDateIds();
         foundDate = searchCacheForDate(date);
-        console.log('found date: ');
-        console.log(foundDate);
-        if (foundDate === null) { console.log('still not found'); return null; }
+        if (foundDate === null) { return null; } //still hasn't been found
     }
 
-    console.log('getting file ' + foundDate)
     let file = await getBoxFile(foundDate);
     if (file === undefined || file === null) { return null; }
 
@@ -175,7 +171,6 @@ export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
         else {
             //ensure that aggregated data is separated by day
             if (lastDay !== doy) {
-                console.log("new day: " + doy);
                 let agPoint = {};
                 agPoint['date'] = pointTime.format('YYYY-MM-DD');
                 agPoint['datetime'] = '12:00 AM';
@@ -198,7 +193,6 @@ export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
 }
 
 const loadDateIds = () => {
-    console.log('loading date ids');
     if (localStorage.getItem('cache_dateIds') !== undefined) { //it exists
         dateIds = JSON.parse(localStorage.getItem('cache_dateIds'));
     }
@@ -232,7 +226,7 @@ const recacheDateIds = async () => {
         localStorage.setItem('cache_dateIds', JSON.stringify(newDateIds));
     }
     catch (e) { //it is best to assume all exceptions are quota exceeded
-        makeToast('Couldn\'t cache file information from Box (' + e.name + ')', 'warning');
+        makeToast('Failed to cache file information from Box (' + e.name + ')', 'warning');
         return;
     }
     dateIds = newDateIds;
@@ -250,9 +244,13 @@ const cacheMissingDateIds = async () => {
     if (csvIds === null) { return; }
 
     for (let i = 0; i < csvIds.length; i++) { //foreach was being weird with the async
+        if (dateIds.length >= 1000) { //approximate localstorage limit cap
+            console.log('localStorage dateId cache is full.');
+            break;
+        }
+        
         let id = csvIds[i];
         if (searchCacheForId(id) === null) {
-            console.log('New ID: ' + id);
             let file = await getBoxFile(id);
             if (file === null) { continue; }
             let csv = parseCSV(file);
@@ -311,9 +309,7 @@ export const getExactData = async (startStr, endStr, queryArray, aggregate, setG
             dataToastsCt++;
         }
         else {
-            console.log('pushed for ' + current.format('YYYY-MM-DD'));
             totalData.push(...currentData); //add all to current data
-            console.log('total data size: ' + totalData.length);
         }
         current.add(1, 'day');
     }
