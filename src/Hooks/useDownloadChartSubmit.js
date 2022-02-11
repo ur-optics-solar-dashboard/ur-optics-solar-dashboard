@@ -1,16 +1,30 @@
-import {
-    useHistory,
-} from "react-router-dom";
-
 import domtoimage from 'dom-to-image';
-
-import FileSaver from 'file-saver';
+import { objectToCSV } from '../Utils';
+import FileSaver, { saveAs } from 'file-saver';
+import JSZip from 'jszip';
 
 /**
  * @param  {{downloadSelection: number, graphData: string}} props
  * @returns {[handleChartSubmit: function]} array
  */
 export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
+
+    const downloadGraphCSV = (graphData) => {
+        let blob = new Blob([objectToCSV(graphData)], { type: 'text/csv;charset=utf-8'});
+        FileSaver.saveAs(blob, 'graph_data.csv');
+    }
+
+    const downloadGraphZip = (graphData) => {
+        let blob = new Blob([objectToCSV(graphData)], { type: 'text/csv;charset=utf-8'});
+        let zip = new JSZip();
+        
+        let csvFolder = zip.folder('graph_data');
+        csvFolder.file('graph_data.csv', blob);
+
+        zip.generateAsync({type: 'blob'}).then(function(content) {
+            saveAs(content, 'graph_data.zip');
+        });
+    }
 
     /**
      * downloads a document element as a png to file `chart.png`
@@ -42,8 +56,8 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
      * @param  {object} graphData graph object
      */
     const downloadGraphJson = (graphData) => {
-        var blob = new Blob([JSON.stringify(graphData)], { type: "text/plain;charset=utf-8" });
-        FileSaver.saveAs(blob, "graph_data.json")
+        let blob = new Blob([JSON.stringify(graphData)], { type: "application/json;charset=utf-8" });
+        FileSaver.saveAs(blob, 'graph_data.json');
     }
 
     /**
@@ -57,16 +71,17 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
             });
     }
 
-    let history = useHistory();
-
     /**
      * handler to submit optional chart options
      * @param {*} event
      */
     const handleChartSubmit = (event) => {
         switch (downloadSelection) {
-            case 1:
-                history.push("/zip-compressed"); //todo
+            case 0: //csv
+                downloadGraphCSV(graphData);
+                break;
+            case 1: //zip
+                downloadGraphZip(graphData);
                 break;
             case 2: // png
                 downloadLineChartPNG('lineChart', "white");
@@ -80,8 +95,7 @@ export const useDownloadChartSubmit = ({downloadSelection, graphData}) => {
             case 5: //json
                 downloadGraphJson(graphData);
                 break;
-            default: // case 0
-                history.push("/csv"); //todo
+            default: break;
         }
     }
 

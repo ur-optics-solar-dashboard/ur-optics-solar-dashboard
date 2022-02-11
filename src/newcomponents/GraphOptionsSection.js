@@ -1,28 +1,51 @@
-import React, { useContext } from "react";
+import "./ExportOptionsSection.css";
+
+import React, { useContext, useState } from "react";
 import ExportButton from "./ExportButton";
 import DateSelection from "./DateSelection";
 import { GlobalContext } from "../contexts/GlobalContext";
 import { Link } from "react-router-dom";
 
 const GraphOptionsSection = () => {
-  const {selectedIrridianceOptions, getChartData, dateState} = useContext(GlobalContext);
+  const { getChartData, dateState } = useContext(GlobalContext);
+  const [aggOptionsState, setAggOptionsState] = useState(0);
+
   return (
     <div
       className="graph-options-wrapper"
       style={{ paddingLeft: 10, paddingRight: 10 }}
     >
-      <DateSelection />
-      <Link to={"/dashboard/graph"}>
-      <ExportButton backgroundColor="#8F677F" hoverColor="#8F677F80" textColor="#FFFFFF" selected={false} marginTop={97} width="50%"
-      onClick={() => {
-        console.log(selectedIrridianceOptions);
-        getChartData({start: dateState.start, end: dateState.end});
-        }
-      }
-      >
-        View Graph
-      </ExportButton>
-      </Link>
+      <center>
+      <DateSelection/>
+      </center>
+      <div className="options-export-wrapper">
+      <div className="options-export-half-section">
+        <ExportButton selected={aggOptionsState === 0}
+          onClick={() => { setAggOptionsState(0); }}>
+          Aggregated
+        </ExportButton>
+        <Link to={"/dashboard/graph"}>
+          <ExportButton selected={false} variant='submit'
+            onClick={() => {
+              getChartData({
+                start: dateState.start,
+                end: dateState.end,
+                aggregate: (aggOptionsState === 0)
+              });
+              }
+            }
+          >
+            View Graph
+          </ExportButton>
+        </Link>
+      </div>
+      <div className="options-export-half-section">
+        <ExportButton selected={aggOptionsState === 1}
+          onClick={() => { setAggOptionsState(1); }}>
+          Full
+        </ExportButton>
+      </div>
+      </div>
     </div>
   );
 };

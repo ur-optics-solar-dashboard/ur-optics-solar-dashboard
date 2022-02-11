@@ -93,13 +93,29 @@ export const GlobalContextProvider = ({ children }) => {
     /** the query part of the request (after ?), which should be the same as the one used for the backend api */
     const [queryFetchString, setQueryFetchString] = useState("");
 
+  const getPlainData = ({start, end, aggregate, setStatusTextFunction, callback}) => {
+    let queryArray = [];
+    selectedIrridianceOptions.forEach(irr => { queryArray.push(irr.label); });
+    selectedMeteorologicalOptions.forEach(met => { queryArray.push(met.label); });
+
+    const startFormatted = moment(start).format('YYYY-MM-DD');
+    const endFormatted = moment(end).format('YYYY-MM-DD');
+
+    if (queryArray.length > 0) {
+      getExactData(startFormatted, endFormatted, queryArray, aggregate, setStatusTextFunction)
+      .then(response => {
+        callback(response);
+      })
+    }
+    else {
+      callback(null);
+    }
+  }
     /**
    * Fetch chart data from backend and handle chart states
    * @param {{dataForm: object, start: moment, end: moment}} params
    */
-  const getChartData = ({ start, end }) => {
-    console.log("fetching data...");
-    console.log("selectedIrridianceOptions",selectedIrridianceOptions);
+  const getChartData = ({ start, end, aggregate }) => {
 
     //build query fetch array
     let queryArray = [];
@@ -109,18 +125,16 @@ export const GlobalContextProvider = ({ children }) => {
     selectedMeteorologicalOptions.forEach(met => {
       queryArray.push(met.label);
     });
-    console.log(queryArray);
 
     const startFormatted = moment(start).format("YYYY-MM-DD");
     const endFormatted = moment(end).format("YYYY-MM-DD");
 
     if (queryArray.length > 0) {
       setGraphTitle('Loading data...'); //TODO: add a spinner
-      getExactData(startFormatted, endFormatted, queryArray)
+      getExactData(startFormatted, endFormatted, queryArray, aggregate, setGraphTitle)
       .then(response => {
         if (response !== null) {
           setGraphTitle(startFormatted + ' to ' + endFormatted);
-          console.log(response);
           setGraphData(response);
 
           //TODO: setGraphLines
@@ -155,6 +169,7 @@ export const GlobalContextProvider = ({ children }) => {
           graphTitle:graphTitle, setGraphTitle:setGraphTitle,
           dataForm:dataForm, setDataFormState:setDataFormState,
           scrollRef:scrollRef,
+          getPlainData:getPlainData,
           graphData:graphData, setGraphData:setGraphData, graphLines:graphLines, setGraphLines:setGraphLines, irridianceGraphLines:irridianceGraphLines, setIrridianceGraphLines:setIrridianceGraphLines, meteorologicalGraphLines:meteorologicalGraphLines, setMeteorologicalGraphLines:setMeteorologicalGraphLines,
           selectedIrridianceOptions:selectedIrridianceOptions, setSelectedIrridianceOptions:setSelectedIrridianceOptions, selectedMeteorologicalOptions:selectedMeteorologicalOptions, setSelectedMeteorologicalOptions:setSelectedMeteorologicalOptions,
           queryFetchString:queryFetchString, setQueryFetchString:setQueryFetchString,

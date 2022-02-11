@@ -1,0 +1,13 @@
+:root {
+    --export-button-dark: #8F677F;
+}
+
+.export-grid-text {
+    color: var(--export-button-dark);
+    margin-top: 40px;
+    font-weight: 500;
+    padding: 10px 0px;
+    height: auto;
+    width: 100%;
+    display: inline-block;
+}

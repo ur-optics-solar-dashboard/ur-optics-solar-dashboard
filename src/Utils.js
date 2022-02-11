@@ -39,7 +39,8 @@ const handleBoxError = (error) => {
         }
     }
     else {
-        makeToast('An unknown error occurred when accessing Box', 'danger');
+        makeToast('An unknown error occurred when accessing Box. Your session may have expired.', 'danger');
+        clearAuthToken(); //something probably broke with the login
     }
     console.error(error);
 }
@@ -102,11 +103,7 @@ const searchCacheForDate = (date) => {
     let datestr = date.format('YYYY-MM-DD');
     for (let i = 0; i < dateIds.length; i++) {
         if (dateIds[i]['date'] === datestr) {
-            console.log(dateIds[i]['date'] + ' is ' + datestr + ' (' + dateIds[i]['id'] + ')');
             return dateIds[i]['id'];
-        }
-        else {
-            console.log(dateIds[i]['date'] + ' is not ' + datestr);
         }
     }
     return null;
@@ -121,7 +118,8 @@ const searchCacheForId = (id) => {
     return null;
 }
 
-export const getBoxDataFromDate = async(date, queryArray) => {
+export const getBoxDataFromDate = async(date, queryArray, aggregate) => {
+
     if (dateIds === null || dateIds.length === 0) {
         loadDateIds();
         if (dateIds === null) { //that load didn't work
@@ -130,53 +128,71 @@ export const getBoxDataFromDate = async(date, queryArray) => {
             await recacheDateIds();
         }
     }
-    console.log(dateIds);
 
     //seach for the date, and try one more time to find it if we didn't just recache
     let foundDate = searchCacheForDate(date);
-    if (foundDate === null && sessionRecache) {
-        console.log('couldn\'t find date');
+    if (foundDate === null && sessionRecache && dateIds.length < 1020) {
         return null;
     }
     else {
-        console.log('recent recache performed: ' + sessionRecache);
         await cacheMissingDateIds();
         foundDate = searchCacheForDate(date);
-        console.log('found date: ');
-        console.log(foundDate);
-        if (foundDate === null) { console.log('still not found'); return null; }
+        if (foundDate === null) { return null; } //still hasn't been found
     }
 
-    console.log('getting file ' + foundDate)
     let file = await getBoxFile(foundDate);
     if (file === undefined || file === null) { return null; }
 
     let csv = parseCSV(file);
 
-    //safe to assume the date is correct
-    let formatted = [];
-    for (let j = 0; j < csv.length; j++) {
-        let pointTime = calculateTime(
-            parseInt(csv[j]['Year']), parseInt(csv[j]['DOY']),
-            parseInt(csv[j]['MST']));
-        
-        let point = {};
-        point['date'] = pointTime.format('YYYY-MM-DD');
-        point['datetime'] = pointTime.format('hh:mm A');
+    //formatted will be used for full data, aggregated will be used for aggregated
+    let fullData = [];
+    let aggData = [];
 
-        queryArray.forEach(q => {
-            point[q] = parseFloat(csv[j][q]);
-        });
-        formatted.push(point);
+    let lastDay = -1;
+    for (let j = 0; j < csv.length; j++) {
+
+        let year = parseInt(csv[j]['Year']);
+        let doy = parseInt(csv[j]['DOY']);
+        let mst = parseInt(csv[j]['MST']);
+
+        if (isNaN(year) || isNaN(doy) || isNaN(mst)) //skip NaN days
+            continue;
+
+        let pointTime = calculateTime(year, doy, mst);
+
+        if (!aggregate) {
+            let point = {};
+            point['date'] = pointTime.format('YYYY-MM-DD');
+            point['datetime'] = pointTime.format('hh:mm A');
+            queryArray.forEach(q => { point[q] = parseFloat(csv[j][q]); });
+            fullData.push(point);
+        }
+        else {
+            //ensure that aggregated data is separated by day
+            if (lastDay !== doy) {
+                let agPoint = {};
+                agPoint['date'] = pointTime.format('YYYY-MM-DD');
+                agPoint['datetime'] = '12:00 AM';
+                queryArray.forEach(q => { //start with blank values
+                    agPoint[q] = 0.0;
+                })
+                aggData.push(agPoint);
+                lastDay = doy;
+            }
+
+            queryArray.forEach(q => {
+                aggData[aggData.length - 1][q] += parseFloat(csv[j][q]);
+            });
+        }
     }
-    console.log('formatted: ');
-    console.log(formatted);
-    return formatted;
+
+    if (aggregate) { fullData = aggData; }
+    return fullData;
 
 }
 
 const loadDateIds = () => {
-    console.log('loading date ids');
     if (localStorage.getItem('cache_dateIds') !== undefined) { //it exists
         dateIds = JSON.parse(localStorage.getItem('cache_dateIds'));
     }
@@ -210,7 +226,7 @@ const recacheDateIds = async () => {
         localStorage.setItem('cache_dateIds', JSON.stringify(newDateIds));
     }
     catch (e) { //it is best to assume all exceptions are quota exceeded
-        makeToast('Couldn\'t cache file information from Box (' + e.name + ')', 'warning');
+        makeToast('Failed to cache file information from Box (' + e.name + ')', 'warning');
         return;
     }
     dateIds = newDateIds;
@@ -228,9 +244,13 @@ const cacheMissingDateIds = async () => {
     if (csvIds === null) { return; }
 
     for (let i = 0; i < csvIds.length; i++) { //foreach was being weird with the async
+        if (dateIds.length >= 1000) { //approximate localstorage limit cap
+            console.log('localStorage dateId cache is full.');
+            break;
+        }
+        
         let id = csvIds[i];
         if (searchCacheForId(id) === null) {
-            console.log('New ID: ' + id);
             let file = await getBoxFile(id);
             if (file === null) { continue; }
             let csv = parseCSV(file);
@@ -259,12 +279,11 @@ const cacheMissingDateIds = async () => {
     }
 }
 
-export const getExactData = async (startStr, endStr, queryArray) => {
+export const getExactData = async (startStr, endStr, queryArray, aggregate, setGraphTitleFunction) => {
     let start = moment(startStr, 'YYYY-MM-DD');
     let end = moment(endStr, 'YYYY-MM-DD');
 
     console.time('load_files');
-    //interpolate between start and end date
 
     let totalData = [];
 
@@ -272,9 +291,17 @@ export const getExactData = async (startStr, endStr, queryArray) => {
     let dataToastsCt = 0;
 
     let current = start.clone();
+
+    let totalDays = end.diff(start, 'days') + 1;
+
+    //interpolate between start and end date
+    let i = 0;
     while (current.isSameOrBefore(end)) {
-        console.log('loading ' + current.format('YYYY-MM-DD'));
-        let currentData = await getBoxDataFromDate(current, queryArray);
+        i++;
+
+        setGraphTitleFunction('Loading data... (day ' + i + '/' + totalDays + ')');
+        
+        let currentData = await getBoxDataFromDate(current, queryArray, aggregate);
         if (currentData === null) {
             if (dataToasts.length < 5) { //no point in pushing a ton of these
                 dataToasts.push('Data for ' + current.format('YYYY-MM-DD') + ' could not be found');
@@ -341,4 +368,55 @@ const mstToHM = (mst) => {
 export const calculateTime = (year, doy, mst) => {
     let time = mstToHM(mst);
     return moment(new Date()).year(year).dayOfYear(doy).hour(time.hour).minute(time.minute);
+}
+
+const HMToMst = (hour, minute) => {
+    let mst = (hour * 100) + minute;
+    return mst;
+}
+
+const dateToYearDOY = (dateString) => {
+    let date = moment(dateString, 'YYYY-MM-DD');
+    let year = date.year();
+    let doy = date.dayOfYear();
+    console.log(dateString + ', ' + year + ', ' + doy);
+    return [ year, doy ];
+}
+
+const datetimeToMst = (datetimeString) => {
+    let datetime = moment(datetimeString, 'hh:mm a');
+    let hour = datetime.hour();
+    let minute = datetime.minute();
+    return HMToMst(hour, minute);
+}
+
+export const objectToCSV = (rows) => {
+    
+    let out = ',Year,DOY,MST,';
+
+    //parse headers (skip date & datetime)
+    let keys = Object.keys(rows[0]);
+    for (let i = 2; i < keys.length; i++) {
+        out += keys[i];
+        if (i < keys.length - 1)
+            out += ',';
+    }
+    out += '\n';
+
+    //fill in data for each row
+    for (let i = 0; i < rows.length; i++) {
+        let yearDOY = dateToYearDOY(rows[i][keys[0]]);
+        let mst = datetimeToMst(rows[i][keys[1]]);
+
+        out += '0,' + yearDOY[0] + ',' + yearDOY[1] + ',' + mst + ',';
+        for (let j = 2; j < keys.length; j++) {
+            out += rows[i][keys[j]];
+            if (j < keys.length - 1)
+                out += ',';
+        }
+        out += '\n';
+    }
+
+    return out;
+
 }

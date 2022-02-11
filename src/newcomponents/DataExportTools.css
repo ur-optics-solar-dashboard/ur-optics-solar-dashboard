@@ -49,3 +49,8 @@
   padding-left: 5px;
   padding-right: 5px;
 }
+
+.graph-options-wrapper h4 {
+  color: #a3a3a3;
+  font-weight: var(--font-weight-2);
+}

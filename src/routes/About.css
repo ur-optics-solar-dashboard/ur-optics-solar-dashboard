@@ -1,0 +1,32 @@
+.measurement-info-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.measurement-info-panel {
+    width: 48%;
+    border-radius: 6px;
+    box-shadow: 0px 2px 4px rgb(204, 204, 204);
+    padding: 8px;
+}
+
+.measurement-info-panel h4 {
+    display: inline;
+}
+
+.measurement-info-panel p {
+    margin-top: 12px;
+    margin-bottom: 2px;
+}
+
+.measurement-units {
+    background-color: #8F677F;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 16px;
+    display: inline;
+    margin-left: 16px;
+}

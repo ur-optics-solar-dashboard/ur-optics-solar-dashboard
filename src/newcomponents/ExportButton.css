@@ -1,0 +1,42 @@
+:root {
+    --export-button-dark: #8F677F;
+    --export-button-light: #C7B3BF;
+    --export-button-darker: #7e586f;
+    --export-button-text: #FFFFFF;
+}
+
+.export-button {
+    background-color: var(--export-button-light);
+    color: var(--export-button-text);
+    border: none;
+    border-radius: 6px;
+    margin-top: 6px;
+    font-weight: 500;
+    padding: 10px 0px;
+    height: auto;
+    width: 100%;
+}
+.export-button:hover {
+    background-color: var(--export-button-dark);
+    transition: background-color 0.2s ease;
+}
+
+.export-button-selected {
+    background-color: var(--export-button-dark);
+}
+.export-button-selected:hover {
+    background-color: var(--export-button-darker);
+    transition: background-color 0.2s ease;
+}
+
+.submit {
+    background-color: var(--export-button-dark);
+    margin-top: 40px;
+}
+.submit:hover {
+    background-color: var(--export-button-darker);
+    transition: background-color 0.2s ease;
+}
+.narrow {
+    width: 50%;
+}

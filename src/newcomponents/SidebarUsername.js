@@ -32,7 +32,7 @@ const SidebarUsername = () => {
         return (
             <>
                 <div className="sidebar-user-wrapper">
-                    <a className="sidebar-user-name" href="/auth">{ username }</a>
+                    <a className="sidebar-user-name" href="/auth">Box Settings ({ username })</a>
                 </div>
             </>
         )
