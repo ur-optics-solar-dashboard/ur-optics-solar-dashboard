@@ -23,7 +23,7 @@ const Sidebar = props => {
     return (
         <div className="sidebar" style={{width: props.width}}>
             {/* <NavLink to="/dashboard" style={{padding: "0"}}> */}
-            <Link to="/">
+            <Link to="/" id="header-link">
             <header>
                 <img src={solarIcon} alt="icon" />
                 <h2>Flux</h2>

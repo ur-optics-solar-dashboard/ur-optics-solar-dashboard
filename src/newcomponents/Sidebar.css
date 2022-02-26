@@ -18,6 +18,14 @@
     padding-top: 32px;
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
   }
+
+  #header-link {
+    padding: 0;  /* sidebar header has less left margin */
+    display: flex;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+  }
   
   /* sidebar header */
   .sidebar header {
