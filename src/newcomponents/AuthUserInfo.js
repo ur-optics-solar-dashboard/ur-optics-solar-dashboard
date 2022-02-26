@@ -1,11 +1,13 @@
 import { Alert, ProgressBar, Button } from "react-bootstrap";
 import { clearAuthToken } from "../Utils";
+import { useHistory } from "react-router-dom";
 
 const AuthUserInfo = (props) => {
+    const history = useHistory();
 
     const logout = () => {
         clearAuthToken();
-        window.location.href = '/';
+        history.push("/");
     }
 
     return (

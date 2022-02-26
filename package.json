@@ -2,7 +2,7 @@
   "name": "ur-optics-solar-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/optics/solar/monitoring-station/",
+  "homepage": "/optics/solar/monitoring-station",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -64,7 +64,6 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:5000",
   "devDependencies": {
     "esdoc": "^1.1.0",
     "esdoc-jsx-plugin": "^1.0.0",

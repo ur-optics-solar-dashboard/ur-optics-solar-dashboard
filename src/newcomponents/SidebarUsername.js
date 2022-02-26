@@ -2,11 +2,13 @@ import '../App.css'
 
 import './SidebarUsername.css'
 import 'react-pro-sidebar/dist/css/styles.css';
+import { Link } from 'react-router-dom';
 import { AuthButton } from './AuthPrompt';
 
 import { useState, useEffect } from 'react';
 
 import { getAuthToken, getBoxUserInfo } from '../Utils';
+
 
 const SidebarUsername = () => {
 
@@ -32,7 +34,7 @@ const SidebarUsername = () => {
         return (
             <>
                 <div className="sidebar-user-wrapper">
-                    <a className="sidebar-user-name" href="/auth">Box Settings ({ username })</a>
+                <Link className="sidebar-user-name" to="/auth">Box Settings ({ username })</Link>
                 </div>
             </>
         )

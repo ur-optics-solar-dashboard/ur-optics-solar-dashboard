@@ -1,4 +1,5 @@
 import '../App.css';
+import { useHistory } from "react-router-dom";
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
@@ -18,6 +19,7 @@ import Toast from '../newcomponents/Toast';
 let qs = require('qs');
 
 const AuthRedirect = () => {
+    const history = useHistory();
 
     const [hasCode, setHasCode] = useState([]);
     const [userInfo, setUserInfo] = useState([]);
@@ -53,7 +55,7 @@ const AuthRedirect = () => {
         //store access token, only for session
         setAuthToken(accessToken);
         //redirect away
-        window.location.href = "/";
+        history.push("/");
     }
 
     const getUserInfo = async () => {
